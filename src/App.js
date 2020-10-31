@@ -1,56 +1,49 @@
 import React, { useState, useEffect } from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { DealList, ProjectList } from "components";
-import { useForecast, usePipedrive } from "hooks";
 
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
+import { DealList, ProjectList } from "components";
+import { useForecast, useLocalStorage, usePipedrive } from "hooks";
+
+const PROJECTS_STORAGE_KEY = "projects";
+const DEALS_STORAGE_KEY = "deals";
+const STAGES_STORAGE_KEY = "stages";
 
 function App() {
-  dayjs.extend(customParseFormat);
+  const { get, set } = useLocalStorage();
 
-  const [projects, setProjects] = useState([]);
-  const [deals, setDeals] = useState([]);
-  const [stages, setStages] = useState([]);
+  const [projects, setProjects] = useState(get(PROJECTS_STORAGE_KEY) || []);
+  const [deals, setDeals] = useState(get(DEALS_STORAGE_KEY) || []);
+  const [stages, setStages] = useState(get(STAGES_STORAGE_KEY) || []);
 
   const { getProjects } = useForecast();
   const { getDeals, getStages } = usePipedrive();
 
   useEffect(() => {
     (async function () {
-      const allProjects = await getProjects();
-      const currentProjects = allProjects.filter(
-        (p) => dayjs(p.end_date, "YYYY-MM-DD") > dayjs()
-      );
-      setProjects(currentProjects);
+      if (!projects || projects.length === 0) {
+        const allProjects = await getProjects();
+        setProjects(allProjects);
+        set(PROJECTS_STORAGE_KEY, allProjects);
+      }
 
-      const dealsResponse = await getDeals();
-      setDeals(dealsResponse.data);
+      if (!deals || deals.length === 0) {
+        const dealsResponse = await getDeals();
+        setDeals(dealsResponse.data);
+        set(DEALS_STORAGE_KEY, dealsResponse.data);
+      }
 
-      const stagesResponse = await getStages();
-      setStages(stagesResponse.data);
+      if (!stages || stages.length === 0) {
+        const stagesResponse = await getStages();
+        setStages(stagesResponse.data);
+        set(STAGES_STORAGE_KEY, stagesResponse.data);
+      }
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <ProjectList projects={projects} />
-        <DealList deals={deals} stages={stages} />
-      </header>
+      <ProjectList projects={projects} />
+      <DealList deals={deals} stages={stages} />
     </div>
   );
 }

@@ -18,7 +18,10 @@ export function DealList({ deals, stages }) {
         {dealsWithStages &&
           dealsWithStages.length > 0 &&
           dealsWithStages.map((d) => (
-            <li key={d.id}>{`${d.org_name} - ${d.title} - ${d.stage.name}`}</li>
+            <li
+              key={d.id}
+              data-id={d.id}
+            >{`${d.org_name} - ${d.title} - ${d.stage.name}`}</li>
           ))}
       </ul>
     </div>
