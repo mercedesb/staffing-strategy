@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { ProjectList } from "components";
-import { useForecast } from "hooks";
+import { DealList, ProjectList } from "components";
+import { useForecast, usePipedrive } from "hooks";
 
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -11,7 +11,11 @@ function App() {
   dayjs.extend(customParseFormat);
 
   const [projects, setProjects] = useState([]);
+  const [deals, setDeals] = useState([]);
+  const [stages, setStages] = useState([]);
+
   const { getProjects } = useForecast();
+  const { getDeals, getStages } = usePipedrive();
 
   useEffect(() => {
     (async function () {
@@ -20,6 +24,12 @@ function App() {
         (p) => dayjs(p.end_date, "YYYY-MM-DD") > dayjs()
       );
       setProjects(currentProjects);
+
+      const dealsResponse = await getDeals();
+      setDeals(dealsResponse.data);
+
+      const stagesResponse = await getStages();
+      setStages(stagesResponse.data);
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -39,6 +49,7 @@ function App() {
           Learn React
         </a>
         <ProjectList projects={projects} />
+        <DealList deals={deals} stages={stages} />
       </header>
     </div>
   );
