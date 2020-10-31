@@ -1,4 +1,5 @@
 import React from "react";
+import List from "./List";
 
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -11,14 +12,14 @@ export function ProjectList({ projects }) {
   );
 
   return (
-    <div>
-      <ul>
-        {currentProjects &&
-          currentProjects.length > 0 &&
-          currentProjects.map((p) => (
-            <li key={p.id} data-id={p.id}>{`${p.code} - ${p.name}`}</li>
-          ))}
-      </ul>
-    </div>
+    <>
+      <h2>Current projects</h2>
+      <List
+        items={currentProjects.map((p) => ({
+          ...p,
+          displayText: `${p.code} - ${p.name}`,
+        }))}
+      />
+    </>
   );
 }

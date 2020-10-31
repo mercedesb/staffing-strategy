@@ -1,4 +1,5 @@
 import React from "react";
+import List from "./List";
 
 export function DealList({ deals, stages }) {
   const dealsWithStages = deals.map((d) => ({
@@ -13,17 +14,14 @@ export function DealList({ deals, stages }) {
   );
 
   return (
-    <div>
-      <ul>
-        {dealsWithStages &&
-          dealsWithStages.length > 0 &&
-          dealsWithStages.map((d) => (
-            <li
-              key={d.id}
-              data-id={d.id}
-            >{`${d.org_name} - ${d.title} - ${d.stage.name}`}</li>
-          ))}
-      </ul>
-    </div>
+    <>
+      <h2>Possible opportunities</h2>
+      <List
+        items={dealsWithStages.map((d) => ({
+          ...d,
+          displayText: `${d.org_name} - ${d.title} - ${d.stage.name}`,
+        }))}
+      />
+    </>
   );
 }
