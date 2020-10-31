@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import useForecast from "hooks/useForecast";
+import { ProjectList } from "components";
+import { useForecast } from "hooks";
 
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -37,13 +38,7 @@ function App() {
         >
           Learn React
         </a>
-        <div>
-          <ul>
-            {projects &&
-              projects.length > 0 &&
-              projects.map((p) => <li>{`${p.code} - ${p.name}`}</li>)}
-          </ul>
-        </div>
+        <ProjectList projects={projects} />
       </header>
     </div>
   );
