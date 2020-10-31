@@ -6,11 +6,17 @@ const forecast = new Forecast({
 });
 
 const useForecast = () => ({
-  getProjects: async () => {
-    return await forecast.projects();
+  getAssignments: async () => {
+    const options = {
+      startDate: new Date(),
+    };
+    return await forecast.assignments(options);
   },
   getPeople: async () => {
     return await forecast.people();
+  },
+  getProjects: async () => {
+    return await forecast.projects();
   },
 });
 
