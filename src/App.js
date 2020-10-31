@@ -3,14 +3,22 @@ import logo from "./logo.svg";
 import "./App.css";
 import useForecast from "hooks/useForecast";
 
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
 function App() {
+  dayjs.extend(customParseFormat);
+
   const [projects, setProjects] = useState([]);
   const { getProjects } = useForecast();
 
   useEffect(() => {
     (async function () {
       const allProjects = await getProjects();
-      setProjects(allProjects);
+      const currentProjects = allProjects.filter(
+        (p) => dayjs(p.end_date, "YYYY-MM-DD") > dayjs()
+      );
+      setProjects(currentProjects);
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
