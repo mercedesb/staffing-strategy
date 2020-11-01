@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import { AssignmentsContext, PeopleContext } from "contexts";
+import { AssignmentsContext, PeopleContext, ScenariosContext } from "contexts";
 import { ScenariosTimeline } from "components";
-import { useAirtable, useForecast, useLocalStorage, usePipedrive } from "hooks";
+import { useForecast, useLocalStorage, usePipedrive } from "hooks";
 
 const DEALS_STORAGE_KEY = "deals";
 const PROJECTS_STORAGE_KEY = "projects";
@@ -10,15 +10,14 @@ const PROJECTS_STORAGE_KEY = "projects";
 export default function Home() {
   const { allPeople, currentPeople } = React.useContext(PeopleContext);
   const { allAssignments, currentAssignments } = React.useContext(AssignmentsContext);
+  const { currentScenarios, upcomingScenarios } = React.useContext(ScenariosContext);
 
   const { get, set } = useLocalStorage();
   const { getDeals } = usePipedrive();
   const { getProjects } = useForecast();
-  const { getScenarios } = useAirtable();
 
   const [deals, setDeals] = useState(get(DEALS_STORAGE_KEY) || []);
   const [projects, setProjects] = useState(get(PROJECTS_STORAGE_KEY) || []);
-  const [upcomingScenarios, setUpcomingScenarios] = useState([]);
 
   useEffect(() => {
     (async function () {
@@ -47,17 +46,12 @@ export default function Home() {
         setProjects(parsedProjects);
         set(PROJECTS_STORAGE_KEY, parsedProjects);
       }
-
-      if (!upcomingScenarios || upcomingScenarios.length === 0) {
-        const allUpcomingScenarios = await getScenarios();
-        setUpcomingScenarios(allUpcomingScenarios);
-      }
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  let currentScenarios = ScenarioParser([{ id: 0, name: "Current" }], currentAssignments, currentPeople, projects, []);
+  let nowScenarios = ScenarioParser(currentScenarios, currentAssignments, currentPeople, projects, []);
   let possibleScenarios = ScenarioParser(upcomingScenarios, allAssignments, allPeople, projects, deals);
-  return <ScenariosTimeline events={[...currentScenarios, ...possibleScenarios]} people={[allPeople]} />;
+  return <ScenariosTimeline events={[...nowScenarios, ...possibleScenarios]} people={[allPeople]} />;
 }
 
 const ScenarioParser = (scenarios, assignments, people, projects, deals) => {
@@ -84,7 +78,7 @@ const ScenarioParser = (scenarios, assignments, people, projects, deals) => {
 
         const projectStart = new Date(Math.min(...projectAssignments.map((p) => p.startDate)));
         const projectEnd = new Date(Math.max(...projectAssignments.map((p) => p.endDate)));
-        // debugger;
+
         const staffedPeople = projectAssignments.map((a) => {
           let person = people.find((p) => a.personId === p.id);
           return {
