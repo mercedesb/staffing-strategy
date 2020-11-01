@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import Timeline from "react-calendar-timeline";
 import "react-calendar-timeline/lib/Timeline.css";
 
-export const ScenariosTimeline = ({ events }) => {
+export const ScenariosTimeline = ({ events, people }) => {
   const [openGroups, setOpenGroups] = useState({});
 
   const engineeringColor = "#A3CCCD";
@@ -50,7 +50,7 @@ export const ScenariosTimeline = ({ events }) => {
 
     scenario.projects.forEach((project) => {
       groups.push({
-        id: project.id,
+        id: `${scenario.id}-${project.id}`,
         title: project.name,
         rightTitle: project.name,
         backgroundColor: projectColor,
@@ -63,15 +63,15 @@ export const ScenariosTimeline = ({ events }) => {
       });
 
       project.people.forEach((person) => {
-        let projectPerson = groups.find((g) => g.id === `${project.id}-${person.id}`);
+        let projectPerson = groups.find((g) => g.id === `${scenario.id}-${project.id}-${person.id}`);
         if (!projectPerson) {
           groups.push({
-            id: `${project.id}-${person.id}`,
-            title: person.firstName,
-            rightTitle: person.firstName,
+            id: `${scenario.id}-${project.id}-${person.id}`,
+            title: `${person.firstName} ${person.lastName[0]}.`,
+            rightTitle: `${person.firstName} ${person.lastName[0]}.`,
             ...itemStylesForPerson(person),
             root: false,
-            parent: project.id,
+            parent: `${scenario.id}-${project.id}`,
             startDate: person.assignment.startDate,
             endDate: person.assignment.endDate,
             treeLevel: 2,
@@ -89,11 +89,11 @@ export const ScenariosTimeline = ({ events }) => {
     });
 
     let projectPeopleGroups = groups.filter(
-      (g) => g.treeLevel === 2 && scenario.projects.map((p) => p.id).includes(g.parent)
+      (g) => g.treeLevel === 2 && scenario.projects.map((p) => `${scenario.id}-${p.id}`).includes(g.parent)
     );
 
     groups.push({
-      id: `${scenario.id}-Bench`,
+      id: `Bench-${scenario.id}`,
       title: "Bench",
       rightTitle: "Bench",
       backgroundColor: benchColor,
@@ -108,8 +108,8 @@ export const ScenariosTimeline = ({ events }) => {
     projectPeopleGroups.forEach((g) => {
       groups.push({
         ...g,
-        id: `${scenario.id}-Bench-${g.id}`,
-        parent: `${scenario.id}-Bench`,
+        id: `Bench-${g.id}`,
+        parent: `Bench-${scenario.id}`,
         startDate: g.endDate,
         endDate: end,
       });

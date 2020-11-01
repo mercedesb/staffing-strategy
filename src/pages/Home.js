@@ -2,72 +2,181 @@ import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 
 import { ScenariosTimeline } from "components";
-import { useForecast, useLocalStorage } from "hooks";
+import { useAirtable, useForecast, useLocalStorage, usePipedrive } from "hooks";
 
 const ASSIGNMENTS_STORAGE_KEY = "assignments";
+const DEALS_STORAGE_KEY = "deals";
 const PEOPLE_STORAGE_KEY = "people";
 const PROJECTS_STORAGE_KEY = "projects";
 
 export default function Home() {
   const { get, set } = useLocalStorage();
-  const { getAssignments, getPeople, getProjects } = useForecast();
+  const { getDeals } = usePipedrive();
+  const { getAssignments: getForecastAssignments, getPeople, getProjects } = useForecast();
+  const { getAssignments: getAirtableAssignments, getPeople: getAirtablePeople, getScenarios } = useAirtable();
 
   const [assignments, setAssignments] = useState(get(ASSIGNMENTS_STORAGE_KEY) || []);
+  const [deals, setDeals] = useState(get(DEALS_STORAGE_KEY) || []);
   const [people, setPeople] = useState(get(PEOPLE_STORAGE_KEY) || []);
   const [projects, setProjects] = useState(get(PROJECTS_STORAGE_KEY) || []);
+  const [upcomingAssignments, setUpcomingAssignments] = useState([]);
+  const [upcomingPeople, setUpcomingPeople] = useState([]);
+  const [upcomingScenarios, setUpcomingScenarios] = useState([]);
 
   useEffect(() => {
     (async function () {
       if (!assignments || assignments.length === 0) {
-        const allAssignments = await getAssignments();
-        setAssignments(allAssignments);
-        set(ASSIGNMENTS_STORAGE_KEY, allAssignments);
+        const allAssignments = await getForecastAssignments();
+        const parsedAssignments = allAssignments
+          .filter((a) => !!a.id)
+          .filter((a) => !!a.project_id)
+          .filter((a) => !!a.person_id)
+          .map((a) => ({
+            ...a,
+            id: a.id.toString(),
+            projectId: a.project_id.toString(),
+            personId: a.person_id.toString(),
+            startDate: a.start_date.toString(),
+            endDate: a.end_date.toString(),
+          }));
+        setAssignments(parsedAssignments);
+        set(ASSIGNMENTS_STORAGE_KEY, parsedAssignments);
+      }
+
+      if (!deals || deals.length === 0) {
+        const dealsResponse = await getDeals();
+        const parsedDeals = dealsResponse.data
+          .filter((d) => !!d.id)
+          .map((d) => ({
+            ...d,
+            id: d.id.toString(),
+            name: d.title,
+          }));
+        setDeals(parsedDeals);
+        set(DEALS_STORAGE_KEY, parsedDeals);
       }
 
       if (!people || people.length === 0) {
         const allPeople = await getPeople();
-        setPeople(allPeople);
-        set(PEOPLE_STORAGE_KEY, allPeople);
+        const parsedPeople = allPeople
+          .filter((p) => !!p.id)
+          .map((p) => ({
+            ...p,
+            id: p.id.toString(),
+            firstName: p.first_name,
+            lastName: p.last_name,
+          }));
+        setPeople(parsedPeople);
+        set(PEOPLE_STORAGE_KEY, parsedPeople);
       }
 
       if (!projects || projects.length === 0) {
         const allProjects = await getProjects();
-        setProjects(allProjects);
-        set(PROJECTS_STORAGE_KEY, allProjects);
+        const parsedProjects = allProjects
+          .filter((p) => !!p.id)
+          .map((p) => ({
+            ...p,
+            id: p.id.toString(),
+          }));
+        setProjects(parsedProjects);
+        set(PROJECTS_STORAGE_KEY, parsedProjects);
+      }
+
+      if (!upcomingAssignments || upcomingAssignments.length === 0) {
+        const allUpcomingAssignments = await getAirtableAssignments();
+        const parsedUpcomingAssignments = allUpcomingAssignments
+          .filter((a) => !!a.id)
+          .filter((a) => !!a.projectId)
+          .filter((a) => !!a.personId)
+          .map((a) => ({
+            ...a,
+            id: a.id.toString(),
+            projectId: a.projectId.toString(),
+            personId: a.personId.toString(),
+            scenarioId: a.scenarioId[0],
+          }));
+        setUpcomingAssignments(parsedUpcomingAssignments);
+      }
+
+      if (!upcomingPeople || upcomingPeople.length === 0) {
+        const allUpcomingPeople = await getAirtablePeople();
+        const parsedUpcomingPeople = allUpcomingPeople
+          .filter((p) => !!p.id)
+          .map((p) => ({
+            ...p,
+            id: p.id.toString(),
+          }));
+        setUpcomingPeople(parsedUpcomingPeople);
+      }
+
+      if (!upcomingScenarios || upcomingScenarios.length === 0) {
+        const allUpcomingScenarios = await getScenarios();
+        setUpcomingScenarios(allUpcomingScenarios);
       }
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  let scenarios = [CurrentScenarioParser(assignments, people, projects)];
-
-  return <ScenariosTimeline events={scenarios} />;
+  let currentScenarios = ScenarioParser([{ id: 0, name: "Current" }], assignments, people, projects, []);
+  let possibleScenarios = ScenarioParser(
+    upcomingScenarios,
+    [...assignments, ...upcomingAssignments],
+    [...people, ...upcomingPeople],
+    projects,
+    deals
+  );
+  return (
+    <ScenariosTimeline events={[...currentScenarios, ...possibleScenarios]} people={[...people, ...upcomingPeople]} />
+  );
 }
 
-const CurrentScenarioParser = (assignments, people, projects) => {
-  let staffedProjects = [...new Set(assignments.map((a) => a.project_id))].map((id) =>
-    projects.find((p) => p.id === id)
-  );
+const ScenarioParser = (scenarios, assignments, people, projects, deals) => {
+  let projectIds = [...new Set(assignments.map((a) => a.projectId))];
+  let parsedProjects = projectIds.map((id) => projects.find((p) => p.id === id)).filter((p) => !!p);
+  let parsedDeals = projectIds.map((id) => deals.find((d) => d.id === id)).filter((d) => !!d);
 
-  return {
-    id: 1,
-    title: "Current",
-    projects: staffedProjects.map((p) => {
-      const projectAssignments = assignments.filter((a) => a.project_id === p.id);
+  return scenarios.map((scenario) => {
+    let staffedDeals = parsedDeals.filter((p) =>
+      assignments.find((a) => a.scenarioId === scenario.id && a.projectId === p.id)
+    );
+    let staffedProjects = [...parsedProjects, ...staffedDeals];
 
-      const projectStart = new Date(Math.min(...projectAssignments.map((p) => dayjs(p.start_date).toDate())));
-      const projectEnd = new Date(Math.max(...projectAssignments.map((p) => dayjs(p.end_date).toDate())));
+    return {
+      id: scenario.id,
+      title: scenario.name,
+      projects: staffedProjects.map((project) => {
+        const projectAssignments = assignments.filter((a) => {
+          let bool = a.projectId === project.id;
+          if (!!a.scenarioId) {
+            bool = bool && a.scenarioId === scenario.id;
+          }
+          return bool;
+        });
 
-      const staffedPeople = projectAssignments.map((a) => {
-        let person = people.find((p) => a.person_id === p.id);
+        const projectStart = new Date(Math.min(...projectAssignments.map((p) => dayjs(p.startDate).toDate())));
+        const projectEnd = new Date(Math.max(...projectAssignments.map((p) => dayjs(p.endDate).toDate())));
+
+        const staffedPeople = projectAssignments.map((a) => {
+          let person = people.find((p) => a.personId === p.id);
+          return {
+            ...person,
+            firstName: person.firstName,
+            lastName: person.lastName,
+            assignment: {
+              ...a,
+              startDate: dayjs(a.startDate).toDate(),
+              endDate: dayjs(a.endDate).toDate(),
+            },
+          };
+        });
+
         return {
-          ...person,
-          firstName: person.first_name,
-          lastName: person.last_name,
-          assignment: { ...a, startDate: dayjs(a.start_date).toDate(), endDate: dayjs(a.end_date).toDate() },
+          id: project.id,
+          name: project.name,
+          startDate: projectStart,
+          endDate: projectEnd,
+          people: staffedPeople,
         };
-      });
-
-      return { id: p.id, name: p.name, startDate: projectStart, endDate: projectEnd, people: staffedPeople };
-    }),
-  };
+      }),
+    };
+  });
 };
