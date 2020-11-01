@@ -39,7 +39,7 @@ export function PeopleProvider({ children }) {
         set(UPCOMING_PEOPLE_STORAGE_KEY, upcomingPeopleResponse);
       }
 
-      setAllPeople([...currentPeopleResponse, upcomingPeopleResponse]);
+      setAllPeople([...currentPeopleResponse, ...upcomingPeopleResponse]);
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 

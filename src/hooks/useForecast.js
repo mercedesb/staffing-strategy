@@ -1,4 +1,5 @@
 import Forecast from "forecast-promise";
+import dayjs from "dayjs";
 
 const forecast = new Forecast({
   accountId: process.env.REACT_APP_FORECAST_ACCOUNT_ID,
@@ -10,7 +11,17 @@ const useForecast = () => ({
     const options = {
       startDate: new Date(),
     };
-    return await forecast.assignments(options);
+    const assignments = await forecast.assignments(options);
+    return assignments
+      .filter((a) => !!a.id && !!a.project_id && !!a.person_id)
+      .map((a) => ({
+        ...a,
+        id: a.id.toString(),
+        projectId: a.project_id.toString(),
+        personId: a.person_id.toString(),
+        startDate: dayjs(a.start_date).toDate(),
+        endDate: dayjs(a.end_date).toDate(),
+      }));
   },
   getPeople: async () => {
     const people = await forecast.people();

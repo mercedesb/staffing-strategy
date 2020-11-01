@@ -1,4 +1,5 @@
 import { useApi } from "react-use-fetch-api";
+import dayjs from "dayjs";
 
 const headers = {
   Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
@@ -14,7 +15,17 @@ const useAirtable = () => {
   return {
     getAssignments: async () => {
       const rawAssignments = await get(`${baseUrl}/Assignments`, headers);
-      return rawAssignments.records.map((a) => ({ ...a.fields }));
+      return rawAssignments.records
+        .filter((a) => !!a.fields.id && !!a.fields.projectId && !!a.fields.personId)
+        .map((a) => ({
+          ...a.fields,
+          id: a.fields.id.toString(),
+          projectId: a.fields.projectId.toString(),
+          personId: a.fields.personId.toString(),
+          scenarioId: a.fields.scenarioId[0],
+          startDate: dayjs(a.fields.startDate).toDate(),
+          endDate: dayjs(a.fields.endDate).toDate(),
+        }));
     },
     getPeople: async () => {
       const rawPeople = await get(`${baseUrl}/People`, headers);
