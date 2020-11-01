@@ -1,5 +1,6 @@
 import React from "react";
 import List from "./List";
+import { defaultPeopleSort } from "lib";
 
 export function PeopleList({ people }) {
   // Ronda and Josh are archived, Ronda has no weekly capacity
@@ -11,11 +12,11 @@ export function PeopleList({ people }) {
   return (
     <>
       <h2>Engineers</h2>
-      <List items={engineers.map((p) => ({ ...p, displayText: `${p.firstName} ${p.lastName}` }))} />
+      <List items={defaultPeopleSort(engineers.map((p) => ({ ...p, displayText: `${p.firstName} ${p.lastName}` })))} />
       <h2>Designers</h2>
-      <List items={designers.map((p) => ({ ...p, displayText: `${p.firstName} ${p.lastName}` }))} />
+      <List items={defaultPeopleSort(designers.map((p) => ({ ...p, displayText: `${p.firstName} ${p.lastName}` })))} />
       <h2>Engagement</h2>
-      <List items={engagement.map((p) => ({ ...p, displayText: `${p.firstName} ${p.lastName}` }))} />
+      <List items={defaultPeopleSort(engagement.map((p) => ({ ...p, displayText: `${p.firstName} ${p.lastName}` })))} />
     </>
   );
 }

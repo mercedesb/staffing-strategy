@@ -39,6 +39,10 @@ h6 {
   border-bottom: none !important;
 }
 
+.react-calendar-timeline .rct-dateHeader-primary {
+  color: #000;
+}
+
 .rct-dateHeader {
   border-left: 1px solid #bbb !important;
 }

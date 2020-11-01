@@ -1,3 +1,5 @@
+import { defaultPeopleSort } from "lib";
+
 const ScenarioParser = (scenarios, assignments, people, projects, deals) => {
   let projectIds = [...new Set(assignments.map((a) => a.projectId))];
   let parsedProjects = projectIds.map((id) => projects.find((p) => p.id === id)).filter((p) => !!p);
@@ -23,7 +25,7 @@ const ScenarioParser = (scenarios, assignments, people, projects, deals) => {
         const projectStart = new Date(Math.min(...projectAssignments.map((p) => p.startDate)));
         const projectEnd = new Date(Math.max(...projectAssignments.map((p) => p.endDate)));
 
-        const staffedPeople = projectAssignments
+        let staffedPeople = projectAssignments
           .map((a) => {
             let person = people.find((p) => a.personId === p.id);
             return {
@@ -38,7 +40,7 @@ const ScenarioParser = (scenarios, assignments, people, projects, deals) => {
           name: project.name,
           startDate: projectStart,
           endDate: projectEnd,
-          people: staffedPeople,
+          people: defaultPeopleSort(staffedPeople),
         };
       }),
     };

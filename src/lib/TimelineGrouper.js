@@ -1,3 +1,5 @@
+import { benchPeopleSort } from "lib";
+
 const engineeringColor = "#A3CCCD";
 const designColor = "#FFEAB1";
 const engagementColor = "#717244";
@@ -90,7 +92,11 @@ const TimelineGrouper = (scenarios, timelineEnd) => {
               level1Id,
               person.assignment.startDate,
               person.assignment.endDate,
-              itemStylesForPerson(person)
+              {
+                ...itemStylesForPerson(person),
+                roles: person.roles,
+                firstName: person.firstName,
+              }
             )
           );
         } else {
@@ -119,7 +125,9 @@ const TimelineGrouper = (scenarios, timelineEnd) => {
       })
     );
 
-    projectPeopleGroups.forEach((g) => {
+    // sort project people groups by bench date, then by department
+    let sorted = benchPeopleSort(projectPeopleGroups);
+    sorted.forEach((g) => {
       groups.push(
         level2Group(`Bench-${g.id}`, g.title, benchProjectId, g.endDate, timelineEnd, {
           backgroundColor: g.backgroundColor,
