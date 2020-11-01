@@ -18,7 +18,7 @@ const useAirtable = () => {
     },
     getPeople: async () => {
       const rawPeople = await get(`${baseUrl}/People`, headers);
-      return rawPeople.records.map((p) => ({ ...p.fields }));
+      return rawPeople.records.filter((p) => !!p.fields.id).map((p) => ({ ...p.fields, id: p.fields.id.toString() }));
     },
     getScenarios: async () => {
       const rawScenarios = await get(`${baseUrl}/Scenarios`, headers);

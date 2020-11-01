@@ -13,7 +13,15 @@ const useForecast = () => ({
     return await forecast.assignments(options);
   },
   getPeople: async () => {
-    return await forecast.people();
+    const people = await forecast.people();
+    return people
+      .filter((p) => !!p.id)
+      .map((p) => ({
+        ...p,
+        id: p.id.toString(),
+        firstName: p.first_name,
+        lastName: p.last_name,
+      }));
   },
   getProjects: async () => {
     return await forecast.projects();

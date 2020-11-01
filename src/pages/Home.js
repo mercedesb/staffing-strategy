@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 
+import { PeopleContext } from "contexts";
 import { ScenariosTimeline } from "components";
 import { useAirtable, useForecast, useLocalStorage, usePipedrive } from "hooks";
 
 const ASSIGNMENTS_STORAGE_KEY = "assignments";
 const DEALS_STORAGE_KEY = "deals";
-const PEOPLE_STORAGE_KEY = "people";
 const PROJECTS_STORAGE_KEY = "projects";
 
 export default function Home() {
+  const { allPeople, currentPeople, upcomingPeople } = React.useContext(PeopleContext);
+
   const { get, set } = useLocalStorage();
   const { getDeals } = usePipedrive();
-  const { getAssignments: getForecastAssignments, getPeople, getProjects } = useForecast();
-  const { getAssignments: getAirtableAssignments, getPeople: getAirtablePeople, getScenarios } = useAirtable();
+  const { getAssignments: getForecastAssignments, getProjects } = useForecast();
+  const { getAssignments: getAirtableAssignments, getScenarios } = useAirtable();
 
   const [assignments, setAssignments] = useState(get(ASSIGNMENTS_STORAGE_KEY) || []);
   const [deals, setDeals] = useState(get(DEALS_STORAGE_KEY) || []);
-  const [people, setPeople] = useState(get(PEOPLE_STORAGE_KEY) || []);
   const [projects, setProjects] = useState(get(PROJECTS_STORAGE_KEY) || []);
   const [upcomingAssignments, setUpcomingAssignments] = useState([]);
-  const [upcomingPeople, setUpcomingPeople] = useState([]);
   const [upcomingScenarios, setUpcomingScenarios] = useState([]);
 
   useEffect(() => {
@@ -56,20 +56,6 @@ export default function Home() {
         set(DEALS_STORAGE_KEY, parsedDeals);
       }
 
-      if (!people || people.length === 0) {
-        const allPeople = await getPeople();
-        const parsedPeople = allPeople
-          .filter((p) => !!p.id)
-          .map((p) => ({
-            ...p,
-            id: p.id.toString(),
-            firstName: p.first_name,
-            lastName: p.last_name,
-          }));
-        setPeople(parsedPeople);
-        set(PEOPLE_STORAGE_KEY, parsedPeople);
-      }
-
       if (!projects || projects.length === 0) {
         const allProjects = await getProjects();
         const parsedProjects = allProjects
@@ -77,6 +63,7 @@ export default function Home() {
           .map((p) => ({
             ...p,
             id: p.id.toString(),
+            name: `${p.code} - ${p.name}`,
           }));
         setProjects(parsedProjects);
         set(PROJECTS_STORAGE_KEY, parsedProjects);
@@ -98,17 +85,6 @@ export default function Home() {
         setUpcomingAssignments(parsedUpcomingAssignments);
       }
 
-      if (!upcomingPeople || upcomingPeople.length === 0) {
-        const allUpcomingPeople = await getAirtablePeople();
-        const parsedUpcomingPeople = allUpcomingPeople
-          .filter((p) => !!p.id)
-          .map((p) => ({
-            ...p,
-            id: p.id.toString(),
-          }));
-        setUpcomingPeople(parsedUpcomingPeople);
-      }
-
       if (!upcomingScenarios || upcomingScenarios.length === 0) {
         const allUpcomingScenarios = await getScenarios();
         setUpcomingScenarios(allUpcomingScenarios);
@@ -116,17 +92,15 @@ export default function Home() {
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  let currentScenarios = ScenarioParser([{ id: 0, name: "Current" }], assignments, people, projects, []);
+  let currentScenarios = ScenarioParser([{ id: 0, name: "Current" }], assignments, currentPeople, projects, []);
   let possibleScenarios = ScenarioParser(
     upcomingScenarios,
     [...assignments, ...upcomingAssignments],
-    [...people, ...upcomingPeople],
+    [...currentPeople, ...upcomingPeople],
     projects,
     deals
   );
-  return (
-    <ScenariosTimeline events={[...currentScenarios, ...possibleScenarios]} people={[...people, ...upcomingPeople]} />
-  );
+  return <ScenariosTimeline events={[...currentScenarios, ...possibleScenarios]} people={[allPeople]} />;
 }
 
 const ScenarioParser = (scenarios, assignments, people, projects, deals) => {
