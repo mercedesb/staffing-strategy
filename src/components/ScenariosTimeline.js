@@ -39,10 +39,11 @@ export const ScenariosTimeline = ({ events, people }) => {
       id: scenario.id,
       title: scenario.title,
       rightTitle: scenario,
-      backgroundColor: projectColor,
-      fontColor: lightText,
+      height: 50,
       root: true,
       parent: null,
+      backgroundColor: projectColor,
+      fontColor: lightText,
       startDate: new Date(Math.min(...scenario.projects.map((p) => p.startDate))),
       endDate: new Date(Math.max(...scenario.projects.map((p) => p.endDate))),
       treeLevel: 0,
@@ -53,10 +54,11 @@ export const ScenariosTimeline = ({ events, people }) => {
         id: `${scenario.id}-${project.id}`,
         title: project.name,
         rightTitle: project.name,
-        backgroundColor: projectColor,
-        fontColor: lightText,
+        height: 50,
         root: true,
         parent: scenario.id,
+        backgroundColor: projectColor,
+        fontColor: lightText,
         startDate: project.startDate,
         endDate: project.endDate,
         treeLevel: 1,
@@ -69,9 +71,9 @@ export const ScenariosTimeline = ({ events, people }) => {
             id: `${scenario.id}-${project.id}-${person.id}`,
             title: `${person.firstName} ${person.lastName[0]}.`,
             rightTitle: `${person.firstName} ${person.lastName[0]}.`,
-            ...itemStylesForPerson(person),
             root: false,
             parent: `${scenario.id}-${project.id}`,
+            ...itemStylesForPerson(person),
             startDate: person.assignment.startDate,
             endDate: person.assignment.endDate,
             treeLevel: 2,
@@ -96,10 +98,11 @@ export const ScenariosTimeline = ({ events, people }) => {
       id: `Bench-${scenario.id}`,
       title: "Bench",
       rightTitle: "Bench",
-      backgroundColor: benchColor,
-      fontColor: darkText,
+      height: 50,
       root: true,
       parent: scenario.id,
+      backgroundColor: benchColor,
+      fontColor: darkText,
       startDate: new Date(Math.min(...projectPeopleGroups.map((p) => p.endDate))),
       endDate: end,
       treeLevel: 1,
@@ -110,6 +113,7 @@ export const ScenariosTimeline = ({ events, people }) => {
         ...g,
         id: `Bench-${g.id}`,
         parent: `Bench-${scenario.id}`,
+        height: null,
         startDate: g.endDate,
         endDate: end,
       });
@@ -125,7 +129,7 @@ export const ScenariosTimeline = ({ events, people }) => {
     start_time: g.startDate,
     end_time: g.endDate,
     itemProps: {
-      className: "staffing-item",
+      className: g.treeLevel === 0 || g.treeLevel === 1 ? `staffing-item-lg` : `staffing-item`,
       style: {
         borderColor: g.backgroundColor,
         backgroundColor: g.backgroundColor,
@@ -133,8 +137,6 @@ export const ScenariosTimeline = ({ events, people }) => {
         fontSize: "1rem",
       },
     },
-    // canMove: startValue > new Date().getTime(),
-    // canResize: startValue > new Date().getTime() ? (endValue > new Date().getTime() ? 'both' : 'left') : (endValue > new Date().getTime() ? 'right' : false),
   }));
 
   const toggleGroup = (id) => {
@@ -167,7 +169,7 @@ export const ScenariosTimeline = ({ events, people }) => {
         defaultTimeEnd={end}
         stackItems
         sidebarWidth={225}
-        canSelect
+        canSelect={false}
         showCursorLine
       />
     </div>

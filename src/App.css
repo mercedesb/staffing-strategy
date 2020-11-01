@@ -42,3 +42,8 @@ h6 {
 .rct-dateHeader {
   border-left: 1px solid #bbb !important;
 }
+
+.staffing-item-lg {
+  height: 40px !important;
+  line-height: 40px !important;
+}
