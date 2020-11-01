@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
 
-import { AssignmentsContext, PeopleContext, ScenariosContext } from "contexts";
+import { AssignmentsContext, PeopleContext, ProjectsContext, ScenariosContext } from "contexts";
 import { ScenariosTimeline } from "components";
-import { useForecast, useLocalStorage, usePipedrive } from "hooks";
+import { useLocalStorage, usePipedrive } from "hooks";
 import { ScenarioParser } from "lib";
 
 const DEALS_STORAGE_KEY = "deals";
-const PROJECTS_STORAGE_KEY = "projects";
 
 export default function Home() {
-  const { allPeople, currentPeople } = React.useContext(PeopleContext);
   const { allAssignments, currentAssignments } = React.useContext(AssignmentsContext);
+  const { allPeople, currentPeople } = React.useContext(PeopleContext);
+  const { currentProjects } = React.useContext(ProjectsContext);
   const { currentScenarios, upcomingScenarios } = React.useContext(ScenariosContext);
 
   const { get, set } = useLocalStorage();
   const { getDeals } = usePipedrive();
-  const { getProjects } = useForecast();
 
   const [deals, setDeals] = useState(get(DEALS_STORAGE_KEY) || []);
-  const [projects, setProjects] = useState(get(PROJECTS_STORAGE_KEY) || []);
 
   useEffect(() => {
     (async function () {
@@ -34,23 +32,10 @@ export default function Home() {
         setDeals(parsedDeals);
         set(DEALS_STORAGE_KEY, parsedDeals);
       }
-
-      if (!projects || projects.length === 0) {
-        const allProjects = await getProjects();
-        const parsedProjects = allProjects
-          .filter((p) => !!p.id)
-          .map((p) => ({
-            ...p,
-            id: p.id.toString(),
-            name: `${p.code} - ${p.name}`,
-          }));
-        setProjects(parsedProjects);
-        set(PROJECTS_STORAGE_KEY, parsedProjects);
-      }
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  let nowScenarios = ScenarioParser(currentScenarios, currentAssignments, currentPeople, projects, []);
-  let possibleScenarios = ScenarioParser(upcomingScenarios, allAssignments, allPeople, projects, deals);
+  let nowScenarios = ScenarioParser(currentScenarios, currentAssignments, currentPeople, currentProjects, []);
+  let possibleScenarios = ScenarioParser(upcomingScenarios, allAssignments, allPeople, currentProjects, deals);
   return <ScenariosTimeline events={[...nowScenarios, ...possibleScenarios]} people={[allPeople]} />;
 }

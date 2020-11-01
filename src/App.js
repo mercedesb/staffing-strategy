@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { AssignmentsProvider, PeopleProvider, ScenariosProvider } from "contexts";
+import { AssignmentsProvider, PeopleProvider, ProjectsProvider, ScenariosProvider } from "contexts";
 import { Home, Opportunities, People, Projects } from "pages";
 import "./App.css";
 
@@ -27,22 +27,24 @@ function App() {
 
         <PeopleProvider>
           <AssignmentsProvider>
-            <ScenariosProvider>
-              <Switch>
-                <Route path="/people">
-                  <People />
-                </Route>
-                <Route path="/projects">
-                  <Projects />
-                </Route>
-                <Route path="/opportunities">
-                  <Opportunities />
-                </Route>
-                <Route path="/">
-                  <Home />
-                </Route>
-              </Switch>
-            </ScenariosProvider>
+            <ProjectsProvider>
+              <ScenariosProvider>
+                <Switch>
+                  <Route path="/people">
+                    <People />
+                  </Route>
+                  <Route path="/projects">
+                    <Projects />
+                  </Route>
+                  <Route path="/opportunities">
+                    <Opportunities />
+                  </Route>
+                  <Route path="/">
+                    <Home />
+                  </Route>
+                </Switch>
+              </ScenariosProvider>
+            </ProjectsProvider>
           </AssignmentsProvider>
         </PeopleProvider>
       </div>

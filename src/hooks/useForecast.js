@@ -35,7 +35,14 @@ const useForecast = () => ({
       }));
   },
   getProjects: async () => {
-    return await forecast.projects();
+    const projects = await forecast.projects();
+    return projects
+      .filter((p) => !!p.id)
+      .map((p) => ({
+        ...p,
+        id: p.id.toString(),
+        name: `${p.code} - ${p.name}`,
+      }));
   },
 });
 
