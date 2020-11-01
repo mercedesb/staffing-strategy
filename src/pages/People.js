@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
+import { PeopleContext } from "contexts";
 import { PeopleList } from "components";
-import { useForecast, useLocalStorage } from "hooks";
-
-const PEOPLE_STORAGE_KEY = "people";
 
 export default function People() {
-  const { get, set } = useLocalStorage();
-  const { getPeople } = useForecast();
-  const [people, setPeople] = useState(get(PEOPLE_STORAGE_KEY) || []);
+  const { currentPeople, upcomingPeople } = React.useContext(PeopleContext);
 
-  useEffect(() => {
-    (async function () {
-      if (!people || people.length === 0) {
-        const allPeople = await getPeople();
-        setPeople(allPeople);
-        set(PEOPLE_STORAGE_KEY, allPeople);
-      }
-    })();
-  }, []); //eslint-disable-line react-hooks/exhaustive-deps
-
-  return <PeopleList people={people} />;
+  return (
+    <>
+      <h1>Current team</h1>
+      <PeopleList people={currentPeople.filter((p) => !p.archived && p.weekly_capacity > 0)} />
+      <h1>Upcoming hires</h1>
+      <PeopleList people={upcomingPeople} />
+    </>
+  );
 }
