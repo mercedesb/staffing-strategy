@@ -23,13 +23,15 @@ const ScenarioParser = (scenarios, assignments, people, projects, deals) => {
         const projectStart = new Date(Math.min(...projectAssignments.map((p) => p.startDate)));
         const projectEnd = new Date(Math.max(...projectAssignments.map((p) => p.endDate)));
 
-        const staffedPeople = projectAssignments.map((a) => {
-          let person = people.find((p) => a.personId === p.id);
-          return {
-            ...person,
-            assignment: { ...a },
-          };
-        });
+        const staffedPeople = projectAssignments
+          .map((a) => {
+            let person = people.find((p) => a.personId === p.id);
+            return {
+              ...person,
+              assignment: { ...a },
+            };
+          })
+          .filter((stf) => !!stf.id);
 
         return {
           id: project.id,
