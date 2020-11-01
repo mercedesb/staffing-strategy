@@ -50,7 +50,7 @@ const CurrentScenarioParser = (assignments, people, projects) => {
 
   return {
     id: 1,
-    name: "Current",
+    title: "Current",
     projects: staffedProjects.map((p) => {
       const projectAssignments = assignments.filter((a) => a.project_id === p.id);
 

@@ -144,7 +144,7 @@ export const ScenariosTimeline = ({ events }) => {
     });
   };
 
-  const groupsWithTitleButtons = groupsFromScenarios
+  const nestedGroups = groupsFromScenarios
     .filter((g) => g.treeLevel === 0 || openGroups[g.parent])
     .map((group) => {
       return Object.assign({}, group, {
@@ -161,7 +161,7 @@ export const ScenariosTimeline = ({ events }) => {
   return (
     <div className="CalendarContainer">
       <Timeline
-        groups={groupsWithTitleButtons}
+        groups={nestedGroups}
         items={items}
         defaultTimeStart={start}
         defaultTimeEnd={end}

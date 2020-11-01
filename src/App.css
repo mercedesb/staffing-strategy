@@ -24,3 +24,21 @@ h5,
 h6 {
   font-family: "Roboto Mono", monospace;
 }
+
+.rct-header-root {
+  background-color: #f0f0f0 !important;
+  border: 1px solid #bbb !important;
+  border-bottom: none !important;
+}
+
+.rct-calendar-header {
+  border-top: none !important;
+}
+
+.rct-calendar-header div:last-child .rct-dateHeader {
+  border-bottom: none !important;
+}
+
+.rct-dateHeader {
+  border-left: 1px solid #bbb !important;
+}
