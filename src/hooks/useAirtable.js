@@ -22,14 +22,25 @@ const useAirtable = () => {
           id: a.fields.id.toString(),
           projectId: a.fields.projectId.toString(),
           personId: a.fields.personId.toString(),
-          scenarioId: a.fields.scenarioId[0],
+          scenarios: a.fields.scenarioId,
           startDate: dayjs(a.fields.startDate).toDate(),
           endDate: dayjs(a.fields.endDate).toDate(),
         }));
     },
     getPeople: async () => {
       const rawPeople = await get(`${baseUrl}/People`, headers);
-      return rawPeople.records.filter((p) => !!p.fields.id).map((p) => ({ ...p.fields, id: p.fields.id.toString() }));
+      return rawPeople.records.filter((p) => !!p.fields.id).map((p) => ({ ...p.fields, id: p.id }));
+    },
+    getProjects: async () => {
+      const rawProjects = await get(`${baseUrl}/Projects`, headers);
+      return rawProjects.records
+        .filter((p) => !!p.fields.id)
+        .map((p) => ({
+          ...p.fields,
+          id: p.id,
+          startDate: dayjs(p.fields.startDate).toDate(),
+          endDate: dayjs(p.fields.endDate).toDate(),
+        }));
     },
     getScenarios: async () => {
       const rawScenarios = await get(`${baseUrl}/Scenarios`, headers);

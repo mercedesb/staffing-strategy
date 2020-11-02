@@ -1,26 +1,18 @@
 import { defaultPeopleSort } from "lib";
 
-const ScenarioParser = (scenarios, assignments, people, projects, deals) => {
-  let projectIds = [...new Set(assignments.map((a) => a.projectId))];
-  let parsedProjects = projectIds.map((id) => projects.find((p) => p.id === id)).filter((p) => !!p);
-  let parsedDeals = projectIds.map((id) => deals.find((d) => d.id === id)).filter((d) => !!d);
+const ScenarioParser = (scenarios, assignments, people, projects) => {
   return scenarios.map((scenario) => {
-    let staffedDeals = parsedDeals.filter((p) =>
-      assignments.find((a) => a.scenarioId === scenario.id && a.projectId === p.id)
-    );
-    let staffedProjects = [...parsedProjects, ...staffedDeals];
+    const scenarioAssignments = assignments.filter((a) => (!!a.scenarios ? a.scenarios.includes(scenario.id) : true));
+    let projectsInScenario = [
+      ...new Set(scenarioAssignments.map((a) => projects.find((p) => p.id === a.projectId))),
+    ].filter((p) => !!p);
+    debugger;
 
     return {
       id: scenario.id,
       title: scenario.name,
-      projects: staffedProjects.map((project) => {
-        const projectAssignments = assignments.filter((a) => {
-          let bool = a.projectId === project.id;
-          if (!!a.scenarioId) {
-            bool = bool && a.scenarioId === scenario.id;
-          }
-          return bool;
-        });
+      projects: projectsInScenario.map((project) => {
+        const projectAssignments = scenarioAssignments.filter((a) => a.projectId === project.id);
 
         const projectStart = new Date(Math.min(...projectAssignments.map((p) => p.startDate)));
         const projectEnd = new Date(Math.max(...projectAssignments.map((p) => p.endDate)));

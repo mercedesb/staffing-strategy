@@ -1,8 +1,8 @@
 import React, { useState, useEffect, createContext } from "react";
-import { useForecast, useLocalStorage } from "hooks";
+import { useAirtable, useForecast, useLocalStorage } from "hooks";
 
 const CURRENT_PROJECTS_STORAGE_KEY = "currentProjects";
-// const UPCOMING_PROJECTS_STORAGE_KEY = "upcomingProjects";
+const UPCOMING_PROJECTS_STORAGE_KEY = "upcomingProjects";
 
 export const ProjectsContext = createContext({
   currentProjects: [],
@@ -16,16 +16,25 @@ export const ProjectsContext = createContext({
 export function ProjectsProvider({ children }) {
   const { get, set } = useLocalStorage();
   const { getProjects: getCurrentProjects } = useForecast();
-  // const { getProjects: getUpcomingProjects } = useAirtable();
+  const { getProjects: getUpcomingProjects } = useAirtable();
 
   const [currentProjects, setCurrentProjects] = useState(get(CURRENT_PROJECTS_STORAGE_KEY) || []);
-  // const [upcomingProjects, setUpcomingProjects] = useState(get(UPCOMING_PROJECTS_STORAGE_KEY) || []);
+  const [upcomingProjects, setUpcomingProjects] = useState(get(UPCOMING_PROJECTS_STORAGE_KEY) || []);
   const [allProjects, setAllProjects] = useState([]);
 
   useEffect(() => {
     (async function () {
       let currentProjectsResponse = currentProjects;
-      // let upcomingProjectsResponse = upcomingProjects;
+      let upcomingProjectsResponse = upcomingProjects.map((a) => {
+        let startDate = typeof a.startDate === "string" ? new Date(a.startDate) : a.startDate;
+        let endDate = typeof a.endDate === "string" ? new Date(a.endDate) : a.endDate;
+
+        return {
+          ...a,
+          startDate,
+          endDate,
+        };
+      });
 
       if (!currentProjects || currentProjects.length === 0) {
         currentProjectsResponse = await getCurrentProjects();
@@ -33,15 +42,19 @@ export function ProjectsProvider({ children }) {
         set(CURRENT_PROJECTS_STORAGE_KEY, currentProjectsResponse);
       }
 
-      // if (!upcomingProjects || upcomingProjects.length === 0) {
-      //   upcomingProjectsResponse = await getUpcomingProjects();
-      //   setUpcomingProjects(upcomingProjectsResponse);
-      //   set(UPCOMING_PROJECTS_STORAGE_KEY, upcomingProjectsResponse);
-      // }
+      if (!upcomingProjects || upcomingProjects.length === 0) {
+        upcomingProjectsResponse = await getUpcomingProjects();
+        setUpcomingProjects(upcomingProjectsResponse);
+        set(UPCOMING_PROJECTS_STORAGE_KEY, upcomingProjectsResponse);
+      }
 
-      setAllProjects([...currentProjectsResponse]);
+      setAllProjects([...currentProjectsResponse, ...upcomingProjectsResponse]);
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  return <ProjectsContext.Provider value={{ allProjects, currentProjects }}>{children}</ProjectsContext.Provider>;
+  return (
+    <ProjectsContext.Provider value={{ allProjects, currentProjects, upcomingProjects }}>
+      {children}
+    </ProjectsContext.Provider>
+  );
 }
