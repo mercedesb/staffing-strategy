@@ -4,7 +4,7 @@ import { ProjectsContext } from "contexts";
 import { ProjectList } from "components";
 
 export default function Projects() {
-  const { currentProjects } = React.useContext(ProjectsContext);
+  const { currentProjects, upcomingProjects } = React.useContext(ProjectsContext);
 
-  return <ProjectList projects={currentProjects} />;
+  return <ProjectList currentProjects={currentProjects} upcomingProjects={upcomingProjects} />;
 }

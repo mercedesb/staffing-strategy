@@ -9,13 +9,11 @@ export function DealList({ deals, stages }) {
     },
   }));
 
-  dealsWithStages.sort((a, b) =>
-    a.stage.order_nr < b.stage.order_nr ? -1 : 1
-  );
+  dealsWithStages.sort((a, b) => (a.stage.order_nr < b.stage.order_nr ? -1 : 1));
 
   return (
     <>
-      <h2>Possible opportunities</h2>
+      <h1>Possible opportunities (Pipedrive)</h1>
       <List
         items={dealsWithStages.map((d) => ({
           ...d,

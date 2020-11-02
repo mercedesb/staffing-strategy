@@ -6,7 +6,6 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
     let projectsInScenario = [
       ...new Set(scenarioAssignments.map((a) => projects.find((p) => p.id === a.projectId))),
     ].filter((p) => !!p);
-    debugger;
 
     return {
       id: scenario.id,

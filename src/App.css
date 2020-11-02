@@ -25,6 +25,10 @@ h6 {
   font-family: "Roboto Mono", monospace;
 }
 
+ul {
+  list-style: none;
+}
+
 .rct-header-root {
   background-color: #f0f0f0 !important;
   border: 1px solid #bbb !important;

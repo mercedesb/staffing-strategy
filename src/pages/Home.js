@@ -1,4 +1,5 @@
 import React from "react";
+import { Box } from "grommet";
 
 import { AssignmentsContext, PeopleContext, ProjectsContext, ScenariosContext } from "contexts";
 import { ScenariosTimeline } from "components";
@@ -12,5 +13,12 @@ export default function Home() {
 
   let nowScenarios = ScenarioParser(currentScenarios, currentAssignments, currentPeople, currentProjects);
   let possibleScenarios = ScenarioParser(upcomingScenarios, allAssignments, allPeople, allProjects);
-  return <ScenariosTimeline events={[...nowScenarios, ...possibleScenarios]} people={[allPeople]} />;
+  return (
+    <>
+      <Box pad={{ bottom: "medium" }}>
+        <h1>Staffing Planning</h1>
+      </Box>
+      <ScenariosTimeline events={[...nowScenarios, ...possibleScenarios]} people={[allPeople]} />
+    </>
+  );
 }

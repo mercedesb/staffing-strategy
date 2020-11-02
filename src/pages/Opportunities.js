@@ -6,7 +6,7 @@ import { usePipedrive, useLocalStorage } from "hooks";
 
 const STAGES_STORAGE_KEY = "stages";
 
-export default function Projects() {
+export default function Opportunities() {
   const { deals } = React.useContext(DealsContext);
   const { get, set } = useLocalStorage();
   const { getStages } = usePipedrive();
