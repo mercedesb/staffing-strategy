@@ -24,7 +24,7 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
               assignment: { ...a },
             };
           })
-          .filter((stf) => !!stf.id);
+          .filter((stf) => !!stf.id); // TODO: render staffing need here
 
         return {
           id: project.id,

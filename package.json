@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "dayjs": "^1.9.4",
+    "faker": "^5.1.0",
     "forecast-promise": "^1.2.1",
     "grommet": "^2.15.2",
     "interactjs": "^1.10.0",

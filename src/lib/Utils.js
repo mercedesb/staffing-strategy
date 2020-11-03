@@ -1,11 +1,12 @@
 // sort staffed people first by department
 // then by first name within department
+// TODO: sort by end date?
 export function defaultPeopleSort(people) {
   const clone = [...people];
   return [
-    ...clone.filter((p) => isEngineer(p)).sort((a, b) => (a.firstName > b.firstName ? 1 : -1)),
-    ...clone.filter((p) => isDesigner(p)).sort((a, b) => (a.firstName > b.firstName ? 1 : -1)),
-    ...clone.filter((p) => isEngagementMgr(p)).sort((a, b) => (a.firstName > b.firstName ? 1 : -1)),
+    ...clone.filter((p) => isEngineer(p)).sort((a, b) => sortByName(a, b)),
+    ...clone.filter((p) => isDesigner(p)).sort((a, b) => sortByName(a, b)),
+    ...clone.filter((p) => isEngagementMgr(p)).sort((a, b) => sortByName(a, b)),
   ];
 }
 
@@ -41,4 +42,11 @@ function isDesigner(person) {
 
 function isEngagementMgr(person) {
   return person.roles.includes("Growth");
+}
+
+function sortByName(personA, personB) {
+  let personADisplayName = `${personA.firstName} ${personA.lastName[0]}.`;
+  let personBDisplayName = `${personB.firstName} ${personB.lastName[0]}.`;
+
+  return personADisplayName > personBDisplayName ? 1 : -1;
 }
