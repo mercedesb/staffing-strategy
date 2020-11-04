@@ -1,4 +1,4 @@
-import { ScenarioParser, defaultPeopleSort, randomInteger } from "lib";
+import { ScenarioParser, defaultPeopleSort } from "lib";
 import { assignmentsFixture, peopleFixture, projectsFixture, scenariosFixture } from "fixtures";
 
 let scenarios;

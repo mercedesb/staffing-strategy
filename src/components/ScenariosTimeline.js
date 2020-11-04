@@ -13,9 +13,9 @@ export const ScenariosTimeline = ({ events, people }) => {
   const [openGroups, setOpenGroups] = useState({});
 
   useEffect(() => {
-    let groups = TimelineGrouper(events, end);
+    let groups = TimelineGrouper(events, people, start, end);
     setAllGroups(groups);
-  }, [events]);
+  }, [events, people]);
 
   let items = allGroups.map((g) => ({
     id: g.id,

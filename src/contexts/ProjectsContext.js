@@ -18,14 +18,14 @@ export function ProjectsProvider({ children }) {
   const { getProjects: getCurrentProjects } = useForecast();
   const { getProjects: getUpcomingProjects } = useAirtable();
 
-  const [currentProjects, setCurrentProjects] = useState(get(CURRENT_PROJECTS_STORAGE_KEY) || []);
-  const [upcomingProjects, setUpcomingProjects] = useState(get(UPCOMING_PROJECTS_STORAGE_KEY) || []);
+  const [currentProjects, setCurrentProjects] = useState([]);
+  const [upcomingProjects, setUpcomingProjects] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
 
   useEffect(() => {
     (async function () {
-      let currentProjectsResponse = currentProjects;
-      let upcomingProjectsResponse = upcomingProjects.map((a) => {
+      let currentProjectsResponse = get(CURRENT_PROJECTS_STORAGE_KEY) || currentProjects;
+      let upcomingProjectsResponse = (get(UPCOMING_PROJECTS_STORAGE_KEY) || upcomingProjects).map((a) => {
         let startDate = typeof a.startDate === "string" ? new Date(a.startDate) : a.startDate;
         let endDate = typeof a.endDate === "string" ? new Date(a.endDate) : a.endDate;
 

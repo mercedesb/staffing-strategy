@@ -14,17 +14,24 @@ export function benchPeopleSort(people) {
   const clone = [...people];
 
   clone.sort((a, b) => {
-    let sortNum = a.endDate > b.endDate ? 1 : a.endDate === b.endDate ? 0 : -1;
+    let sortNum;
 
+    let aEnd = !!a.endDate ? a.endDate.getTime() : null;
+    let bEnd = !!b.endDate ? b.endDate.getTime() : null;
+
+    sortNum = !aEnd && !bEnd ? 0 : !aEnd ? 1 : -1;
+
+    sortNum = aEnd > bEnd ? 1 : aEnd === bEnd ? 0 : -1;
     if (sortNum === 0) {
       let aNum = isEngineer(a) ? 0 : isDesigner(a) ? 1 : 2;
       let bNum = isEngineer(b) ? 0 : isDesigner(b) ? 1 : 2;
 
       sortNum = aNum - bNum;
     }
-
     if (sortNum === 0) {
-      sortNum = a.rightTitle > b.rightTitle ? 1 : -1;
+      let personADisplayName = `${a.firstName} ${a.lastName[0]}.`;
+      let personBDisplayName = `${b.firstName} ${b.lastName[0]}.`;
+      sortNum = personADisplayName > personBDisplayName ? 1 : -1;
     }
 
     return sortNum;

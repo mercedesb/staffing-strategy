@@ -11,11 +11,11 @@ export function DealsProvider({ children }) {
   const { get, set } = useLocalStorage();
   const { getDeals } = usePipedrive();
 
-  const [deals, setDeals] = useState(get(DEALS_STORAGE_KEY) || []);
+  const [deals, setDeals] = useState([]);
 
   useEffect(() => {
     (async function () {
-      let dealsResponse = deals;
+      let dealsResponse = get(DEALS_STORAGE_KEY) || deals;
 
       if (!deals || deals.length === 0) {
         dealsResponse = await getDeals();

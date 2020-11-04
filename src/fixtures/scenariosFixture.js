@@ -16,4 +16,6 @@ const buildList = (amount, attributes) => {
   return list;
 };
 
-export default { build, buildList };
+const fixture = { build, buildList };
+
+export default fixture;

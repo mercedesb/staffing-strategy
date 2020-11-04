@@ -1,4 +1,7 @@
 import { benchPeopleSort } from "lib";
+// import dayjs from "dayjs";
+// import weekOfYear from "dayjs/plugin/weekOfYear";
+// dayjs.extend(AdvancedFormat);
 
 const engineeringColor = "#A3CCCD";
 const designColor = "#FFEAB1";
@@ -72,7 +75,7 @@ const level2Group = (id, title, parent, startDate, endDate, opts = {}) => {
   };
 };
 
-const TimelineGrouper = (scenarios, timelineEnd) => {
+const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
   return scenarios.reduce((groups, scenario) => {
     const level0Id = scenario.id;
     groups.push(level0Group(level0Id, scenario.title, scenario.projects));
@@ -84,6 +87,7 @@ const TimelineGrouper = (scenarios, timelineEnd) => {
       project.people.forEach((person) => {
         const level2Id = `${scenario.id}-${project.id}-${person.id}`;
         let projectPerson = groups.find((g) => g.id === level2Id);
+
         if (!projectPerson) {
           groups.push(
             level2Group(
@@ -92,11 +96,7 @@ const TimelineGrouper = (scenarios, timelineEnd) => {
               level1Id,
               person.assignment.startDate,
               person.assignment.endDate,
-              {
-                ...itemStylesForPerson(person),
-                roles: person.roles,
-                firstName: person.firstName,
-              }
+              { ...itemStylesForPerson(person) }
             )
           );
         } else {
@@ -109,15 +109,20 @@ const TimelineGrouper = (scenarios, timelineEnd) => {
       });
     });
 
-    // TODO: will this work for someone who currently isn't staffed??
-    // get the person groups found in this scenario
-    let projectPeopleGroups = groups.filter(
-      (g) => g.treeLevel === 2 && scenario.projects.map((p) => `${scenario.id}-${p.id}`).includes(g.parent)
-    );
+    const allAssignedPeople = scenario.projects.flatMap((project) => project.people);
+    const benchPeople = [...people.map((p) => ({ ...p, endDate: timelineStart }))];
+    allAssignedPeople
+      .map((p) => p.assignment)
+      .forEach((a) => {
+        const matchingPerson = benchPeople.find((p) => p.id === a.personId);
+        if (!!matchingPerson && matchingPerson.endDate < a.endDate) {
+          matchingPerson.endDate = a.endDate;
+        }
+      });
 
     // create a bench project for all the people
     const benchProjectId = `Bench-${scenario.id}`;
-    const benchStartDate = new Date(Math.min(...projectPeopleGroups.map((p) => p.endDate)));
+    const benchStartDate = new Date(Math.min(...benchPeople.map((p) => p.endDate)));
     groups.push(
       level1Group(benchProjectId, "Bench", level0Id, benchStartDate, timelineEnd, {
         backgroundColor: benchColor,
@@ -125,13 +130,13 @@ const TimelineGrouper = (scenarios, timelineEnd) => {
       })
     );
 
-    // sort project people groups by bench date, then by department
-    let sorted = benchPeopleSort(projectPeopleGroups);
-    sorted.forEach((g) => {
+    // sort bench people groups by bench date, then by department
+    let sorted = benchPeopleSort(benchPeople);
+
+    sorted.forEach((p) => {
       groups.push(
-        level2Group(`Bench-${g.id}`, g.title, benchProjectId, g.endDate, timelineEnd, {
-          backgroundColor: g.backgroundColor,
-          fontColor: g.fontColor,
+        level2Group(`Bench-${scenario.id}-${p.id}`, `${p.firstName}`, benchProjectId, p.endDate, timelineEnd, {
+          ...itemStylesForPerson(p),
         })
       );
     });

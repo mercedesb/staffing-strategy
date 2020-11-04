@@ -18,13 +18,13 @@ export function AssignmentsProvider({ children }) {
   const { getAssignments: getCurrentAssignments } = useForecast();
   const { getAssignments: getUpcomingAssignments } = useAirtable();
 
-  const [currentAssignments, setCurrentAssignments] = useState(get(CURRENT_ASSIGNMENTS_STORAGE_KEY) || []);
-  const [upcomingAssignments, setUpcomingAssignments] = useState(get(UPCOMING_ASSIGNMENTS_STORAGE_KEY) || []);
+  const [currentAssignments, setCurrentAssignments] = useState([]);
+  const [upcomingAssignments, setUpcomingAssignments] = useState([]);
   const [allAssignments, setAllAssignments] = useState([]);
 
   useEffect(() => {
     (async function () {
-      let currentAssignmentsResponse = currentAssignments.map((a) => {
+      let currentAssignmentsResponse = (get(CURRENT_ASSIGNMENTS_STORAGE_KEY) || currentAssignments).map((a) => {
         let startDate = typeof a.startDate === "string" ? new Date(a.startDate) : a.startDate;
         let endDate = typeof a.endDate === "string" ? new Date(a.endDate) : a.endDate;
 
@@ -35,7 +35,7 @@ export function AssignmentsProvider({ children }) {
         };
       });
 
-      let upcomingAssignmentsResponse = upcomingAssignments.map((a) => {
+      let upcomingAssignmentsResponse = (get(UPCOMING_ASSIGNMENTS_STORAGE_KEY) || upcomingAssignments).map((a) => {
         let startDate = typeof a.startDate === "string" ? new Date(a.startDate) : a.startDate;
         let endDate = typeof a.endDate === "string" ? new Date(a.endDate) : a.endDate;
 

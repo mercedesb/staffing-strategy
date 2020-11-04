@@ -7,18 +7,18 @@ import { ScenarioParser } from "lib";
 
 export default function Home() {
   const { allAssignments, currentAssignments } = React.useContext(AssignmentsContext);
-  const { allPeople, currentPeople } = React.useContext(PeopleContext);
+  const { allPeople, billablePeople } = React.useContext(PeopleContext);
   const { allProjects, currentProjects } = React.useContext(ProjectsContext);
   const { currentScenarios, upcomingScenarios } = React.useContext(ScenariosContext);
 
-  let nowScenarios = ScenarioParser(currentScenarios, currentAssignments, currentPeople, currentProjects);
+  let nowScenarios = ScenarioParser(currentScenarios, currentAssignments, billablePeople, currentProjects);
   let possibleScenarios = ScenarioParser(upcomingScenarios, allAssignments, allPeople, allProjects);
   return (
     <>
       <Box pad={{ bottom: "medium" }}>
         <h1>Staffing Planning</h1>
       </Box>
-      <ScenariosTimeline events={[...nowScenarios, ...possibleScenarios]} people={[allPeople]} />
+      <ScenariosTimeline events={[...nowScenarios, ...possibleScenarios]} people={billablePeople} />
     </>
   );
 }
