@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Box } from "reakit/Box";
 
-import { AssignmentsProvider, DealsProvider, PeopleProvider, ProjectsProvider, ScenariosProvider } from "contexts";
+import { AppContext } from "contexts";
 import { Home, Opportunities, People, Projects } from "pages";
 import "./App.css";
 
@@ -28,30 +28,22 @@ function App() {
             </Box>
           </nav>
 
-          <PeopleProvider>
-            <AssignmentsProvider>
-              <ProjectsProvider>
-                <ScenariosProvider>
-                  <DealsProvider>
-                    <Switch>
-                      <Route path="/people">
-                        <People />
-                      </Route>
-                      <Route path="/projects">
-                        <Projects />
-                      </Route>
-                      <Route path="/opportunities">
-                        <Opportunities />
-                      </Route>
-                      <Route path="/">
-                        <Home />
-                      </Route>
-                    </Switch>
-                  </DealsProvider>
-                </ScenariosProvider>
-              </ProjectsProvider>
-            </AssignmentsProvider>
-          </PeopleProvider>
+          <AppContext>
+            <Switch>
+              <Route path="/people">
+                <People />
+              </Route>
+              <Route path="/projects">
+                <Projects />
+              </Route>
+              <Route path="/opportunities">
+                <Opportunities />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </AppContext>
         </div>
       </Router>
     </Box>

@@ -1,3 +1,4 @@
+export { AppContext } from "./AppContext";
 export { AssignmentsContext, AssignmentsProvider } from "./AssignmentsContext";
 export { DealsContext, DealsProvider } from "./DealsContext";
 export { PeopleContext, PeopleProvider } from "./PeopleContext";
