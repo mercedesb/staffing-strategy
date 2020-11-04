@@ -77,6 +77,7 @@ const level2Group = (id, title, parent, startDate, endDate, opts = {}) => {
     startDate: startDate,
     endDate: endDate,
     treeLevel: 2,
+    height: 40,
     ...opts,
   };
 };

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import Timeline from "react-calendar-timeline";
+import { IconChevronDown, IconChevronUp } from "tabler-icons";
+
 import "react-calendar-timeline/lib/Timeline.css";
 
 import { TimelineGrouper } from "lib";
@@ -48,7 +50,7 @@ export const ScenariosTimeline = ({ events, people }) => {
     return Object.assign({}, group, {
       title: group.root ? (
         <button onClick={() => toggleGroup(group.id)} className="noBtn" style={{ paddingLeft: 20 * group.treeLevel }}>
-          {openGroups[group.id] ? "[-]" : "[+]"} {group.title}
+          {openGroups[group.id] ? <IconChevronUp /> : <IconChevronDown />} {group.title}
         </button>
       ) : (
         <div style={{ paddingLeft: 40 }}>{group.title}</div>

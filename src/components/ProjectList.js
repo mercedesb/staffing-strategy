@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "grommet";
+import { Box } from "reakit/Box";
 
 import List from "./List";
 

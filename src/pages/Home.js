@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "grommet";
+import { Box } from "reakit/Box";
 
 import { AssignmentsContext, PeopleContext, ProjectsContext, ScenariosContext } from "contexts";
 import { ScenariosTimeline } from "components";

@@ -1,15 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Box, Grommet } from "grommet";
+import { Box } from "reakit/Box";
 
 import { AssignmentsProvider, DealsProvider, PeopleProvider, ProjectsProvider, ScenariosProvider } from "contexts";
 import { Home, Opportunities, People, Projects } from "pages";
-import { GrommetTheme } from "lib";
 import "./App.css";
 
 function App() {
   return (
-    <Grommet theme={GrommetTheme}>
+    <Box>
       <Router>
         <div className="App">
           <nav>
@@ -55,7 +54,7 @@ function App() {
           </PeopleProvider>
         </div>
       </Router>
-    </Grommet>
+    </Box>
   );
 }
 

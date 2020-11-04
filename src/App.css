@@ -14,6 +14,11 @@ button {
   border: none;
   padding: 0;
   margin: 0;
+
+  /* extra app specific styling */
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 h1,
@@ -49,6 +54,15 @@ ul {
 
 .rct-dateHeader {
   border-left: 1px solid #bbb !important;
+}
+
+.rct-sidebar-row {
+  display: flex;
+}
+
+.staffing-item {
+  height: 28px !important;
+  line-height: 28px !important;
 }
 
 .staffing-item-lg {
