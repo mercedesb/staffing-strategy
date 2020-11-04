@@ -4,6 +4,7 @@ import Timeline from "react-calendar-timeline";
 import { IconChevronDown, IconChevronUp } from "tabler-icons";
 
 import "react-calendar-timeline/lib/Timeline.css";
+import "./ScenariosTimeline.css";
 
 import { TimelineGrouper } from "lib";
 

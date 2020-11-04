@@ -1,0 +1,66 @@
+@tailwind base;
+
+body {
+  padding: 1rem;
+  font-family: "Overpass", sans-serif;
+  font-size: 16px;
+}
+
+h1,
+.h1 {
+  @apply text-3xl font-display;
+}
+h2,
+.h2 {
+  @apply text-2xl font-display font-semibold;
+}
+h3,
+.h3 {
+  @apply text-xl font-display font-extrabold;
+}
+h4,
+.h4 {
+  @apply text-xl font-display font-semibold;
+}
+h5,
+.h5 {
+  @apply text-lg font-display font-semibold;
+}
+h6,
+.h6 {
+  @apply text-lg font-display;
+}
+
+a {
+  @apply underline;
+}
+a.no-underline {
+  @apply no-underline;
+}
+
+.noBtn {
+  box-shadow: none;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  /* extra app specific styling */
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+@tailwind components;
+
+@tailwind utilities;
+
+.staffing-item {
+  height: 28px !important;
+  line-height: 28px !important;
+}
+
+.staffing-item-lg {
+  height: 40px !important;
+  line-height: 40px !important;
+}

@@ -1,0 +1,27 @@
+/* React Timeline Style overrides */
+
+.rct-header-root {
+  background-color: #f0f0f0 !important;
+  border: 1px solid #bbb !important;
+  border-bottom: none !important;
+}
+
+.rct-calendar-header {
+  border-top: none !important;
+}
+
+.rct-calendar-header div:last-child .rct-dateHeader {
+  border-bottom: none !important;
+}
+
+.react-calendar-timeline .rct-dateHeader-primary {
+  color: #000;
+}
+
+.rct-dateHeader {
+  border-left: 1px solid #bbb !important;
+}
+
+.rct-sidebar-row {
+  display: flex;
+}
