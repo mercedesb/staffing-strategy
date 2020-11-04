@@ -1,5 +1,4 @@
 import React from "react";
-import { Box } from "reakit/Box";
 
 import List from "./List";
 import { defaultPeopleSort, displayName, isEngineer, isDesigner, isEngagementMgr } from "lib";
@@ -12,19 +11,19 @@ export function PeopleList({ people }) {
   const engagement = people.filter((p) => isEngagementMgr(p));
 
   return (
-    <Box direction="row">
-      <Box flex>
-        <h2>Engineers</h2>
+    <div className="flex mb-8">
+      <div className="flex-grow">
+        <h2 className="mb-4">Engineers</h2>
         <List items={defaultPeopleSort(engineers.map((p) => ({ ...p, displayText: displayName(p) })))} />
-      </Box>
-      <Box flex>
-        <h2>Designers</h2>
+      </div>
+      <div className="flex-grow">
+        <h2 className="mb-4">Designers</h2>
         <List items={defaultPeopleSort(designers.map((p) => ({ ...p, displayText: displayName(p) })))} />
-      </Box>
-      <Box flex>
-        <h2>Engagement</h2>
+      </div>
+      <div className="flex-grow">
+        <h2 className="mb-4">Engagement</h2>
         <List items={defaultPeopleSort(engagement.map((p) => ({ ...p, displayText: displayName(p) })))} />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

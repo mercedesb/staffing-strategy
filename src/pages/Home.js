@@ -1,5 +1,4 @@
 import React from "react";
-import { Box } from "reakit/Box";
 
 import { AssignmentsContext, PeopleContext, ProjectsContext, ScenariosContext } from "contexts";
 import { ScenariosTimeline } from "components";
@@ -11,11 +10,7 @@ export default function Home() {
   const { allProjects, currentProjects } = React.useContext(ProjectsContext);
   const { currentScenarios, upcomingScenarios } = React.useContext(ScenariosContext);
 
-  const header = (
-    <Box pad={{ bottom: "medium" }}>
-      <h1>Staffing Planning</h1>
-    </Box>
-  );
+  const header = <h1 className="mb-4">Staffing Planning</h1>;
 
   const dataLoaded =
     currentScenarios.length > 0 &&

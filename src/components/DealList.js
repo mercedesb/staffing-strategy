@@ -13,7 +13,7 @@ export function DealList({ deals, stages }) {
 
   return (
     <>
-      <h1>Possible opportunities (Pipedrive)</h1>
+      <h1 className="mb-4">Possible opportunities (Pipedrive)</h1>
       <List
         items={dealsWithStages.map((d) => ({
           ...d,

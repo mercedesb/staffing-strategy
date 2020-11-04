@@ -6,6 +6,7 @@ import { IconChevronDown, IconChevronUp } from "tabler-icons";
 import "react-calendar-timeline/lib/Timeline.css";
 import "./ScenariosTimeline.css";
 
+import { ButtonWithIcon } from "components";
 import { TimelineGrouper } from "lib";
 
 const start = dayjs().startOf("day").toDate();
@@ -50,9 +51,13 @@ export const ScenariosTimeline = ({ events, people }) => {
   const nestedGroups = groupsToDisplay.map((group) => {
     return Object.assign({}, group, {
       title: group.root ? (
-        <button onClick={() => toggleGroup(group.id)} className="noBtn" style={{ paddingLeft: 20 * group.treeLevel }}>
+        <ButtonWithIcon
+          onClick={() => toggleGroup(group.id)}
+          className="noBtn"
+          style={{ paddingLeft: 20 * group.treeLevel }}
+        >
           {openGroups[group.id] ? <IconChevronUp /> : <IconChevronDown />} {group.title}
-        </button>
+        </ButtonWithIcon>
       ) : (
         <div style={{ paddingLeft: 40 }}>{group.title}</div>
       ),

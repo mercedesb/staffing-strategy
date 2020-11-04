@@ -1,9 +1,10 @@
 @tailwind base;
 
 body {
-  padding: 1rem;
+  padding: 1rem 2rem;
   font-family: "Overpass", sans-serif;
   font-size: 16px;
+  max-width: 1200px;
 }
 
 h1,

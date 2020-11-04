@@ -8,10 +8,10 @@ export default function People() {
 
   return (
     <>
-      <h1>Current team</h1>
+      <h1 className="mb-4">Current team</h1>
       <PeopleList people={billablePeople} />
 
-      <h1>Upcoming hires</h1>
+      <h1 className="mb-4">Upcoming hires</h1>
       <PeopleList people={upcomingPeople} />
     </>
   );

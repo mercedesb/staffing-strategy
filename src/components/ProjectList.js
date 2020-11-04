@@ -1,5 +1,4 @@
 import React from "react";
-import { Box } from "reakit/Box";
 
 import List from "./List";
 
@@ -13,19 +12,19 @@ export function ProjectList({ currentProjects, upcomingProjects }) {
 
   return (
     <>
-      <h1>Projects</h1>
-      <Box direction="row">
-        <Box flex>
-          <h2>Current projects</h2>
+      <h1 className="mb-4">Projects</h1>
+      <div className="flex">
+        <div className="flex-grow">
+          <h2 className="mb-4">Current projects</h2>
           <List
             items={ongoingCurrentProjects.map((p) => ({
               ...p,
               displayText: `${p.code} - ${p.name}`,
             }))}
           />
-        </Box>
-        <Box flex>
-          <h2>Upcoming projects</h2>
+        </div>
+        <div className="flex-grow">
+          <h2 className="mb-4">Upcoming projects</h2>
           <List
             items={upcomingProjects
               .map((p) => ({
@@ -34,8 +33,8 @@ export function ProjectList({ currentProjects, upcomingProjects }) {
               }))
               .sort((a, b) => (a.likelihood < b.likelihood ? 1 : -1))}
           />
-        </Box>
-      </Box>
+        </div>
+      </div>
     </>
   );
 }

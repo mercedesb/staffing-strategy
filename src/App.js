@@ -1,37 +1,36 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Box } from "reakit/Box";
 
 import { AppContext } from "contexts";
 import { Home, Opportunities, People, Projects } from "pages";
 
 function App() {
   return (
-    <Box>
+    <div>
       <Router>
         <nav>
-          <Box tag="ul" direction="row" justify="end" pad={{ vertical: "small", horizontal: "medium" }}>
-            <Box tag="li" direction="row" pad={{ horizontal: "small" }}>
+          <ul className="flex justify-end">
+            <li className="flex mx-4">
               <Link to="/" className="no-underline">
                 Home
               </Link>
-            </Box>
-            <Box tag="li" direction="row" pad={{ horizontal: "small" }}>
+            </li>
+            <li className="flex mx-4">
               <Link to="/people" className="no-underline">
                 People
               </Link>
-            </Box>
-            <Box tag="li" direction="row" pad={{ horizontal: "small" }}>
+            </li>
+            <li className="flex mx-4">
               <Link to="/projects" className="no-underline">
                 Projects
               </Link>
-            </Box>
-            <Box tag="li" direction="row" pad={{ horizontal: "small" }}>
+            </li>
+            <li className="flex mx-4">
               <Link to="/opportunities" className="no-underline">
                 Opportunities
               </Link>
-            </Box>
-          </Box>
+            </li>
+          </ul>
         </nav>
 
         <AppContext>
@@ -51,7 +50,7 @@ function App() {
           </Switch>
         </AppContext>
       </Router>
-    </Box>
+    </div>
   );
 }
 
