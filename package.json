@@ -22,7 +22,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "npm run watch:css && react-scripts start",
+    "start": "PORT=8080 npm run watch:css && react-scripts start",
     "build": "npm run watch:css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

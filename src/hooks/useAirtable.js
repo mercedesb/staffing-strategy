@@ -10,12 +10,28 @@ const headers = {
 const baseUrl = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}`;
 
 const useAirtable = () => {
-  const { get } = useApi();
+  const { get, post } = useApi();
 
   return {
+    createScenario: async (data) => {
+      let postData = {
+        fields: { ...data },
+      };
+
+      const response = await post(`${baseUrl}/Scenarios`, postData, headers);
+      return response;
+    },
+    createProject: async (data) => {
+      let postData = {
+        fields: { ...data },
+      };
+
+      const response = await post(`${baseUrl}/Scenarios`, postData, headers);
+      return response;
+    },
     getAssignments: async () => {
-      const rawAssignments = await get(`${baseUrl}/Assignments`, headers);
-      return rawAssignments.records
+      const response = await get(`${baseUrl}/Assignments`, headers);
+      return response.records
         .filter((a) => !!a.fields.id && !!a.fields.projectId && !!a.fields.personId)
         .map((a) => ({
           ...a.fields,
@@ -28,12 +44,12 @@ const useAirtable = () => {
         }));
     },
     getPeople: async () => {
-      const rawPeople = await get(`${baseUrl}/People`, headers);
-      return rawPeople.records.filter((p) => !!p.fields.id).map((p) => ({ ...p.fields, id: p.id }));
+      const response = await get(`${baseUrl}/People`, headers);
+      return response.records.filter((p) => !!p.fields.id).map((p) => ({ ...p.fields, id: p.id }));
     },
     getProjects: async () => {
-      const rawProjects = await get(`${baseUrl}/Projects`, headers);
-      return rawProjects.records
+      const response = await get(`${baseUrl}/Projects`, headers);
+      return response.records
         .filter((p) => !!p.fields.id)
         .map((p) => ({
           ...p.fields,
@@ -43,8 +59,8 @@ const useAirtable = () => {
         }));
     },
     getScenarios: async () => {
-      const rawScenarios = await get(`${baseUrl}/Scenarios`, headers);
-      return rawScenarios.records.map((s) => ({ ...s.fields, id: s.id }));
+      const response = await get(`${baseUrl}/Scenarios`, headers);
+      return response.records.map((s) => ({ ...s.fields, id: s.id }));
     },
   };
 };

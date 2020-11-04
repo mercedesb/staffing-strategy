@@ -98,7 +98,6 @@ describe("TimelineGrouper", () => {
       expect.objectContaining({
         id: complexScenarioFixture.id,
         title: complexScenarioFixture.title,
-        rightTitle: complexScenarioFixture.title,
         height: 50,
         root: true,
         parent: null,
@@ -121,7 +120,6 @@ describe("TimelineGrouper", () => {
       expect.objectContaining({
         id: `${complexScenarioFixture.id}-${project.id}`,
         title: project.name,
-        rightTitle: project.name,
         height: 50,
         root: true,
         parent: complexScenarioFixture.id,
@@ -145,7 +143,6 @@ describe("TimelineGrouper", () => {
       expect.objectContaining({
         id: `${complexScenarioFixture.id}-${project.id}-${person.id}`,
         title: displayName(person),
-        rightTitle: displayName(person),
         root: false,
         parent: `${complexScenarioFixture.id}-${project.id}`,
         backgroundColor: expect.any(String),
@@ -173,7 +170,6 @@ describe("TimelineGrouper", () => {
       expect.objectContaining({
         id: `${complexScenarioFixture.id}-${secondProject.id}`,
         title: secondProject.name,
-        rightTitle: secondProject.name,
         height: 50,
         root: true,
         parent: complexScenarioFixture.id,
@@ -225,7 +221,6 @@ describe("TimelineGrouper", () => {
         expect.objectContaining({
           id: `Bench-${complexScenarioFixture.id}`,
           title: "Bench",
-          rightTitle: "Bench",
           height: 50,
           root: true,
           parent: complexScenarioFixture.id,
@@ -269,7 +264,6 @@ describe("TimelineGrouper", () => {
       const expected = expectedPeople.map((p) => ({
         id: `Bench-${scenarios[0].id}-${p.id}`,
         title: displayName(p),
-        rightTitle: displayName(p),
         root: false,
         parent: `Bench-${scenarios[0].id}`,
         treeLevel: 2,
