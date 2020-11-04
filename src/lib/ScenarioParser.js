@@ -1,4 +1,4 @@
-import { defaultPeopleSort } from "lib";
+import { defaultPeopleSort, isRole, ENGINEER_ROLE, DESIGN_ROLE, ENGAGEMENT_ROLE } from "lib";
 
 const ScenarioParser = (scenarios, assignments, people, projects) => {
   return scenarios.map((scenario) => {
@@ -6,7 +6,6 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
     let projectsInScenario = [
       ...new Set(scenarioAssignments.map((a) => projects.find((p) => p.id === a.projectId))),
     ].filter((p) => !!p);
-
     return {
       id: scenario.id,
       title: scenario.name,
@@ -24,7 +23,11 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
               assignment: { ...a },
             };
           })
-          .filter((stf) => !!stf.id); // TODO: render staffing need here
+          .filter((stf) => !!stf.id);
+
+        fillDepartmentNeed(project, staffedPeople, project.engineeringSeats, ENGINEER_ROLE);
+        fillDepartmentNeed(project, staffedPeople, project.designSeats, DESIGN_ROLE);
+        fillDepartmentNeed(project, staffedPeople, project.engagementSeats, ENGAGEMENT_ROLE);
 
         return {
           id: project.id,
@@ -36,6 +39,25 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
       }),
     };
   });
+};
+
+const fillDepartmentNeed = (project, staffedPeople, projectDepartmentSeats, role) => {
+  let staffedDepartmentCount = staffedPeople.filter((p) => isRole(p, role)).length;
+  let departmentNeed = projectDepartmentSeats || staffedDepartmentCount;
+
+  if (departmentNeed > staffedDepartmentCount) {
+    for (let i = 0; i < departmentNeed; i++) {
+      staffedPeople.push({
+        id: `Staffing Need ${i + 1}-${role}-${project.id}`,
+        firstName: "Staffing Need",
+        roles: [role],
+        assignment: {
+          startDate: project.startDate,
+          endDate: project.endDate,
+        },
+      });
+    }
+  }
 };
 
 export default ScenarioParser;

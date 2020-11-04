@@ -1,3 +1,12 @@
+export const ENGINEER_ROLE = "Development";
+export const DESIGN_ROLE = "Design";
+export const ENGAGEMENT_ROLE = "Growth";
+
+export function displayName(person) {
+  const lastNameDisplay = !!person.lastName ? `${person.lastName[0]}.` : "";
+  return `${person.firstName} ${lastNameDisplay}`;
+}
+
 // sort staffed people first by department
 // then by first name within department
 // TODO: sort by end date?
@@ -29,9 +38,7 @@ export function benchPeopleSort(people) {
       sortNum = aNum - bNum;
     }
     if (sortNum === 0) {
-      let personADisplayName = `${a.firstName} ${a.lastName[0]}.`;
-      let personBDisplayName = `${b.firstName} ${b.lastName[0]}.`;
-      sortNum = personADisplayName > personBDisplayName ? 1 : -1;
+      sortNum = sortByName(a, b);
     }
 
     return sortNum;
@@ -39,21 +46,22 @@ export function benchPeopleSort(people) {
   return clone;
 }
 
-function isEngineer(person) {
-  return person.roles.includes("Development");
+export function isEngineer(person) {
+  return person.roles.includes(ENGINEER_ROLE);
 }
 
-function isDesigner(person) {
-  return person.roles.includes("Design");
+export function isDesigner(person) {
+  return person.roles.includes(DESIGN_ROLE);
 }
 
-function isEngagementMgr(person) {
-  return person.roles.includes("Growth");
+export function isEngagementMgr(person) {
+  return person.roles.includes(ENGAGEMENT_ROLE);
 }
 
-function sortByName(personA, personB) {
-  let personADisplayName = `${personA.firstName} ${personA.lastName[0]}.`;
-  let personBDisplayName = `${personB.firstName} ${personB.lastName[0]}.`;
+export function isRole(person, role) {
+  return person.roles.includes(role);
+}
 
-  return personADisplayName > personBDisplayName ? 1 : -1;
+function sortByName(a, b) {
+  return displayName(a) > displayName(b) ? 1 : -1;
 }

@@ -1,4 +1,4 @@
-import { ScenarioParser, defaultPeopleSort } from "lib";
+import { ScenarioParser, defaultPeopleSort, ENGINEER_ROLE, DESIGN_ROLE } from "lib";
 import { assignmentsFixture, peopleFixture, projectsFixture, scenariosFixture } from "fixtures";
 
 let scenarios;
@@ -158,5 +158,46 @@ describe("ScenarioParser", () => {
     });
   });
 
-  // describe("with a staffing need and no person to fill it", () => {});
+  describe("with a staffing need and no person to fill it", () => {
+    let project2;
+
+    beforeEach(() => {
+      project2 = projects.find((p) => p.id === "project-1");
+      project2.engineeringSeats = 2;
+      project2.startDate = new Date(2020, 3, 1);
+      project2.endDate = new Date(2020, 9, 1);
+      people.forEach((p) => (p.roles = [DESIGN_ROLE]));
+    });
+
+    it("creates a person on the project to represent a staffing need", () => {
+      const parsedScenarios = ScenarioParser(scenarios, assignments, people, projects);
+      let parsedProject = parsedScenarios[0].projects.find((p) => p.id === project2.id);
+
+      let actual = parsedProject.people;
+
+      const expected = [
+        {
+          id: `Staffing Need 1-${ENGINEER_ROLE}-project-1`,
+          firstName: "Staffing Need",
+          roles: [ENGINEER_ROLE],
+          assignment: {
+            startDate: new Date(2020, 3, 1),
+            endDate: new Date(2020, 9, 1),
+          },
+        },
+        {
+          id: `Staffing Need 2-${ENGINEER_ROLE}-project-1`,
+          roles: [ENGINEER_ROLE],
+          firstName: "Staffing Need",
+          assignment: {
+            startDate: new Date(2020, 3, 1),
+            endDate: new Date(2020, 9, 1),
+          },
+        },
+      ];
+
+      expect(actual.length).toEqual(project2Assignments.length + project2.engineeringSeats);
+      expect(actual).toEqual(expect.arrayContaining(expected));
+    });
+  });
 });

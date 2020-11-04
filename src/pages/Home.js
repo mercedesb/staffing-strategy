@@ -11,14 +11,28 @@ export default function Home() {
   const { allProjects, currentProjects } = React.useContext(ProjectsContext);
   const { currentScenarios, upcomingScenarios } = React.useContext(ScenariosContext);
 
-  let nowScenarios = ScenarioParser(currentScenarios, currentAssignments, billablePeople, currentProjects);
-  let possibleScenarios = ScenarioParser(upcomingScenarios, allAssignments, allPeople, allProjects);
-  return (
-    <>
-      <Box pad={{ bottom: "medium" }}>
-        <h1>Staffing Planning</h1>
-      </Box>
-      <ScenariosTimeline events={[...nowScenarios, ...possibleScenarios]} people={billablePeople} />
-    </>
+  const header = (
+    <Box pad={{ bottom: "medium" }}>
+      <h1>Staffing Planning</h1>
+    </Box>
   );
+
+  const dataLoaded =
+    currentScenarios.length > 0 &&
+    currentAssignments.length > 0 &&
+    billablePeople.length > 0 &&
+    currentProjects.length > 0;
+
+  if (dataLoaded) {
+    let nowScenarios = ScenarioParser(currentScenarios, currentAssignments, billablePeople, currentProjects);
+    let possibleScenarios = ScenarioParser(upcomingScenarios, allAssignments, allPeople, allProjects);
+    return (
+      <>
+        {header}
+        <ScenariosTimeline events={[...nowScenarios, ...possibleScenarios]} people={billablePeople} />
+      </>
+    );
+  } else {
+    return header;
+  }
 }

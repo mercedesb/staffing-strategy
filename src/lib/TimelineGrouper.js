@@ -1,4 +1,4 @@
-import { benchPeopleSort } from "lib";
+import { benchPeopleSort, displayName, isEngineer, isDesigner, isEngagementMgr } from "lib";
 // import dayjs from "dayjs";
 // import weekOfYear from "dayjs/plugin/weekOfYear";
 // dayjs.extend(AdvancedFormat);
@@ -15,14 +15,20 @@ const lightText = "#FFF";
 const itemStylesForPerson = (person) => {
   let backgroundColor = projectColor;
   let fontColor = lightText;
-  if (person.roles.includes("Development")) {
-    backgroundColor = engineeringColor;
+
+  if (person.firstName === "Staffing Need") {
+    backgroundColor = null;
     fontColor = darkText;
-  } else if (person.roles.includes("Design")) {
-    backgroundColor = designColor;
-    fontColor = darkText;
-  } else if (person.roles.includes("Growth")) {
-    backgroundColor = engagementColor;
+  } else {
+    if (isEngineer(person)) {
+      backgroundColor = engineeringColor;
+      fontColor = darkText;
+    } else if (isDesigner(person)) {
+      backgroundColor = designColor;
+      fontColor = darkText;
+    } else if (isEngagementMgr(person)) {
+      backgroundColor = engagementColor;
+    }
   }
 
   return { backgroundColor, fontColor };
@@ -92,7 +98,7 @@ const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
           groups.push(
             level2Group(
               level2Id,
-              `${person.firstName} ${person.lastName[0]}.`,
+              displayName(person),
               level1Id,
               person.assignment.startDate,
               person.assignment.endDate,
@@ -133,16 +139,16 @@ const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
     // sort bench people groups by bench date, then by department
     let sorted = benchPeopleSort(benchPeople);
 
-    sorted.forEach((p) => {
+    sorted.forEach((person) => {
       groups.push(
         level2Group(
-          `Bench-${scenario.id}-${p.id}`,
-          `${p.firstName} ${p.lastName[0]}.`,
+          `Bench-${scenario.id}-${person.id}`,
+          displayName(person),
           benchProjectId,
-          p.endDate,
+          person.endDate,
           timelineEnd,
           {
-            ...itemStylesForPerson(p),
+            ...itemStylesForPerson(person),
           }
         )
       );

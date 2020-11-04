@@ -1,4 +1,4 @@
-import { TimelineGrouper } from "lib";
+import { TimelineGrouper, displayName } from "lib";
 import { complexScenarioFixture } from "fixtures";
 
 let scenarios;
@@ -144,8 +144,8 @@ describe("TimelineGrouper", () => {
     expect(actual).toEqual(
       expect.objectContaining({
         id: `${complexScenarioFixture.id}-${project.id}-${person.id}`,
-        title: `${person.firstName} ${person.lastName[0]}.`,
-        rightTitle: `${person.firstName} ${person.lastName[0]}.`,
+        title: displayName(person),
+        rightTitle: displayName(person),
         root: false,
         parent: `${complexScenarioFixture.id}-${project.id}`,
         backgroundColor: expect.any(String),
@@ -268,15 +268,14 @@ describe("TimelineGrouper", () => {
 
       const expected = expectedPeople.map((p) => ({
         id: `Bench-${scenarios[0].id}-${p.id}`,
-        title: `${p.firstName} ${p.lastName[0]}.`,
-        rightTitle: `${p.firstName} ${p.lastName[0]}.`,
+        title: displayName(p),
+        rightTitle: displayName(p),
         root: false,
         parent: `Bench-${scenarios[0].id}`,
         treeLevel: 2,
       }));
 
       actual.forEach((a, index) => {
-        console.log("a.startDate:", a.startDate);
         expect(a).toEqual(expect.objectContaining(expected[index]));
       });
     });
