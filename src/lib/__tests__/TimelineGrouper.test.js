@@ -7,113 +7,75 @@ let timelineEnd;
 let people = [
   {
     id: "825293",
-    first_name: "Eileen",
-    last_name: "Duffner",
-    archived: false,
-    roles: ["Billable", "Chicago", "Development", "Employee"],
-    weekly_capacity: 144000,
     firstName: "Eileen",
     lastName: "Duffner",
+    roles: ["Billable", "Chicago", "Development", "Employee"],
   },
   {
     id: "519191",
-    first_name: "Kate",
-    last_name: "Donaldson",
-    archived: false,
-    roles: ["Billable", "Chicago", "Development", "Employee", "Management"],
-    weekly_capacity: 144000,
     firstName: "Kate",
     lastName: "Donaldson",
+    roles: ["Billable", "Chicago", "Development", "Employee", "Management"],
   },
   {
     id: "861022",
-    first_name: "Mia",
-    last_name: "Frank",
-    archived: false,
-    roles: ["Billable", "Development", "Employee"],
-    weekly_capacity: 144000,
     firstName: "Mia",
     lastName: "Frank",
+    roles: ["Billable", "Development", "Employee"],
   },
   {
     id: "837718",
-    first_name: "Jewel",
-    last_name: "Tolbert",
-    archived: false,
-    roles: ["Billable", "Design", "Employee", "Chicago"],
-    weekly_capacity: 144000,
     firstName: "Jewel",
     lastName: "Tolbert",
+    roles: ["Billable", "Design", "Employee", "Chicago"],
   },
   {
     id: "826568",
-    first_name: "McKenzie",
-    last_name: "Landorf",
-    archived: false,
-    roles: ["Billable", "Chicago", "Design", "Employee"],
-    weekly_capacity: 144000,
     firstName: "McKenzie",
     lastName: "Landorf",
+    roles: ["Billable", "Chicago", "Design", "Employee"],
   },
   {
     id: "815382",
-    first_name: "Chris",
-    last_name: "Tretola",
-    archived: false,
-    roles: ["Product & Engagement Management", "Billable", "Chicago", "Employee", "Growth"],
-    weekly_capacity: 144000,
     firstName: "Chris",
     lastName: "Tretola",
+    roles: ["Product & Engagement Management", "Billable", "Chicago", "Employee", "Growth"],
   },
   {
     id: "841320",
-    first_name: "Darcy",
-    last_name: "Garrett",
-    archived: false,
-    roles: ["Billable", "Development", "Chicago", "Contractor"],
-    weekly_capacity: 144000,
     firstName: "Darcy",
     lastName: "Garrett",
+    roles: ["Billable", "Development", "Chicago", "Contractor"],
   },
   {
     id: "397801",
-    first_name: "Elizabeth",
-    last_name: "Coleman",
-    archived: false,
-    roles: ["Billable", "Chicago", "Design", "Employee"],
-    weekly_capacity: 144000,
     firstName: "Elizabeth",
     lastName: "Coleman",
+    roles: ["Billable", "Chicago", "Design", "Employee"],
   },
   {
     id: "185189",
-    first_name: "Sasha",
-    last_name: "Grodzins",
-    archived: false,
-    roles: ["Billable", "Development", "Employee", "Chicago", "Lead"],
-    weekly_capacity: 144000,
     firstName: "Sasha",
     lastName: "Grodzins",
+    roles: ["Billable", "Development", "Employee", "Chicago", "Lead"],
   },
   {
     id: "861810",
-    first_name: "Cain",
-    last_name: "Watson",
-    archived: false,
-    roles: ["Billable", "Development", "Employee"],
-    weekly_capacity: 144000,
     firstName: "Cain",
     lastName: "Watson",
+    roles: ["Billable", "Development", "Employee"],
   },
   {
     id: "412515",
-    first_name: "Gwen",
-    last_name: "Smuda",
-    archived: false,
-    roles: ["Billable", "Chicago", "Development", "Employee", "Lead", "Strategy"],
-    weekly_capacity: 144000,
     firstName: "Gwen",
     lastName: "Smuda",
+    roles: ["Billable", "Chicago", "Development", "Employee", "Lead", "Strategy"],
+  },
+  {
+    id: "412516",
+    firstName: "Eli",
+    lastName: "Sidman",
+    roles: ["Billable", "Chicago", "Design", "Employee"],
   },
 ];
 
@@ -191,8 +153,6 @@ describe("TimelineGrouper", () => {
         startDate: new Date("2020-09-21T05:00:00.000Z"),
         endDate: new Date("2020-12-31T06:00:00.000Z"),
         treeLevel: 2,
-        roles: person.roles,
-        firstName: person.firstName,
       })
     );
   });
@@ -243,6 +203,18 @@ describe("TimelineGrouper", () => {
   // BENCH LOGIC
 
   describe("bench logic", () => {
+    let benchPeopleGroups;
+
+    beforeEach(() => {
+      const groups = TimelineGrouper(scenarios, people, timelineStart, timelineEnd);
+      const projectGroups = groups.filter((g) => g.treeLevel === 1);
+
+      const benchProject = projectGroups[projectGroups.length - 1];
+      const benchProjectIndex = groups.findIndex((g) => g.id === benchProject.id);
+
+      benchPeopleGroups = groups.slice(benchProjectIndex + 1);
+    });
+
     it("returns the last project group as the Bench", () => {
       const groups = TimelineGrouper(scenarios, people, timelineStart, timelineEnd);
       const projectGroups = groups.filter((g) => g.treeLevel === 1);
@@ -267,14 +239,6 @@ describe("TimelineGrouper", () => {
     });
 
     it("returns one group for each person in the company who has Bench time in the next 6 months", () => {
-      const groups = TimelineGrouper(scenarios, people, timelineStart, timelineEnd);
-      const projectGroups = groups.filter((g) => g.treeLevel === 1);
-
-      const benchProject = projectGroups[projectGroups.length - 1];
-      const benchProjectIndex = groups.findIndex((g) => g.id === benchProject.id);
-
-      const benchPeopleGroups = groups.slice(benchProjectIndex + 1);
-
       const benchPeopleIds = benchPeopleGroups.map((g) => g.id);
       expect(benchPeopleIds.length).toEqual([...new Set(benchPeopleIds)].length);
     });
@@ -282,18 +246,13 @@ describe("TimelineGrouper", () => {
     // describe("when someone is staffed on multiple projects", () => {});
 
     it("sorts the bench people correctly", () => {
-      const groups = TimelineGrouper(scenarios, people, timelineStart, timelineEnd);
-      const projectGroups = groups.filter((g) => g.treeLevel === 1);
-
-      const benchProject = projectGroups[projectGroups.length - 1];
-      const benchProjectIndex = groups.findIndex((g) => g.id === benchProject.id);
-
-      const actual = groups.slice(benchProjectIndex + 1);
+      const actual = benchPeopleGroups;
 
       // sort by end date
       // sort by department
       // sort name
       const expectedPeople = [
+        people.find((p) => p.id === "412516"), // Eli (timelineStart),
         people.find((p) => p.id === "397801"), // Elizabeth (12/4),
         people.find((p) => p.id === "861810"), // Cain, (12/31)
         people.find((p) => p.id === "412515"), // Gwen, (12/31)
@@ -313,20 +272,20 @@ describe("TimelineGrouper", () => {
         rightTitle: `${p.firstName} ${p.lastName[0]}.`,
         root: false,
         parent: `Bench-${scenarios[0].id}`,
-        startDate: new Date(2020, 10, 30),
-        endDate: new Date(2021, 0, 1),
         treeLevel: 2,
       }));
 
       actual.forEach((a, index) => {
+        console.log("a.startDate:", a.startDate);
         expect(a).toEqual(expect.objectContaining(expected[index]));
       });
     });
 
-    // describe("when someone has no assignments", () => {
-    //   it("sets them on the bench from the start of the timeline", () => {
-
-    //   })
-    // })
+    describe("when someone has no assignments", () => {
+      it("sets them on the bench from the start of the timeline", () => {
+        const actual = benchPeopleGroups[0];
+        expect(actual.startDate).toEqual(timelineStart);
+      });
+    });
   });
 });

@@ -135,9 +135,16 @@ const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
 
     sorted.forEach((p) => {
       groups.push(
-        level2Group(`Bench-${scenario.id}-${p.id}`, `${p.firstName}`, benchProjectId, p.endDate, timelineEnd, {
-          ...itemStylesForPerson(p),
-        })
+        level2Group(
+          `Bench-${scenario.id}-${p.id}`,
+          `${p.firstName} ${p.lastName[0]}.`,
+          benchProjectId,
+          p.endDate,
+          timelineEnd,
+          {
+            ...itemStylesForPerson(p),
+          }
+        )
       );
     });
 
