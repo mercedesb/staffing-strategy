@@ -46,6 +46,7 @@ const level0Group = (id, title, children, opts = {}) => {
     startDate: new Date(Math.min(...children.map((p) => p.startDate))),
     endDate: new Date(Math.max(...children.map((p) => p.endDate))),
     treeLevel: 0,
+    type: "scenario",
     ...opts,
   };
 };
@@ -62,6 +63,7 @@ const level1Group = (id, title, parent, startDate, endDate, opts = {}) => {
     backgroundColor: projectColor,
     fontColor: lightText,
     treeLevel: 1,
+    type: "project",
     ...opts,
   };
 };
@@ -76,6 +78,7 @@ const level2Group = (id, title, parent, startDate, endDate, opts = {}) => {
     endDate: endDate,
     treeLevel: 2,
     height: 50,
+    type: "person",
     ...opts,
   };
 };
@@ -83,24 +86,32 @@ const level2Group = (id, title, parent, startDate, endDate, opts = {}) => {
 const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
   let timelineGroups = [];
 
-  timelineGroups.push(level0Group("NewScenario", "New Scenario", [], { root: false, addable: "scenario" }));
+  timelineGroups.push(level0Group("NewScenario", "New Scenario", [], { root: false, addable: true }));
 
   return scenarios.reduce((groups, scenario) => {
     const level0Id = scenario.id;
     groups.push(level0Group(level0Id, scenario.title, scenario.projects));
-    if (scenario.title !== "Current") {
+    if (!scenario.current) {
       groups.push(
         level1Group(`NewProject-${level0Id}`, "New Project", level0Id, null, null, {
           root: false,
-          addable: "project",
+          addable: true,
         })
       );
     }
 
     scenario.projects.forEach((project) => {
       const level1Id = `${scenario.id}-${project.id}`;
-      groups.push(level1Group(level1Id, project.name, level0Id, project.startDate, project.endDate));
-      groups.push(level2Group(`NewPerson-${level1Id}`, "New Person", level1Id, null, null, { addable: "person" }));
+      groups.push(
+        level1Group(level1Id, project.name, level0Id, project.startDate, project.endDate, {
+          editable: project.editable,
+        })
+      );
+      groups.push(
+        level2Group(`NewPerson-${level1Id}`, "New Person", level1Id, null, null, {
+          addable: true,
+        })
+      );
 
       project.people.forEach((person) => {
         const level2Id = `${scenario.id}-${project.id}-${person.id}`;
@@ -114,7 +125,13 @@ const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
               level1Id,
               person.assignment.startDate,
               person.assignment.endDate,
-              { ...itemStylesForPerson(person), assignment: person.assignment }
+              {
+                ...itemStylesForPerson(person),
+                assignment: person.assignment,
+                moveable: project.editable,
+                resizeable: project.editable,
+                editable: person.editable,
+              }
             )
           );
         } else {

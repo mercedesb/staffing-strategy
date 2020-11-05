@@ -28,17 +28,14 @@ export const ScenariosTimeline = ({ events, people }) => {
   }, [events, people]);
 
   let items = allGroups.map((g) => {
-    const moveable = !g.id.toString().includes("Current") && !g.id.toString().includes("Bench");
-    const resizeable = !g.id.toString().includes("Current") && !g.id.toString().includes("Bench");
-
     return {
       id: g.id,
       group: g.id,
       title: g.title,
       start_time: g.addable ? null : g.startDate.getTime(),
       end_time: g.addable ? null : g.endDate.getTime(),
-      canMove: moveable,
-      canResize: resizeable,
+      canMove: g.moveable,
+      canResize: g.resizeable,
       assignment: g.assignment,
       itemProps: {
         className: g.treeLevel === 0 || g.treeLevel === 1 ? `staffing-item-lg` : `staffing-item`,

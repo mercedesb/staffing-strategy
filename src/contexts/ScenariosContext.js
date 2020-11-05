@@ -14,7 +14,7 @@ export const ScenariosContext = createContext({
 export function ScenariosProvider({ children }) {
   const { getScenarios } = useAirtable();
 
-  const currentScenarios = useMemo(() => [{ id: 0, name: "Current" }], []);
+  const currentScenarios = useMemo(() => [{ id: 0, name: "Current", current: true }], []);
   const [upcomingScenarios, setUpcomingScenarios] = useState([]);
   const [allScenarios, setAllScenarios] = useState([]);
 

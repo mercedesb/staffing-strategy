@@ -69,7 +69,7 @@ const useAirtable = () => {
     },
     getPeople: async () => {
       const response = await get(`${baseUrl}/People`, headers);
-      return response.records.filter((p) => !!p.fields.id).map((p) => ({ ...p.fields, id: p.id }));
+      return response.records.filter((p) => !!p.fields.id).map((p) => ({ ...p.fields, id: p.id, editable: true }));
     },
     getProjects: async () => {
       const response = await get(`${baseUrl}/Projects`, headers);
@@ -80,6 +80,7 @@ const useAirtable = () => {
           id: p.id,
           startDate: dayjs(p.fields.startDate).toDate(),
           endDate: dayjs(p.fields.endDate).toDate(),
+          editable: true,
         }));
     },
     getScenarios: async () => {
