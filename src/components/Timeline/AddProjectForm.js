@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { ProjectsContext } from "contexts";
 import { useAirtable } from "hooks";
 
-export function AddProjectForm({ onSubmit }) {
+export function AddProjectForm() {
   const { fetchProjects } = React.useContext(ProjectsContext);
 
   const { createProject } = useAirtable();

@@ -5,7 +5,7 @@ import { AssignmentsContext, PeopleContext } from "contexts";
 import { useAirtable } from "hooks";
 import { displayName } from "lib";
 
-export function AddPersonForm({ onSubmit, scenarioId, projectId }) {
+export function AddPersonForm({ scenarioId, projectId }) {
   const { fetchAssignments } = React.useContext(AssignmentsContext);
   const { allPeople, fetchPeople } = React.useContext(PeopleContext);
 
