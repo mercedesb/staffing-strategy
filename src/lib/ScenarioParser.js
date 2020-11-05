@@ -4,7 +4,10 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
   return scenarios.map((scenario) => {
     const scenarioAssignments = assignments.filter((a) => (!!a.scenarios ? a.scenarios.includes(scenario.id) : true));
     let projectsInScenario = [
-      ...new Set(scenarioAssignments.map((a) => projects.find((p) => p.id === a.projectId))),
+      ...new Set([
+        ...scenarioAssignments.map((a) => projects.find((p) => p.id === a.projectId)),
+        ...projects.filter((p) => (!!p.scenarios ? p.scenarios.includes(scenario.id) : false)),
+      ]),
     ].filter((p) => !!p);
     return {
       id: scenario.id,
@@ -49,7 +52,7 @@ const fillDepartmentNeed = (project, staffedPeople, projectDepartmentSeats, role
     for (let i = 0; i < departmentNeed; i++) {
       staffedPeople.push({
         id: `Staffing Need ${i + 1}-${role}-${project.id}`,
-        firstName: "Staffing Need",
+        firstName: `Staffing Need - ${role}`,
         roles: [role],
         assignment: {
           startDate: project.startDate,

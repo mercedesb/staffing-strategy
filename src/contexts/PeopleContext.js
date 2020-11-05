@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, useCallback, createContext } from "react";
 import { useAirtable, useForecast, useLocalStorage } from "hooks";
 
 const CURRENT_PEOPLE_STORAGE_KEY = "currentPeople";
@@ -14,6 +14,7 @@ export const PeopleContext = createContext({
   // setUpcomingPeople: () => {},
   allPeople: [],
   // setAllPeople: () => {},
+  fetchPeople: () => {},
 });
 
 export function PeopleProvider({ children }) {
@@ -24,38 +25,54 @@ export function PeopleProvider({ children }) {
   const [currentPeople, setCurrentPeople] = useState([]);
   const [billablePeople, setBillablePeople] = useState([]);
   const [upcomingPeople, setUpcomingPeople] = useState([]);
-  const [allPeople, setAllPeople] = useState([]);
+
+  const fetchCurrentData = useCallback(async () => {
+    let currentPeopleResponse = await getCurrentPeople();
+    setCurrentPeople(currentPeopleResponse);
+    set(CURRENT_PEOPLE_STORAGE_KEY, currentPeopleResponse);
+
+    let billablePeopleResponse = currentPeopleResponse.filter(
+      (p) => !p.archived && p.weekly_capacity > 0 && p.roles.includes("Billable")
+    );
+    setBillablePeople(billablePeopleResponse);
+    set(BILLABLE_PEOPLE_STORAGE_KEY, billablePeopleResponse);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+
+  const fetchUpcomingData = useCallback(async () => {
+    let upcomingPeopleResponse = await getUpcomingPeople();
+    setUpcomingPeople(upcomingPeopleResponse);
+    set(UPCOMING_PEOPLE_STORAGE_KEY, upcomingPeopleResponse);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    (async function () {
-      let billablePeopleResponse = get(BILLABLE_PEOPLE_STORAGE_KEY) || billablePeople;
-      let currentPeopleResponse = get(CURRENT_PEOPLE_STORAGE_KEY) || currentPeople;
-      let upcomingPeopleResponse = get(UPCOMING_PEOPLE_STORAGE_KEY) || upcomingPeople;
+    let billablePeopleResponse = get(BILLABLE_PEOPLE_STORAGE_KEY) || billablePeople;
+    let currentPeopleResponse = get(CURRENT_PEOPLE_STORAGE_KEY) || currentPeople;
+    let upcomingPeopleResponse = get(UPCOMING_PEOPLE_STORAGE_KEY) || upcomingPeople;
 
-      if (!currentPeople || currentPeople.length === 0) {
-        currentPeopleResponse = await getCurrentPeople();
-        setCurrentPeople(currentPeopleResponse);
-        set(CURRENT_PEOPLE_STORAGE_KEY, currentPeopleResponse);
+    if (!currentPeopleResponse || currentPeopleResponse.length === 0) {
+      fetchCurrentData();
+    } else {
+      setCurrentPeople(currentPeopleResponse);
+      setBillablePeople(billablePeopleResponse);
+    }
 
-        billablePeopleResponse = currentPeopleResponse.filter(
-          (p) => !p.archived && p.weekly_capacity > 0 && p.roles.includes("Billable")
-        );
-        setBillablePeople(billablePeopleResponse);
-        set(BILLABLE_PEOPLE_STORAGE_KEY, billablePeopleResponse);
-      }
-
-      if (!upcomingPeople || upcomingPeople.length === 0) {
-        upcomingPeopleResponse = await getUpcomingPeople();
-        setUpcomingPeople(upcomingPeopleResponse);
-        set(UPCOMING_PEOPLE_STORAGE_KEY, upcomingPeopleResponse);
-      }
-
-      setAllPeople([...billablePeopleResponse, ...upcomingPeopleResponse]);
-    })();
+    if (!upcomingPeopleResponse || upcomingPeopleResponse.length === 0) {
+      fetchUpcomingData();
+    } else {
+      setUpcomingPeople(upcomingPeopleResponse);
+    }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <PeopleContext.Provider value={{ allPeople, billablePeople, currentPeople, upcomingPeople }}>
+    <PeopleContext.Provider
+      value={{
+        allPeople: [...billablePeople, ...upcomingPeople],
+        billablePeople,
+        currentPeople,
+        upcomingPeople,
+        fetchPeople: fetchUpcomingData,
+      }}
+    >
       {children}
     </PeopleContext.Provider>
   );

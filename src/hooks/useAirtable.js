@@ -10,18 +10,42 @@ const headers = {
 const baseUrl = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}`;
 
 const useAirtable = () => {
-  const { get, post } = useApi();
+  const { get, post, put } = useApi();
 
   return {
-    createScenario: async (data) => {
+    createAssignment: async (data) => {
+      let postData = {
+        fields: {
+          ...data,
+          startDate: dayjs(data.startDate).format("YYYY-MM-DD"),
+          endDate: dayjs(data.endDate).format("YYYY-MM-DD"),
+        },
+      };
+
+      const response = await post(`${baseUrl}/Assignments`, postData, headers);
+      return response;
+    },
+    createPerson: async (data) => {
       let postData = {
         fields: { ...data },
       };
 
-      const response = await post(`${baseUrl}/Scenarios`, postData, headers);
+      const response = await post(`${baseUrl}/People`, postData, headers);
       return response;
     },
     createProject: async (data) => {
+      let postData = {
+        fields: {
+          ...data,
+          startDate: dayjs(data.startDate).format("YYYY-MM-DD"),
+          endDate: dayjs(data.endDate).format("YYYY-MM-DD"),
+        },
+      };
+
+      const response = await post(`${baseUrl}/Projects`, postData, headers);
+      return response;
+    },
+    createScenario: async (data) => {
       let postData = {
         fields: { ...data },
       };
@@ -35,7 +59,7 @@ const useAirtable = () => {
         .filter((a) => !!a.fields.id && !!a.fields.projectId && !!a.fields.personId)
         .map((a) => ({
           ...a.fields,
-          id: a.fields.id.toString(),
+          id: a.id.toString(),
           projectId: a.fields.projectId.toString(),
           personId: a.fields.personId.toString(),
           scenarios: a.fields.scenarioId,
@@ -61,6 +85,25 @@ const useAirtable = () => {
     getScenarios: async () => {
       const response = await get(`${baseUrl}/Scenarios`, headers);
       return response.records.map((s) => ({ ...s.fields, id: s.id }));
+    },
+    updateAssignment: async (id, data) => {
+      let putData = {
+        records: [
+          {
+            id: id,
+            fields: {
+              personId: data.personId,
+              projectId: data.projectId,
+              scenarioId: data.scenarios,
+              startDate: dayjs(data.startDate).format("YYYY-MM-DD"),
+              endDate: dayjs(data.endDate).format("YYYY-MM-DD"),
+            },
+          },
+        ],
+      };
+
+      const response = await put(`${baseUrl}/Assignments`, putData, headers);
+      return response;
     },
   };
 };

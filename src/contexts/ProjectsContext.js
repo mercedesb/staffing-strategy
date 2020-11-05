@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, createContext, useCallback } from "react";
 import { useAirtable, useForecast, useLocalStorage } from "hooks";
 
 const CURRENT_PROJECTS_STORAGE_KEY = "currentProjects";
@@ -11,6 +11,7 @@ export const ProjectsContext = createContext({
   // setUpcomingProjects: () => {},
   allProjects: [],
   // setAllProjects: () => {},
+  fetchProjects: () => {},
 });
 
 export function ProjectsProvider({ children }) {
@@ -20,40 +21,54 @@ export function ProjectsProvider({ children }) {
 
   const [currentProjects, setCurrentProjects] = useState([]);
   const [upcomingProjects, setUpcomingProjects] = useState([]);
-  const [allProjects, setAllProjects] = useState([]);
+
+  const fetchCurrentData = useCallback(async () => {
+    let currentProjectsResponse = await getCurrentProjects();
+    setCurrentProjects(currentProjectsResponse);
+    set(CURRENT_PROJECTS_STORAGE_KEY, currentProjectsResponse);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+
+  const fetchUpcomingData = useCallback(async () => {
+    let upcomingProjectsResponse = await getUpcomingProjects();
+    setUpcomingProjects(upcomingProjectsResponse);
+    set(UPCOMING_PROJECTS_STORAGE_KEY, upcomingProjectsResponse);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    (async function () {
-      let currentProjectsResponse = get(CURRENT_PROJECTS_STORAGE_KEY) || currentProjects;
-      let upcomingProjectsResponse = (get(UPCOMING_PROJECTS_STORAGE_KEY) || upcomingProjects).map((a) => {
-        let startDate = typeof a.startDate === "string" ? new Date(a.startDate) : a.startDate;
-        let endDate = typeof a.endDate === "string" ? new Date(a.endDate) : a.endDate;
+    let currentProjectsResponse = get(CURRENT_PROJECTS_STORAGE_KEY) || currentProjects;
+    let upcomingProjectsResponse = (get(UPCOMING_PROJECTS_STORAGE_KEY) || upcomingProjects).map((a) => {
+      let startDate = typeof a.startDate === "string" ? new Date(a.startDate) : a.startDate;
+      let endDate = typeof a.endDate === "string" ? new Date(a.endDate) : a.endDate;
 
-        return {
-          ...a,
-          startDate,
-          endDate,
-        };
-      });
+      return {
+        ...a,
+        startDate,
+        endDate,
+      };
+    });
 
-      if (!currentProjects || currentProjects.length === 0) {
-        currentProjectsResponse = await getCurrentProjects();
-        setCurrentProjects(currentProjectsResponse);
-        set(CURRENT_PROJECTS_STORAGE_KEY, currentProjectsResponse);
-      }
+    if (!currentProjectsResponse || currentProjectsResponse.length === 0) {
+      fetchCurrentData();
+    } else {
+      setCurrentProjects(currentProjectsResponse);
+    }
 
-      if (!upcomingProjects || upcomingProjects.length === 0) {
-        upcomingProjectsResponse = await getUpcomingProjects();
-        setUpcomingProjects(upcomingProjectsResponse);
-        set(UPCOMING_PROJECTS_STORAGE_KEY, upcomingProjectsResponse);
-      }
-
-      setAllProjects([...currentProjectsResponse, ...upcomingProjectsResponse]);
-    })();
+    if (!upcomingProjectsResponse || upcomingProjectsResponse.length === 0) {
+      fetchUpcomingData();
+    } else {
+      setUpcomingProjects(upcomingProjectsResponse);
+    }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <ProjectsContext.Provider value={{ allProjects, currentProjects, upcomingProjects }}>
+    <ProjectsContext.Provider
+      value={{
+        allProjects: [...currentProjects, ...upcomingProjects],
+        currentProjects,
+        upcomingProjects,
+        fetchProjects: fetchUpcomingData,
+      }}
+    >
       {children}
     </ProjectsContext.Provider>
   );

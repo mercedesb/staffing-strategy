@@ -47,19 +47,19 @@ export function benchPeopleSort(people) {
 }
 
 export function isEngineer(person) {
-  return person.roles.includes(ENGINEER_ROLE);
+  return isRole(person, ENGINEER_ROLE);
 }
 
 export function isDesigner(person) {
-  return person.roles.includes(DESIGN_ROLE);
+  return isRole(person, DESIGN_ROLE);
 }
 
 export function isEngagementMgr(person) {
-  return person.roles.includes(ENGAGEMENT_ROLE);
+  return isRole(person, ENGAGEMENT_ROLE);
 }
 
 export function isRole(person, role) {
-  return person.roles.includes(role);
+  return person.roles && person.roles.length > 0 ? person.roles.includes(role) : false;
 }
 
 function sortByName(a, b) {

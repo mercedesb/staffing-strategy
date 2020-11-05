@@ -16,7 +16,7 @@ const itemStylesForPerson = (person) => {
   let backgroundColor = projectColor;
   let fontColor = lightText;
 
-  if (person.firstName === "Staffing Need") {
+  if (person.firstName.includes("Staffing Need")) {
     backgroundColor = null;
     fontColor = darkText;
   } else {
@@ -75,7 +75,7 @@ const level2Group = (id, title, parent, startDate, endDate, opts = {}) => {
     startDate: startDate,
     endDate: endDate,
     treeLevel: 2,
-    height: 40,
+    height: 50,
     ...opts,
   };
 };
@@ -88,16 +88,19 @@ const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
   return scenarios.reduce((groups, scenario) => {
     const level0Id = scenario.id;
     groups.push(level0Group(level0Id, scenario.title, scenario.projects));
-    groups.push(
-      level1Group(`NewProject-${scenario.id}`, "New Project", level0Id, new Date(), new Date(), {
-        root: false,
-        addable: "project",
-      })
-    );
+    if (scenario.title !== "Current") {
+      groups.push(
+        level1Group(`NewProject-${level0Id}`, "New Project", level0Id, null, null, {
+          root: false,
+          addable: "project",
+        })
+      );
+    }
 
     scenario.projects.forEach((project) => {
       const level1Id = `${scenario.id}-${project.id}`;
       groups.push(level1Group(level1Id, project.name, level0Id, project.startDate, project.endDate));
+      groups.push(level2Group(`NewPerson-${level1Id}`, "New Person", level1Id, null, null, { addable: "person" }));
 
       project.people.forEach((person) => {
         const level2Id = `${scenario.id}-${project.id}-${person.id}`;
@@ -111,7 +114,7 @@ const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
               level1Id,
               person.assignment.startDate,
               person.assignment.endDate,
-              { ...itemStylesForPerson(person) }
+              { ...itemStylesForPerson(person), assignment: person.assignment }
             )
           );
         } else {

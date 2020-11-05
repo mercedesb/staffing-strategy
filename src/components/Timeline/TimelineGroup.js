@@ -1,27 +1,65 @@
 import React, { useState } from "react";
+import dayjs from "dayjs";
+
+import { IconChevronDown, IconChevronUp, IconPlus } from "tabler-icons";
+
+import { AssignmentsContext, PeopleContext, ProjectsContext, ScenariosContext } from "contexts";
 import { useAirtable } from "hooks";
-import { IconChevronDown, IconChevronUp, IconCirclePlus } from "tabler-icons";
-
-import { ScenariosContext } from "contexts";
 import { ButtonWithIcon } from "components";
+import { displayName } from "lib";
 
-export function TimelineGroup({ timelineGroup, openGroups, toggleGroup }) {
+export function TimelineGroup({ group, openGroups, toggleGroup }) {
+  const { fetchAssignments } = React.useContext(AssignmentsContext);
+  const { allPeople, fetchPeople } = React.useContext(PeopleContext);
+  const { fetchProjects } = React.useContext(ProjectsContext);
   const { fetchScenarios } = React.useContext(ScenariosContext);
-  const { createScenario } = useAirtable();
+
+  const { createAssignment, createPerson, createProject, createScenario } = useAirtable();
+
   const [showInput, setShowInput] = useState(false);
   const [newGroup, setNewGroup] = useState("");
-  const { group } = timelineGroup;
 
   const handleAdd = async () => {
+    let data;
     switch (group.addable) {
       case "scenario":
-        let data = { name: newGroup };
+        data = { name: newGroup };
         await createScenario(data);
         fetchScenarios();
         break;
       case "project":
+        data = { name: newGroup, startDate: dayjs(), endDate: dayjs().add(1, "month") };
+        await createProject(data);
+        fetchProjects();
         break;
       case "person":
+        // if person already exists (check by name), create assignment
+        debugger;
+        const existingPerson = allPeople.find((p) => displayName(p) === newGroup);
+        if (!!existingPerson) {
+          data = {
+            scenarioId: [group.id.split("-")[1]],
+            projectId: group.id.split("-")[2],
+            personId: existingPerson.id,
+            startDate: dayjs(),
+            endDate: dayjs().add(1, "month"),
+          };
+        } else {
+          let personData = {
+            firstName: newGroup,
+          };
+          let createdPerson = await createPerson(personData);
+          data = {
+            scenarioId: [group.id.split("-")[1]],
+            projectId: group.id.split("-")[2],
+            personId: createdPerson.id,
+            startDate: dayjs(),
+            endDate: dayjs().add(1, "month"),
+          };
+          fetchPeople();
+        }
+        await createAssignment(data);
+        fetchAssignments();
         break;
       default:
         break;
@@ -57,7 +95,7 @@ export function TimelineGroup({ timelineGroup, openGroups, toggleGroup }) {
     } else {
       return (
         <ButtonWithIcon onClick={() => setShowInput(true)} className="noBtn ml-4">
-          <IconCirclePlus /> {group.title}
+          <IconPlus /> {group.title}
         </ButtonWithIcon>
       );
     }
