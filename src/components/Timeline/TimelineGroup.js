@@ -2,35 +2,12 @@ import React from "react";
 
 import { IconChevronDown, IconChevronUp, IconPlus } from "tabler-icons";
 
-import { AssignmentsContext, ProjectsContext, ScenariosContext } from "contexts";
-import { useAirtable } from "hooks";
 import { ButtonWithIcon, Modal } from "components";
 import { AddScenarioForm } from "./AddScenarioForm";
 import { AddProjectForm } from "./AddProjectForm";
 import { AddPersonForm } from "./AddPersonForm";
 
 export function TimelineGroup({ group, openGroups, toggleGroup }) {
-  const { fetchAssignments } = React.useContext(AssignmentsContext);
-  const { fetchProjects } = React.useContext(ProjectsContext);
-  const { fetchScenarios } = React.useContext(ScenariosContext);
-
-  const { createAssignment, createProject, createScenario } = useAirtable();
-
-  const handleAddScenario = async (data) => {
-    await createScenario(data);
-    fetchScenarios();
-  };
-
-  const handleAddProject = async (data) => {
-    await createProject(data);
-    fetchProjects();
-  };
-
-  const handleAddPerson = async (data) => {
-    await createAssignment(data);
-    fetchAssignments();
-  };
-
   const renderExpandableGroup = () => {
     return (
       <ButtonWithIcon onClick={() => toggleGroup(group.id)} className="noBtn">
@@ -42,11 +19,11 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
   const renderForm = () => {
     switch (group.type) {
       case "scenario":
-        return <AddScenarioForm onSubmit={handleAddScenario} />;
+        return <AddScenarioForm />;
       case "project":
-        return <AddProjectForm onSubmit={handleAddProject} />;
+        return <AddProjectForm />;
       case "person":
-        return <AddPersonForm onSubmit={handleAddPerson} />;
+        return <AddPersonForm />;
       default:
         return null;
     }

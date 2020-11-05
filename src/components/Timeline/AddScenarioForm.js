@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 
-export function AddScenarioForm({ onSubmit }) {
+import { ScenariosContext } from "contexts";
+import { useAirtable } from "hooks";
+
+export function AddScenarioForm() {
+  const { fetchScenarios } = React.useContext(ScenariosContext);
+
+  const { createScenario } = useAirtable();
+
   const [name, setName] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let data = { name };
-    onSubmit(data);
+    await createScenario(data);
+    fetchScenarios();
   };
 
   return (

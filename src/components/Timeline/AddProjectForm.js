@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
 
+import { ProjectsContext } from "contexts";
+import { useAirtable } from "hooks";
+
 export function AddProjectForm({ onSubmit }) {
+  const { fetchProjects } = React.useContext(ProjectsContext);
+
+  const { createProject } = useAirtable();
+
   const [name, setName] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let data = { name, startDate: dayjs(), endDate: dayjs().add(1, "month") };
-    onSubmit(data);
+    await createProject(data);
+    fetchProjects();
   };
 
   return (

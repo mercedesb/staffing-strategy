@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
 
-import { PeopleContext } from "contexts";
+import { AssignmentsContext, PeopleContext } from "contexts";
 import { useAirtable } from "hooks";
 import { displayName } from "lib";
 
 export function AddPersonForm({ onSubmit, scenarioId, projectId }) {
+  const { fetchAssignments } = React.useContext(AssignmentsContext);
   const { allPeople, fetchPeople } = React.useContext(PeopleContext);
 
-  const { createPerson } = useAirtable();
+  const { createAssignment, createPerson } = useAirtable();
 
   const [name, setName] = useState("");
 
@@ -35,7 +36,8 @@ export function AddPersonForm({ onSubmit, scenarioId, projectId }) {
       fetchPeople();
     }
 
-    onSubmit(data);
+    await createAssignment(data);
+    fetchAssignments();
   };
 
   return (
