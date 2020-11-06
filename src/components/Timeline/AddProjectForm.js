@@ -5,17 +5,25 @@ import { Button, TextInput } from "components";
 import { ProjectsContext } from "contexts";
 import { useAirtable } from "hooks";
 
-export function AddProjectForm() {
+export function AddProjectForm({ scenarioId }) {
   const { fetchProjects } = React.useContext(ProjectsContext);
 
   const { createProject } = useAirtable();
 
   const [name, setName] = useState("");
-  const [seats, setSeats] = useState({ engineeringSeats: 0, designSeats: 0, engagementSeats: 0 });
+  const [seats, setSeats] = useState({ engineeringSeats: 2, designSeats: 2, engagementSeats: 1 });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let data = { name, startDate: dayjs(), endDate: dayjs().add(1, "month"), ...seats };
+    let data = {
+      name,
+      scenarios: [scenarioId],
+      startDate: dayjs(),
+      endDate: dayjs().add(1, "month"),
+      engineeringSeats: parseInt(seats.engineeringSeats),
+      designSeats: parseInt(seats.designSeats),
+      engagementSeats: parseInt(seats.engagementSeats),
+    };
     await createProject(data);
     fetchProjects();
   };

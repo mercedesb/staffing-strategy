@@ -6,6 +6,13 @@ This is a small React project to make it easy to visualize possible upcoming sta
 - [forecast-promise](https://www.npmjs.com/package/forecast-promise): Forecast doesn't have a supported API so we're using a small (unsupported) Node package which wraps Forecast and provides a slim API for us to use
 - [DayJS](https://day.js.org/): Since Moment is no longer recommended, using an alternative date library
 - [React Calendar Timeline](https://github.com/namespace-ee/react-calendar-timeline) - For all the timeline functionality
+
+## TODOs
+- display scenario timeline correctly
+- collapse everything when child is collapsed
+- autocomplete for project & person
+  - update scenarios if selecting an existing project
+- tests, obvi
   
 ## Getting Started with Create React App
 

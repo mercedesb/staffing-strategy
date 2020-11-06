@@ -21,7 +21,7 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
       case "scenario":
         return <AddScenarioForm />;
       case "project":
-        return <AddProjectForm />;
+        return <AddProjectForm scenarioId={group.id.split("-")[1]} />;
       case "person":
         return <AddPersonForm scenarioId={group.id.split("-")[1]} projectId={group.id.split("-")[2]} />;
       default:
