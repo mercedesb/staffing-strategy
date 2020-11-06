@@ -17,8 +17,8 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
       projects: projectsInScenario.map((project) => {
         const projectAssignments = scenarioAssignments.filter((a) => a.projectId === project.id);
 
-        const projectStart = new Date(Math.min(...projectAssignments.map((p) => p.startDate)));
-        const projectEnd = new Date(Math.max(...projectAssignments.map((p) => p.endDate)));
+        const projectStart = project.startDate || new Date(Math.min(...projectAssignments.map((p) => p.startDate)));
+        const projectEnd = project.endDate || new Date(Math.max(...projectAssignments.map((p) => p.endDate)));
 
         let staffedPeople = projectAssignments
           .map((a) => {

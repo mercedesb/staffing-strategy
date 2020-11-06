@@ -1,5 +1,10 @@
 import { useApi } from "react-use-fetch-api";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
+
+const AIRTABLE_DATE_FORMAT = "YYYY-MM-DD";
 
 const headers = {
   Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
@@ -17,8 +22,8 @@ const useAirtable = () => {
       let postData = {
         fields: {
           ...data,
-          startDate: dayjs(data.startDate).format("YYYY-MM-DD"),
-          endDate: dayjs(data.endDate).format("YYYY-MM-DD"),
+          startDate: dayjs(data.startDate).format(AIRTABLE_DATE_FORMAT),
+          endDate: dayjs(data.endDate).format(AIRTABLE_DATE_FORMAT),
         },
       };
 
@@ -37,8 +42,8 @@ const useAirtable = () => {
       let postData = {
         fields: {
           ...data,
-          startDate: dayjs(data.startDate).format("YYYY-MM-DD"),
-          endDate: dayjs(data.endDate).format("YYYY-MM-DD"),
+          startDate: dayjs(data.startDate).format(AIRTABLE_DATE_FORMAT),
+          endDate: dayjs(data.endDate).format(AIRTABLE_DATE_FORMAT),
         },
       };
 
@@ -73,13 +78,14 @@ const useAirtable = () => {
     },
     getProjects: async () => {
       const response = await get(`${baseUrl}/Projects`, headers);
+
       return response.records
         .filter((p) => !!p.fields.id)
         .map((p) => ({
           ...p.fields,
           id: p.id,
-          startDate: dayjs(p.fields.startDate).toDate(),
-          endDate: dayjs(p.fields.endDate).toDate(),
+          startDate: dayjs(p.fields.startDate, AIRTABLE_DATE_FORMAT).toDate(),
+          endDate: dayjs(p.fields.endDate, AIRTABLE_DATE_FORMAT).toDate(),
           editable: true,
         }));
     },
@@ -96,8 +102,8 @@ const useAirtable = () => {
               personId: data.personId,
               projectId: data.projectId,
               scenarioId: data.scenarios,
-              startDate: dayjs(data.startDate).format("YYYY-MM-DD"),
-              endDate: dayjs(data.endDate).format("YYYY-MM-DD"),
+              startDate: dayjs(data.startDate).format(AIRTABLE_DATE_FORMAT),
+              endDate: dayjs(data.endDate).format(AIRTABLE_DATE_FORMAT),
             },
           },
         ],
