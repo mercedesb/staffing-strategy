@@ -52,9 +52,11 @@ export function AddProjectForm({ scenarioId }) {
           label="Engagement Seats"
         />
 
-        <Button primary type="submit">
-          Save
-        </Button>
+        <div className="pt-8">
+          <Button primary type="submit">
+            Save
+          </Button>
+        </div>
       </form>
     </>
   );

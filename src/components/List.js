@@ -10,7 +10,7 @@ export default function List({ items }) {
           parsedItems.length > 0 &&
           parsedItems.map((i) => (
             <li key={i.id} data-id={i.id}>
-              {`${i.displayText} (${i.id})`}
+              {`${i.displayText}`}
             </li>
           ))}
       </ul>

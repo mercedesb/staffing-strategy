@@ -61,9 +61,11 @@ export function AddPersonForm({ scenarioId, projectId }) {
           onChange={(e) => setDepartment(e.target.value)}
         />
 
-        <Button primary type="submit">
-          Save
-        </Button>
+        <div className="pt-8">
+          <Button primary type="submit">
+            Save
+          </Button>
+        </div>
       </form>
     </>
   );

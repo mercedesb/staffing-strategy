@@ -24,9 +24,11 @@ export function AddScenarioForm() {
       <form onSubmit={handleSubmit}>
         <TextInput type="text" onChange={(e) => setName(e.target.value)} value={name} label="Name" />
 
-        <Button primary type="submit">
-          Save
-        </Button>
+        <div className="pt-8">
+          <Button primary type="submit">
+            Save
+          </Button>
+        </div>
       </form>
     </>
   );
