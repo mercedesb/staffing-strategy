@@ -9,8 +9,8 @@ This is a small React project to make it easy to visualize possible upcoming sta
 
 ## TODOs
 - [x] display scenario timeline correctly
-- [ ] collapse everything when child is collapsed
-- [ ] fix modal background
+- [x] collapse everything when child is collapsed
+- [x] fix modal background
 - [ ] autocomplete for project & person
   - update scenarios if selecting an existing project
   - 2 views? select existing one or add new one?
