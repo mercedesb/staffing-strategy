@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button } from "components";
+import { Button, TextInput } from "components";
 import { ScenariosContext } from "contexts";
 import { useAirtable } from "hooks";
 
@@ -20,15 +20,7 @@ export function AddScenarioForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Name
-        <input
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          className="border border-blue-500 leading-4 p-2 w-full"
-          value={name}
-        />
-      </label>
+      <TextInput type="text" onChange={(e) => setName(e.target.value)} value={name} label="Name" />
 
       <Button primary type="submit">
         Save

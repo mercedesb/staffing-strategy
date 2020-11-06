@@ -107,11 +107,13 @@ const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
           editable: project.editable,
         })
       );
-      groups.push(
-        level2Group(`NewPerson-${level1Id}`, "New Person", level1Id, null, null, {
-          addable: true,
-        })
-      );
+      if (!scenario.current) {
+        groups.push(
+          level2Group(`NewPerson-${level1Id}`, "New Person", level1Id, null, null, {
+            addable: true,
+          })
+        );
+      }
 
       project.people.forEach((person) => {
         const level2Id = `${scenario.id}-${project.id}-${person.id}`;

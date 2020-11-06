@@ -4,4 +4,6 @@ export { DealList } from "./DealList";
 export { Modal } from "./Modal";
 export { PeopleList } from "./PeopleList";
 export { ProjectList } from "./ProjectList";
+export { RadioGroup } from "./RadioGroup";
 export { ScenariosTimeline } from "./Timeline/ScenariosTimeline";
+export { TextInput } from "./TextInput";

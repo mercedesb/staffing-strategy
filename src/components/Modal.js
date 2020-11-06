@@ -12,10 +12,10 @@ export function Modal({ linkText, modalLabel, children }) {
       </DialogDisclosure>
       <DialogBackdrop
         {...dialog}
-        className="bg-black flex items-center justify-center absolute top-0 left-0 w-screen h-screen bg-opacity-50"
+        className="bg-black flex items-center justify-center absolute bottom-0 left-0 w-screen h-full bg-opacity-50"
         style={{ zIndex: 100 }}
       >
-        <Dialog {...dialog} aria-label={modalLabel} className="bg-white p-8 relative">
+        <Dialog {...dialog} aria-label={modalLabel} className="bg-white p-8 relative" style={{ minWidth: "50%" }}>
           <div className="flex justify-end absolute top-0 right-0">
             <button className="noBtn w-auto m-2" onClick={() => dialog.hide()}>
               <IconX />

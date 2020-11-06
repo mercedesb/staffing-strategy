@@ -56,7 +56,7 @@ const useAirtable = () => {
     getAssignments: async () => {
       const response = await get(`${baseUrl}/Assignments`, headers);
       return response.records
-        .filter((a) => !!a.fields.id && !!a.fields.projectId && !!a.fields.personId)
+        .filter((a) => !!a.fields.projectId && !!a.fields.personId)
         .map((a) => ({
           ...a.fields,
           id: a.id.toString(),

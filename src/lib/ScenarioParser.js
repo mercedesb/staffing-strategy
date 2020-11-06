@@ -9,9 +9,11 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
         ...projects.filter((p) => (!!p.scenarios ? p.scenarios.includes(scenario.id) : false)),
       ]),
     ].filter((p) => !!p);
+
     return {
       id: scenario.id,
       title: scenario.name,
+      current: scenario.current,
       projects: projectsInScenario.map((project) => {
         const projectAssignments = scenarioAssignments.filter((a) => a.projectId === project.id);
 
