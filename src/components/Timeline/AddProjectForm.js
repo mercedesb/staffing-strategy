@@ -29,30 +29,33 @@ export function AddProjectForm({ scenarioId }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <TextInput type="text" onChange={(e) => setName(e.target.value)} value={name} label="Name" />
-      <TextInput
-        type="number"
-        onChange={(e) => setSeats({ ...seats, engineeringSeats: e.target.value })}
-        value={seats.engineeringSeats}
-        label="Engagement Seats"
-      />
-      <TextInput
-        type="number"
-        onChange={(e) => setSeats({ ...seats, designSeats: e.target.value })}
-        value={seats.designSeats}
-        label="Design Seats"
-      />
-      <TextInput
-        type="number"
-        onChange={(e) => setSeats({ ...seats, engagementSeats: e.target.value })}
-        value={seats.engagementSeats}
-        label="Engagement Seats"
-      />
+    <>
+      <h2 className="pb-8">Add new project</h2>
+      <form onSubmit={handleSubmit}>
+        <TextInput type="text" onChange={(e) => setName(e.target.value)} value={name} label="Name" />
+        <TextInput
+          type="number"
+          onChange={(e) => setSeats({ ...seats, engineeringSeats: e.target.value })}
+          value={seats.engineeringSeats}
+          label="Engagement Seats"
+        />
+        <TextInput
+          type="number"
+          onChange={(e) => setSeats({ ...seats, designSeats: e.target.value })}
+          value={seats.designSeats}
+          label="Design Seats"
+        />
+        <TextInput
+          type="number"
+          onChange={(e) => setSeats({ ...seats, engagementSeats: e.target.value })}
+          value={seats.engagementSeats}
+          label="Engagement Seats"
+        />
 
-      <Button primary type="submit">
-        Save
-      </Button>
-    </form>
+        <Button primary type="submit">
+          Save
+        </Button>
+      </form>
+    </>
   );
 }

@@ -19,12 +19,15 @@ export function AddScenarioForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <TextInput type="text" onChange={(e) => setName(e.target.value)} value={name} label="Name" />
+    <>
+      <h2 className="pb-8">Add new scenario</h2>
+      <form onSubmit={handleSubmit}>
+        <TextInput type="text" onChange={(e) => setName(e.target.value)} value={name} label="Name" />
 
-      <Button primary type="submit">
-        Save
-      </Button>
-    </form>
+        <Button primary type="submit">
+          Save
+        </Button>
+      </form>
+    </>
   );
 }

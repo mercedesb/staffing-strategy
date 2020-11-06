@@ -46,22 +46,25 @@ export function AddPersonForm({ scenarioId, projectId }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <TextInput type="text" onChange={(e) => setFirstName(e.target.value)} value={firstName} label="First Name" />
-      <TextInput type="text" onChange={(e) => setLastName(e.target.value)} value={lastName} label="Last Name" />
-      <RadioGroup
-        label="Department"
-        items={[
-          { value: "Development", label: "Engineering" },
-          { value: "Design", label: "Design" },
-          { value: "Growth", label: "Engagement" },
-        ]}
-        onChange={(e) => setDepartment(e.target.value)}
-      />
+    <>
+      <h2 className="pb-8">Add new person</h2>
+      <form onSubmit={handleSubmit}>
+        <TextInput type="text" onChange={(e) => setFirstName(e.target.value)} value={firstName} label="First Name" />
+        <TextInput type="text" onChange={(e) => setLastName(e.target.value)} value={lastName} label="Last Name" />
+        <RadioGroup
+          label="Department"
+          items={[
+            { value: "Development", label: "Engineering" },
+            { value: "Design", label: "Design" },
+            { value: "Growth", label: "Engagement" },
+          ]}
+          onChange={(e) => setDepartment(e.target.value)}
+        />
 
-      <Button primary type="submit">
-        Save
-      </Button>
-    </form>
+        <Button primary type="submit">
+          Save
+        </Button>
+      </form>
+    </>
   );
 }
