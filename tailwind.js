@@ -22,6 +22,8 @@ module.exports = {
 
       black: "#000",
       white: "#fff",
+      inspiringIndigo: "#031B2D",
+      tandemGray: "#dde7e0",
 
       gray: {
         100: "#f7fafc",

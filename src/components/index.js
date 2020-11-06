@@ -1,3 +1,4 @@
+export { Button } from "./Button";
 export { ButtonWithIcon } from "./ButtonWithIcon";
 export { DealList } from "./DealList";
 export { Modal } from "./Modal";

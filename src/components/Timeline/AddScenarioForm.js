@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { Button } from "components";
 import { ScenariosContext } from "contexts";
 import { useAirtable } from "hooks";
 
@@ -29,7 +30,9 @@ export function AddScenarioForm() {
         />
       </label>
 
-      <button type="submit">Save</button>
+      <Button primary type="submit">
+        Save
+      </Button>
     </form>
   );
 }
