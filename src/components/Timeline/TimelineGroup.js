@@ -10,7 +10,7 @@ import { AddPersonForm } from "./AddPersonForm";
 export function TimelineGroup({ group, openGroups, toggleGroup }) {
   const renderExpandableGroup = () => {
     return (
-      <ButtonWithIcon onClick={() => toggleGroup(group.id)} className="noBtn">
+      <ButtonWithIcon onClick={() => toggleGroup(group.id, group)} className="noBtn">
         {openGroups[group.id] ? <IconChevronUp /> : <IconChevronDown />} {group.title}
       </ButtonWithIcon>
     );

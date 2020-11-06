@@ -49,11 +49,24 @@ export const ScenariosTimeline = ({ events, people }) => {
     };
   });
 
-  const toggleGroup = (id) => {
-    setOpenGroups({
-      ...openGroups,
-      [id]: !openGroups[id],
-    });
+  const toggleGroup = (id, group) => {
+    const newOpenGroupsState = { ...openGroups };
+    newOpenGroupsState[id] = !openGroups[id];
+
+    // collapsing if it's currently open
+    const collapsing = openGroups[id];
+    if (collapsing) {
+      Object.keys(newOpenGroupsState).forEach((key) => {
+        const splitId = id.split("-");
+        const scenarioId = splitId[0];
+
+        if (group.type === "scenario" && key.includes(scenarioId)) {
+          newOpenGroupsState[key] = !openGroups[key];
+        }
+      });
+    }
+
+    setOpenGroups(newOpenGroupsState);
   };
 
   const handleItemMove = async (itemId, dragTime, _newGroupOrder) => {
