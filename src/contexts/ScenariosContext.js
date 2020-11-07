@@ -17,7 +17,7 @@ export function ScenariosProvider({ children }) {
   const { get, set } = useLocalStorage();
   const { getScenarios } = useAirtable();
 
-  const currentScenarios = useMemo(() => [{ id: 0, name: "Current", current: true }], []);
+  const currentScenarios = useMemo(() => [{ id: "current", name: "Current", current: true }], []);
   const [upcomingScenarios, setUpcomingScenarios] = useState([]);
 
   const fetchData = useCallback(async () => {

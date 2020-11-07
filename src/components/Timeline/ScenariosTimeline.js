@@ -54,14 +54,14 @@ export const ScenariosTimeline = ({ events, people }) => {
     const newOpenGroupsState = { ...openGroups };
     newOpenGroupsState[id] = !openGroups[id];
 
-    const splitId = id.toString().split("-");
+    const splitId = id.split("-");
     const scenarioId = splitId[0];
 
     // collapsing if it's currently open
     const collapsing = openGroups[id];
     if (collapsing) {
       Object.keys(newOpenGroupsState).forEach((key) => {
-        if (group.type === "scenario" && key.includes(scenarioId)) {
+        if (group.type === "scenario" && key.includes(scenarioId) && openGroups[key]) {
           newOpenGroupsState[key] = !openGroups[key];
         }
       });
