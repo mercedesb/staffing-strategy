@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 import { Button, TextInput } from "components";
 
-export function ProjectForm({ onSubmit, title, project, onCancel }) {
+export function ProjectForm({ title, project, onSubmit, onCancel }) {
   const defaultNewProjectSeats = { engineeringSeats: 2, designSeats: 2, engagementSeats: 1 };
 
   const [name, setName] = useState(project && project.name ? project.name : "");

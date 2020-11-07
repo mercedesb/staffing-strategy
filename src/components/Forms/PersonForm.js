@@ -1,48 +1,20 @@
 import React, { useState } from "react";
-import dayjs from "dayjs";
 
 import { Button, RadioGroup, TextInput } from "components";
-import { AssignmentsContext, PeopleContext } from "contexts";
-import { useAirtable } from "hooks";
-import { displayName } from "lib";
 
-export function AddPersonForm({ title, scenarioId, projectId }) {
-  const { fetchAssignments } = React.useContext(AssignmentsContext);
-  const { allPeople, fetchPeople } = React.useContext(PeopleContext);
+export function PersonForm({ title, person, onSubmit, onCancel }) {
+  const [firstName, setFirstName] = useState(person && person.firstName ? person.firstName : "");
+  const [lastName, setLastName] = useState(person && person.lastName ? person.lastName : "");
+  const [department, setDepartment] = useState(person && person.roles ? person.roles : "");
 
-  const { createAssignment, createPerson } = useAirtable();
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [department, setDepartment] = useState("");
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
     let data = {
-      scenarioId: [scenarioId],
-      projectId: projectId,
-      startDate: dayjs(),
-      endDate: dayjs().add(1, "month"),
+      firstName: firstName,
+      lastName: lastName,
+      roles: department,
     };
-
-    // if person already exists (check by name), create assignment
-    const existingPerson = allPeople.find((p) => displayName(p) === displayName({ firstName, lastName }));
-    if (!!existingPerson) {
-      data.personId = existingPerson.id;
-    } else {
-      let personData = {
-        firstName: firstName,
-        lastName: lastName,
-        roles: department,
-      };
-      let createdPerson = await createPerson(personData);
-      data.personId = createdPerson.id;
-      fetchPeople();
-    }
-
-    await createAssignment(data);
-    fetchAssignments();
+    onSubmit(data);
   };
 
   return (
@@ -64,6 +36,9 @@ export function AddPersonForm({ title, scenarioId, projectId }) {
         <div className="pt-8">
           <Button primary type="submit">
             Save
+          </Button>
+          <Button secondary onClick={onCancel} className="ml-4">
+            Cancel
           </Button>
         </div>
       </form>

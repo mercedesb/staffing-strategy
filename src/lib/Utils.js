@@ -2,6 +2,14 @@ export const ENGINEER_ROLE = "Development";
 export const DESIGN_ROLE = "Design";
 export const ENGAGEMENT_ROLE = "Growth";
 
+const DISPLAY_ROLES = [ENGINEER_ROLE, DESIGN_ROLE, ENGAGEMENT_ROLE];
+
+const DISPLAY_ROLES_MAPPING = {
+  Development: "Engineering",
+  Design: "Design",
+  Growth: "Engagement",
+};
+
 export function displayName(person) {
   const lastNameDisplay = !!person.lastName ? `${person.lastName[0]}.` : "";
   return `${person.firstName} ${lastNameDisplay}`;
@@ -62,6 +70,16 @@ export function isRole(person, role) {
   return person.roles && person.roles.length > 0 ? person.roles.includes(role) : false;
 }
 
-function sortByName(a, b) {
+export function sortByName(a, b) {
   return displayName(a) > displayName(b) ? 1 : -1;
+}
+
+export function displayRoles(roles) {
+  if (!roles) {
+    return "";
+  } else if (typeof roles === "string") {
+    return DISPLAY_ROLES_MAPPING[roles];
+  } else {
+    return roles.filter((r) => DISPLAY_ROLES.includes(r)).map((r) => DISPLAY_ROLES_MAPPING[r]);
+  }
 }
