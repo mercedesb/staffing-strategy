@@ -22,6 +22,7 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
         let staffedPeople = projectAssignments
           .map((assignment) => {
             let person = people.find((p) => assignment.personId === p.id);
+
             return {
               ...person,
               assignment: { ...assignment },

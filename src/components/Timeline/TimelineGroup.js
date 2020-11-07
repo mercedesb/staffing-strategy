@@ -8,6 +8,7 @@ import { EditScenario } from "../Forms/EditScenario";
 import { AddProject } from "../Forms/AddProject";
 import { EditProject } from "../Forms/EditProject";
 import { AddPerson } from "../Forms/AddPerson";
+import { EditPerson } from "../Forms/EditPerson";
 
 export function TimelineGroup({ group, openGroups, toggleGroup }) {
   const renderAddForm = () => {
@@ -28,17 +29,9 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
       case "scenario":
         return <EditScenario scenario={{ ...group.scenario }} deletable={group.deletable} />;
       case "project":
-        return (
-          <EditProject project={{ ...group.project }} deletable={group.deletable} scenarioId={group.id.split("-")[1]} />
-        );
+        return <EditProject project={{ ...group.project }} deletable={group.deletable} />;
       case "person":
-        return (
-          <AddPerson
-            deletable={group.deletable}
-            scenarioId={group.id.split("-")[1]}
-            projectId={group.id.split("-")[2]}
-          />
-        );
+        return <EditPerson person={{ ...group.person }} deletable={group.deletable} />;
       default:
         return null;
     }
@@ -76,6 +69,21 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
     );
   };
 
+  const renderDefaultGroup = () => {
+    return (
+      <div className="flex items-center justify-between">
+        {group.title}
+        <div className="w-auto">
+          {group.editable && (
+            <Modal linkText={<IconPencil />} modalLabel={`Edit ${group.title}`}>
+              {renderEditForm()}
+            </Modal>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   let className = "w-full ";
   if (group.treeLevel === 1) className += "ml-4";
   else if (group.treeLevel === 2) className += "ml-8";
@@ -85,6 +93,6 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
   } else if (group.addable) {
     return <div className={className}>{renderAddableGroup()}</div>;
   } else {
-    return <div className={className}>{group.title}</div>;
+    return <div className={className}>{renderDefaultGroup()}</div>;
   }
 }

@@ -77,7 +77,7 @@ const useAirtable = () => {
     getPeople: async () => {
       const response = await get(`${baseUrl}/People`, headers);
       return response.records
-        .filter((p) => !!p.fields.id)
+        .filter((p) => !p.fields.deleted)
         .map((p) => ({ ...p.fields, id: p.id, editable: true, deletable: true }));
     },
     getProjects: async () => {
@@ -119,6 +119,23 @@ const useAirtable = () => {
       const response = await put(`${baseUrl}/Assignments`, putData, headers);
       return response;
     },
+    updatePerson: async (id, data) => {
+      let putData = {
+        records: [
+          {
+            id: id,
+            fields: {
+              firstName: data.firstName,
+              lastName: data.lastName,
+              roles: data.roles,
+            },
+          },
+        ],
+      };
+
+      const response = await put(`${baseUrl}/People`, putData, headers);
+      return response;
+    },
     updateProject: async (id, data) => {
       let putData = {
         records: [
@@ -140,6 +157,21 @@ const useAirtable = () => {
       };
 
       const response = await put(`${baseUrl}/Projects`, putData, headers);
+      return response;
+    },
+    deletePerson: async (id) => {
+      let deleteData = {
+        records: [
+          {
+            id: id,
+            fields: {
+              deleted: true,
+            },
+          },
+        ],
+      };
+
+      const response = await patch(`${baseUrl}/People`, deleteData, headers);
       return response;
     },
     deleteProject: async (id) => {

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button, RadioGroup, TextInput } from "components";
 
 export function PersonForm({ title, person, onSubmit, onCancel }) {
+  debugger;
   const [firstName, setFirstName] = useState(person && person.firstName ? person.firstName : "");
   const [lastName, setLastName] = useState(person && person.lastName ? person.lastName : "");
   const [department, setDepartment] = useState(person && person.roles ? person.roles : "");
@@ -31,6 +32,7 @@ export function PersonForm({ title, person, onSubmit, onCancel }) {
             { value: "Growth", label: "Engagement" },
           ]}
           onChange={(e) => setDepartment(e.target.value)}
+          value={department}
         />
 
         <div className="pt-8">
