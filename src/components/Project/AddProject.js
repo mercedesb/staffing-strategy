@@ -13,9 +13,9 @@ export function AddProject({ scenarioId, closeModal, initialFocusRef }) {
 
   const { createProject, updateProject } = useAirtable();
 
-  const [addNew, setAddNew] = useState(false);
-
   const nonScenarioProjects = upcomingProjects.filter((p) => !p.scenarios.includes(scenarioId));
+
+  const [addNew, setAddNew] = useState(nonScenarioProjects.length === 0);
 
   useEffect(() => {
     initialFocusRef.current.focus();

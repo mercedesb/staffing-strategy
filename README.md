@@ -7,14 +7,12 @@ This is a small React project to make it easy to visualize possible upcoming sta
 - [DayJS](https://day.js.org/): Since Moment is no longer recommended, using an alternative date library
 - [React Calendar Timeline](https://github.com/namespace-ee/react-calendar-timeline) - For all the timeline functionality
 
-## TODOs
-- [ ] focus on first input in modals
-- [ ] make cancel button work in edit form
-- [ ] update edit forms to be PATCH
+## TODOs (prioritized)
 - [ ] Datepicker for editing start/end date of projects
-- [ ] tests, obvi
-- [ ] fix colors of items after selection
 - [ ] Move all of the airtable and forecast stuff into a Node server
+- [ ] update edit forms to be PATCH
+- [ ] fix colors of items after selection
+- [ ] tests, obvi
 - [ ] handle non-contiguous staffing/bench time
 - [ ] Put pending hires (with projected start dates) in?
   

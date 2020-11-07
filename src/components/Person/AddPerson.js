@@ -14,9 +14,9 @@ export function AddPerson({ scenarioId, projectId, closeModal, initialFocusRef }
 
   const { createAssignment, createPerson } = useAirtable();
 
-  const [addNew, setAddNew] = useState(false);
-
   const projectAssignments = allAssignments.filter((a) => a.projectId === projectId);
+
+  const [addNew, setAddNew] = useState(projectAssignments.length === 0);
 
   useEffect(() => {
     initialFocusRef.current.focus();
