@@ -19,10 +19,6 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
       projects: projectsInScenario.map((project) => {
         const projectAssignments = scenarioAssignments.filter((a) => a.projectId === project.id);
 
-        // TODO: should pick the earliert start and latest end
-        const projectStart = project.startDate || new Date(Math.min(...projectAssignments.map((p) => p.startDate)));
-        const projectEnd = project.endDate || new Date(Math.max(...projectAssignments.map((p) => p.endDate)));
-
         let staffedPeople = projectAssignments
           .map((assignment) => {
             let person = people.find((p) => assignment.personId === p.id);
@@ -43,14 +39,38 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
 
         return {
           ...project,
-          startDate: projectStart,
-          endDate: projectEnd,
+          startDate: getProjectStart(project.startDate, projectAssignments),
+          endDate: getProjectEnd(project.endDate, projectAssignments),
           deletable: project.deletable && project.scenarios.length === 1,
           people: defaultPeopleSort(staffedPeople),
         };
       }),
     };
   });
+};
+
+// pick the earliert start
+const getProjectStart = (startDate, assignments) => {
+  const calculatedStart = new Date(Math.min(...assignments.map((p) => p.startDate)));
+  if (!isNaN(calculatedStart) && !isNaN(startDate)) {
+    return startDate.getTime() < calculatedStart.getTime() ? startDate : calculatedStart;
+  } else if (isNaN(calculatedStart)) {
+    return startDate;
+  } else {
+    return calculatedStart;
+  }
+};
+
+// pick the latest end
+const getProjectEnd = (endDate, assignments) => {
+  const calculatedEnd = new Date(Math.max(...assignments.map((p) => p.endDate)));
+  if (!isNaN(calculatedEnd) && !isNaN(endDate)) {
+    return endDate.getTime() > calculatedEnd.getTime() ? endDate : calculatedEnd;
+  } else if (isNaN(calculatedEnd)) {
+    return endDate;
+  } else {
+    return calculatedEnd;
+  }
 };
 
 const fillDepartmentNeed = (project, staffedPeople, projectDepartmentSeats, role) => {

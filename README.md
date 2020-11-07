@@ -15,7 +15,8 @@ This is a small React project to make it easy to visualize possible upcoming sta
 - [x] edit project (only airtable)
 - [ ] autocomplete for person
 - [ ] edit person (only airtable)
-- [ ] delete project (only airtable, if only one scenario)
+- [x] delete scenario
+- [x] delete project (only airtable, if only one scenario)
 - [ ] delete person (only airtable, if only one scenario) 
 - [ ] tests, obvi
   
