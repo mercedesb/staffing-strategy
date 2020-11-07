@@ -3,10 +3,9 @@ import React from "react";
 import { IconChevronDown, IconChevronUp, IconPencil, IconPlus } from "tabler-icons";
 
 import { ButtonWithIcon, Modal } from "components";
-import { AddScenario } from "../Forms/AddScenario";
-import { EditScenario } from "../Forms/EditScenario";
 import { AddPerson, EditPerson } from "components/Person";
 import { AddProject, EditProject } from "components/Project";
+import { AddScenario, EditScenario } from "components/Scenario";
 
 import tailwindConfig from "../../tailwind";
 const { theme } = tailwindConfig;
