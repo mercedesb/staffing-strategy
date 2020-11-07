@@ -1,26 +1,19 @@
 import React, { useState } from "react";
 
 import { Button, TextInput } from "components";
-import { ScenariosContext } from "contexts";
-import { useAirtable } from "hooks";
 
-export function AddScenarioForm() {
-  const { fetchScenarios } = React.useContext(ScenariosContext);
+export function ScenarioForm({ onSubmit, title, scenario }) {
+  const [name, setName] = useState(scenario && scenario.title ? scenario.title : "");
 
-  const { createScenario } = useAirtable();
-
-  const [name, setName] = useState("");
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let data = { name };
-    await createScenario(data);
-    fetchScenarios();
+    onSubmit(data);
   };
 
   return (
     <>
-      <h2 className="pb-8">Add new scenario</h2>
+      <h2 className="pb-8">{title}</h2>
       <form onSubmit={handleSubmit}>
         <TextInput type="text" onChange={(e) => setName(e.target.value)} value={name} label="Name" />
 

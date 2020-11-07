@@ -14,6 +14,8 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
       id: scenario.id,
       title: scenario.name,
       current: scenario.current,
+      editable: scenario.editable,
+      deletable: scenario.deletable,
       projects: projectsInScenario.map((project) => {
         const projectAssignments = scenarioAssignments.filter((a) => a.projectId === project.id);
 
@@ -21,11 +23,15 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
         const projectEnd = project.endDate || new Date(Math.max(...projectAssignments.map((p) => p.endDate)));
 
         let staffedPeople = projectAssignments
-          .map((a) => {
-            let person = people.find((p) => a.personId === p.id);
+          .map((assignment) => {
+            let person = people.find((p) => assignment.personId === p.id);
             return {
               ...person,
-              assignment: { ...a },
+              assignment: { ...assignment },
+              deletable:
+                !!person &&
+                person.deletable &&
+                assignments.filter((a) => a.personId === assignment.personId).length === 1,
             };
           })
           .filter((stf) => !!stf.id);
@@ -35,10 +41,10 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
         fillDepartmentNeed(project, staffedPeople, project.engagementSeats, ENGAGEMENT_ROLE);
 
         return {
-          id: project.id,
-          name: project.name,
+          ...project,
           startDate: projectStart,
           endDate: projectEnd,
+          deletable: project.deletable && project.scenarios.length === 1,
           people: defaultPeopleSort(staffedPeople),
         };
       }),

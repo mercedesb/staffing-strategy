@@ -70,11 +70,15 @@ const useAirtable = () => {
           scenarios: a.fields.scenarioId,
           startDate: dayjs(a.fields.startDate).toDate(),
           endDate: dayjs(a.fields.endDate).toDate(),
+          editable: true,
+          deletable: true,
         }));
     },
     getPeople: async () => {
       const response = await get(`${baseUrl}/People`, headers);
-      return response.records.filter((p) => !!p.fields.id).map((p) => ({ ...p.fields, id: p.id, editable: true }));
+      return response.records
+        .filter((p) => !!p.fields.id)
+        .map((p) => ({ ...p.fields, id: p.id, editable: true, deletable: true }));
     },
     getProjects: async () => {
       const response = await get(`${baseUrl}/Projects`, headers);
@@ -87,11 +91,12 @@ const useAirtable = () => {
           startDate: dayjs(p.fields.startDate, AIRTABLE_DATE_FORMAT).toDate(),
           endDate: dayjs(p.fields.endDate, AIRTABLE_DATE_FORMAT).toDate(),
           editable: true,
+          deletable: true,
         }));
     },
     getScenarios: async () => {
       const response = await get(`${baseUrl}/Scenarios`, headers);
-      return response.records.map((s) => ({ ...s.fields, id: s.id }));
+      return response.records.map((s) => ({ ...s.fields, id: s.id, editable: true, deletable: true }));
     },
     updateAssignment: async (id, data) => {
       let putData = {

@@ -34,7 +34,7 @@ const itemStylesForPerson = (person) => {
   return { backgroundColor, fontColor };
 };
 
-const level0Group = (id, title, children, opts = {}) => {
+const level0Group = (id, title, startDate, endDate, opts = {}) => {
   return {
     id: id,
     title: title,
@@ -43,8 +43,8 @@ const level0Group = (id, title, children, opts = {}) => {
     parent: null,
     backgroundColor: projectColor,
     fontColor: lightText,
-    startDate: new Date(Math.min(...children.map((p) => p.startDate))),
-    endDate: new Date(Math.max(...children.map((p) => p.endDate))),
+    startDate,
+    endDate,
     treeLevel: 0,
     type: "scenario",
     ...opts,
@@ -86,11 +86,20 @@ const level2Group = (id, title, parent, startDate, endDate, opts = {}) => {
 const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
   let timelineGroups = [];
 
-  timelineGroups.push(level0Group("NewScenario", "New Scenario", [], { root: false, addable: true }));
+  timelineGroups.push(level0Group("NewScenario", "New Scenario", null, null, { root: false, addable: true }));
 
   return scenarios.reduce((groups, scenario) => {
     const level0Id = scenario.id;
-    groups.push(level0Group(level0Id, scenario.title, scenario.projects));
+    const scenarioStartDate = new Date(Math.min(...scenario.projects.map((p) => p.startDate)));
+    const scenarioEndDate = new Date(Math.max(...scenario.projects.map((p) => p.endDate)));
+
+    groups.push(
+      level0Group(level0Id, scenario.title, scenarioStartDate, scenarioEndDate, {
+        scenario,
+        editable: scenario.editable,
+        deletable: scenario.deletable,
+      })
+    );
     if (!scenario.current) {
       groups.push(
         level1Group(`NewProject-${level0Id}`, "New Project", level0Id, null, null, {
@@ -104,7 +113,9 @@ const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
       const level1Id = `${scenario.id}-${project.id}`;
       groups.push(
         level1Group(level1Id, project.name, level0Id, project.startDate, project.endDate, {
+          project,
           editable: project.editable,
+          deletable: project.deletable,
         })
       );
       if (!scenario.current) {
@@ -129,10 +140,12 @@ const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
               person.assignment.endDate,
               {
                 ...itemStylesForPerson(person),
+                person,
                 assignment: person.assignment,
                 moveable: project.editable,
                 resizeable: project.editable,
                 editable: person.editable,
+                deletable: person.deletable,
               }
             )
           );

@@ -6,7 +6,7 @@ import { AssignmentsContext, PeopleContext } from "contexts";
 import { useAirtable } from "hooks";
 import { displayName } from "lib";
 
-export function AddPersonForm({ scenarioId, projectId }) {
+export function AddPersonForm({ title, scenarioId, projectId }) {
   const { fetchAssignments } = React.useContext(AssignmentsContext);
   const { allPeople, fetchPeople } = React.useContext(PeopleContext);
 
@@ -47,7 +47,7 @@ export function AddPersonForm({ scenarioId, projectId }) {
 
   return (
     <>
-      <h2 className="pb-8">Add new person</h2>
+      <h2 className="pb-8">{title}</h2>
       <form onSubmit={handleSubmit}>
         <TextInput type="text" onChange={(e) => setFirstName(e.target.value)} value={firstName} label="First Name" />
         <TextInput type="text" onChange={(e) => setLastName(e.target.value)} value={lastName} label="Last Name" />

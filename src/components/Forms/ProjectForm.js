@@ -2,18 +2,22 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 
 import { Button, TextInput } from "components";
-import { ProjectsContext } from "contexts";
-import { useAirtable } from "hooks";
 
-export function AddProjectForm({ scenarioId }) {
-  const { fetchProjects } = React.useContext(ProjectsContext);
+export function ProjectForm({ onSubmit, title, project, scenarioId }) {
+  const defaultNewProjectSeats = { engineeringSeats: 2, designSeats: 2, engagementSeats: 1 };
 
-  const { createProject } = useAirtable();
+  const [name, setName] = useState(project && project.name ? project.name : "");
+  const [seats, setSeats] = useState(
+    project
+      ? {
+          engineeringSeats: project.engineeringSeats || 0,
+          designSeats: project.designSeats || 0,
+          engagementSeats: project.engagementSeats || 0,
+        }
+      : defaultNewProjectSeats
+  );
 
-  const [name, setName] = useState("");
-  const [seats, setSeats] = useState({ engineeringSeats: 2, designSeats: 2, engagementSeats: 1 });
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let data = {
       name,
@@ -24,13 +28,12 @@ export function AddProjectForm({ scenarioId }) {
       designSeats: parseInt(seats.designSeats),
       engagementSeats: parseInt(seats.engagementSeats),
     };
-    await createProject(data);
-    fetchProjects();
+    onSubmit(data);
   };
 
   return (
     <>
-      <h2 className="pb-8">Add new project</h2>
+      <h2 className="pb-8">{title}</h2>
       <form onSubmit={handleSubmit}>
         <TextInput type="text" onChange={(e) => setName(e.target.value)} value={name} label="Name" />
         <TextInput
