@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 import { Button, TextInput } from "components";
 
-export function ProjectForm({ onSubmit, title, project, scenarioId }) {
+export function ProjectForm({ onSubmit, title, project, onCancel }) {
   const defaultNewProjectSeats = { engineeringSeats: 2, designSeats: 2, engagementSeats: 1 };
 
   const [name, setName] = useState(project && project.name ? project.name : "");
@@ -21,7 +21,6 @@ export function ProjectForm({ onSubmit, title, project, scenarioId }) {
     e.preventDefault();
     let data = {
       name,
-      scenarios: [scenarioId],
       startDate: dayjs(),
       endDate: dayjs().add(1, "month"),
       engineeringSeats: parseInt(seats.engineeringSeats),
@@ -58,6 +57,9 @@ export function ProjectForm({ onSubmit, title, project, scenarioId }) {
         <div className="pt-8">
           <Button primary type="submit">
             Save
+          </Button>
+          <Button secondary onClick={onCancel} className="ml-4">
+            Cancel
           </Button>
         </div>
       </form>

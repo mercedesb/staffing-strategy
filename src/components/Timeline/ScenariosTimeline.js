@@ -34,8 +34,9 @@ export const ScenariosTimeline = ({ events, people }) => {
       title: g.title,
       start_time: g.addable ? null : g.startDate.getTime(),
       end_time: g.addable ? null : g.endDate.getTime(),
-      canMove: g.moveable,
-      canResize: g.resizeable,
+      canSelect: !!g.moveable,
+      canMove: !!g.moveable,
+      canResize: !!g.resizeable,
       assignment: g.assignment,
       itemProps: {
         className: g.treeLevel === 0 || g.treeLevel === 1 ? `staffing-item-lg` : `staffing-item`,
@@ -53,13 +54,13 @@ export const ScenariosTimeline = ({ events, people }) => {
     const newOpenGroupsState = { ...openGroups };
     newOpenGroupsState[id] = !openGroups[id];
 
+    const splitId = id.toString().split("-");
+    const scenarioId = splitId[0];
+
     // collapsing if it's currently open
     const collapsing = openGroups[id];
     if (collapsing) {
       Object.keys(newOpenGroupsState).forEach((key) => {
-        const splitId = id.split("-");
-        const scenarioId = splitId[0];
-
         if (group.type === "scenario" && key.includes(scenarioId)) {
           newOpenGroupsState[key] = !openGroups[key];
         }

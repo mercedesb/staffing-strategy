@@ -11,7 +11,7 @@ export function EditProject({ project, scenarioId, deletable }) {
   const { updateProject } = useAirtable();
 
   const handleSubmit = async (data) => {
-    await updateProject(data);
+    await updateProject({ ...data, scenarios: [scenarioId] });
     fetchProjects();
   };
 

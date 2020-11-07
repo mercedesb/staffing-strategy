@@ -117,6 +117,29 @@ const useAirtable = () => {
       const response = await put(`${baseUrl}/Assignments`, putData, headers);
       return response;
     },
+    updateProject: async (id, data) => {
+      let putData = {
+        records: [
+          {
+            id: id,
+            fields: {
+              name: data.name,
+              scenarios: data.scenarios,
+              startDate: dayjs(data.startDate).format(AIRTABLE_DATE_FORMAT),
+              endDate: dayjs(data.endDate).format(AIRTABLE_DATE_FORMAT),
+              likelihood: data.likelihood,
+              engineeringSeats: data.engineeringSeats,
+              designSeats: data.designSeats,
+              engagementSeats: data.engagementSeats,
+              dealId: data.dealId,
+            },
+          },
+        ],
+      };
+
+      const response = await put(`${baseUrl}/Projects`, putData, headers);
+      return response;
+    },
   };
 };
 
