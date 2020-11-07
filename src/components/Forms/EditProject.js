@@ -5,17 +5,15 @@ import { useAirtable } from "hooks";
 
 import { ProjectForm } from "./ProjectForm";
 
-export function EditProject({ project, scenarioId, deletable }) {
+export function EditProject({ project, deletable }) {
   const { fetchProjects } = React.useContext(ProjectsContext);
 
   const { updateProject } = useAirtable();
 
   const handleSubmit = async (data) => {
-    await updateProject({ ...data, scenarios: [scenarioId] });
+    await updateProject(project.id, { ...project, ...data });
     fetchProjects();
   };
 
-  return (
-    <ProjectForm title={`Edit ${project.name}`} project={project} scenarioId={scenarioId} onSubmit={handleSubmit} />
-  );
+  return <ProjectForm title={`Edit ${project.name}`} project={project} onSubmit={handleSubmit} />;
 }
