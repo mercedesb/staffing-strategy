@@ -10,6 +10,10 @@ import { EditProject } from "../Forms/EditProject";
 import { AddPerson } from "../Forms/AddPerson";
 import { EditPerson } from "../Forms/EditPerson";
 
+import tailwindConfig from "../../tailwind";
+const { theme } = tailwindConfig;
+const { colors } = theme;
+
 export function TimelineGroup({ group, openGroups, toggleGroup }) {
   const renderAddForm = () => {
     switch (group.type) {
@@ -42,7 +46,7 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
       <Modal
         linkText={
           <>
-            <IconPlus /> {group.title}
+            <IconPlus color={colors.breakthroughBlue} /> {group.title}
           </>
         }
         modalLabel={`Add ${group.title}`}
@@ -56,11 +60,16 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
     return (
       <div className="flex items-center justify-between">
         <ButtonWithIcon onClick={() => toggleGroup(group.id, group)} className="noBtn">
-          {openGroups[group.id] ? <IconChevronUp /> : <IconChevronDown />} {group.title}
+          {openGroups[group.id] ? (
+            <IconChevronUp color={colors.breakthroughBlue} />
+          ) : (
+            <IconChevronDown color={colors.breakthroughBlue} />
+          )}{" "}
+          {group.title}
         </ButtonWithIcon>
         <div className="w-auto">
           {group.editable && (
-            <Modal linkText={<IconPencil />} modalLabel={`Edit ${group.title}`}>
+            <Modal linkText={<IconPencil color={colors.growingGreen} />} modalLabel={`Edit ${group.title}`}>
               {renderEditForm()}
             </Modal>
           )}
@@ -75,7 +84,10 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
         {group.title}
         <div className="w-auto">
           {group.editable && (
-            <Modal linkText={<IconPencil />} modalLabel={`Edit ${group.title}`}>
+            <Modal
+              linkText={<IconPencil color={colors.growingGreen} stroke="1px" />}
+              modalLabel={`Edit ${group.title}`}
+            >
               {renderEditForm()}
             </Modal>
           )}

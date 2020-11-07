@@ -11,7 +11,9 @@ This is a small React project to make it easy to visualize possible upcoming sta
 - [ ] focus on first input in modals
 - [ ] make cancel button work in edit form
 - [ ] update edit forms to be PATCH
+- [ ] Datepicker for editing start/end date of projects
 - [ ] tests, obvi
+- [ ] fix colors of items after selection
 - [ ] Move all of the airtable and forecast stuff into a Node server
   
 ## Getting Started with Create React App

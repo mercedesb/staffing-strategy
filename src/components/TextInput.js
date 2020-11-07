@@ -6,7 +6,7 @@ export function TextInput(props) {
 
   return (
     <div className="pb-4">
-      <label className="text-breakthroughBlue w-full flex flex-col">
+      <label className="w-full flex flex-col">
         {label}
         <Input
           {...props}
