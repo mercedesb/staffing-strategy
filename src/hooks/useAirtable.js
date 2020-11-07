@@ -159,6 +159,21 @@ const useAirtable = () => {
       const response = await put(`${baseUrl}/Projects`, putData, headers);
       return response;
     },
+    updateScenario: async (id, data) => {
+      let putData = {
+        records: [
+          {
+            id: id,
+            fields: {
+              name: data.name,
+            },
+          },
+        ],
+      };
+
+      const response = await put(`${baseUrl}/Scenarios`, putData, headers);
+      return response;
+    },
     deletePerson: async (id) => {
       let deleteData = {
         records: [

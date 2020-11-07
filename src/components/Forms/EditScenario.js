@@ -13,7 +13,7 @@ export function EditScenario({ scenario, deletable }) {
   const { updateScenario, deleteScenario } = useAirtable();
 
   const handleSubmit = async (data) => {
-    await updateScenario(data);
+    await updateScenario(scenario.id, data);
     fetchScenarios();
   };
 

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, createContext, useCallback, useMemo } from "react";
-import { useAirtable } from "hooks";
+import { useAirtable, useLocalStorage } from "hooks";
+
+const SCENARIOS_STORAGE_KEY = "scenarios";
 
 export const ScenariosContext = createContext({
   currentScenarios: [],
@@ -12,26 +14,36 @@ export const ScenariosContext = createContext({
 });
 
 export function ScenariosProvider({ children }) {
+  const { get, set } = useLocalStorage();
   const { getScenarios } = useAirtable();
 
   const currentScenarios = useMemo(() => [{ id: 0, name: "Current", current: true }], []);
   const [upcomingScenarios, setUpcomingScenarios] = useState([]);
-  const [allScenarios, setAllScenarios] = useState([]);
 
   const fetchData = useCallback(async () => {
     let upcomingScenariosResponse = await getScenarios();
+    set(SCENARIOS_STORAGE_KEY, upcomingScenariosResponse);
     setUpcomingScenarios(upcomingScenariosResponse);
-    setAllScenarios([...currentScenarios, ...upcomingScenariosResponse]);
-  }, [currentScenarios, getScenarios]);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!upcomingScenarios || upcomingScenarios.length === 0) {
+    let upcomingScenariosResponse = get(SCENARIOS_STORAGE_KEY) || upcomingScenarios;
+    if (!upcomingScenariosResponse || upcomingScenariosResponse.length === 0) {
       fetchData();
+    } else {
+      setUpcomingScenarios(upcomingScenariosResponse);
     }
-  }, [fetchData]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <ScenariosContext.Provider value={{ allScenarios, currentScenarios, upcomingScenarios, fetchScenarios: fetchData }}>
+    <ScenariosContext.Provider
+      value={{
+        allScenarios: [...currentScenarios, ...upcomingScenarios],
+        currentScenarios,
+        upcomingScenarios,
+        fetchScenarios: fetchData,
+      }}
+    >
       {children}
     </ScenariosContext.Provider>
   );
