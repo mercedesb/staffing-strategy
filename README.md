@@ -8,17 +8,11 @@ This is a small React project to make it easy to visualize possible upcoming sta
 - [React Calendar Timeline](https://github.com/namespace-ee/react-calendar-timeline) - For all the timeline functionality
 
 ## TODOs
-- [x] display scenario timeline correctly
-- [x] collapse everything when child is collapsed
-- [x] fix modal background
-- [x] delete scenario
-- [x] choose existing project
-- [x] edit project (only airtable)
-- [x] delete project (only airtable, if only one scenario)
-- [x] autocomplete for person
-- [ ] edit person (only airtable)
-- [ ] delete person (only airtable, if only one scenario) 
+- [ ] focus on first input in modals
+- [ ] make cancel button work in edit form
+- [ ] update edit forms to be PATCH
 - [ ] tests, obvi
+- [ ] Move all of the airtable and forecast stuff into a Node server
   
 ## Getting Started with Create React App
 

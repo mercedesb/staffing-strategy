@@ -39,7 +39,7 @@ export function ProjectForm({ title, project, onSubmit, onCancel }) {
           type="number"
           onChange={(e) => setSeats({ ...seats, engineeringSeats: e.target.value })}
           value={seats.engineeringSeats}
-          label="Engagement Seats"
+          label="Engineering Seats"
         />
         <TextInput
           type="number"
