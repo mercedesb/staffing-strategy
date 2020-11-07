@@ -5,9 +5,8 @@ import { IconChevronDown, IconChevronUp, IconPencil, IconPlus } from "tabler-ico
 import { ButtonWithIcon, Modal } from "components";
 import { AddScenario } from "../Forms/AddScenario";
 import { EditScenario } from "../Forms/EditScenario";
-import { AddProject } from "../Forms/AddProject";
-import { EditProject } from "../Forms/EditProject";
 import { AddPerson, EditPerson } from "components/Person";
+import { AddProject, EditProject } from "components/Project";
 
 import tailwindConfig from "../../tailwind";
 const { theme } = tailwindConfig;
@@ -17,9 +16,11 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
   const renderAddForm = (closeModal, initialFocusRef) => {
     switch (group.type) {
       case "scenario":
-        return <AddScenario closeModal={closeModal} />;
+        return <AddScenario closeModal={closeModal} initialFocusRef={initialFocusRef} />;
       case "project":
-        return <AddProject scenarioId={group.id.split("-")[1]} closeModal={closeModal} />;
+        return (
+          <AddProject scenarioId={group.id.split("-")[1]} closeModal={closeModal} initialFocusRef={initialFocusRef} />
+        );
       case "person":
         return (
           <AddPerson
@@ -37,9 +38,23 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
   const renderEditForm = (closeModal, initialFocusRef) => {
     switch (group.type) {
       case "scenario":
-        return <EditScenario scenario={{ ...group.scenario }} deletable={group.deletable} closeModal={closeModal} />;
+        return (
+          <EditScenario
+            scenario={{ ...group.scenario }}
+            deletable={group.deletable}
+            closeModal={closeModal}
+            initialFocusRef={initialFocusRef}
+          />
+        );
       case "project":
-        return <EditProject project={{ ...group.project }} deletable={group.deletable} closeModal={closeModal} />;
+        return (
+          <EditProject
+            project={{ ...group.project }}
+            deletable={group.deletable}
+            closeModal={closeModal}
+            initialFocusRef={initialFocusRef}
+          />
+        );
       case "person":
         return (
           <EditPerson

@@ -20,7 +20,7 @@ export function AddPerson({ scenarioId, projectId, closeModal, initialFocusRef }
 
   useEffect(() => {
     initialFocusRef.current.focus();
-  }, [addNew]);
+  }, [addNew, initialFocusRef]);
 
   const handleAddNew = async (data) => {
     let createdPerson = await createPerson(data);

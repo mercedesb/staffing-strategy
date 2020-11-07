@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 import { FormButtonContainer, TextInput } from "components";
 
-export function ProjectForm({ title, project, onSubmit, onCancel }) {
+export function ProjectForm({ title, project, onSubmit, onCancel, initialFocusRef }) {
   const defaultNewProjectSeats = { engineeringSeats: 2, designSeats: 2, engagementSeats: 1 };
 
   const [name, setName] = useState(project && project.name ? project.name : "");
@@ -34,7 +34,13 @@ export function ProjectForm({ title, project, onSubmit, onCancel }) {
     <>
       <h2 className="pb-8">{title}</h2>
       <form onSubmit={handleSubmit}>
-        <TextInput type="text" onChange={(e) => setName(e.target.value)} value={name} label="Name" />
+        <TextInput
+          type="text"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          label="Name"
+          inputRef={initialFocusRef}
+        />
         <TextInput
           type="number"
           onChange={(e) => setSeats({ ...seats, engineeringSeats: e.target.value })}
