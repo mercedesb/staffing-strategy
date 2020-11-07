@@ -11,10 +11,9 @@ This is a small React project to make it easy to visualize possible upcoming sta
 - [x] display scenario timeline correctly
 - [x] collapse everything when child is collapsed
 - [x] fix modal background
-- [ ] autocomplete for project & person
-  - update scenarios if selecting an existing project
-  - 2 views? select existing one or add new one?
-- [ ] edit project (only airtable)
+- [x] choose existing project
+- [x] edit project (only airtable)
+- [ ] autocomplete for person
 - [ ] edit person (only airtable)
 - [ ] delete project (only airtable, if only one scenario)
 - [ ] delete person (only airtable, if only one scenario) 

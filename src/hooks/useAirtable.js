@@ -15,7 +15,7 @@ const headers = {
 const baseUrl = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}`;
 
 const useAirtable = () => {
-  const { get, post, put } = useApi();
+  const { get, post, put, patch } = useApi();
 
   return {
     createAssignment: async (data) => {
@@ -84,7 +84,7 @@ const useAirtable = () => {
       const response = await get(`${baseUrl}/Projects`, headers);
 
       return response.records
-        .filter((p) => !!p.fields.id)
+        .filter((p) => !!p.fields.id && !p.fields.deleted)
         .map((p) => ({
           ...p.fields,
           id: p.id,
@@ -96,7 +96,9 @@ const useAirtable = () => {
     },
     getScenarios: async () => {
       const response = await get(`${baseUrl}/Scenarios`, headers);
-      return response.records.map((s) => ({ ...s.fields, id: s.id, editable: true, deletable: true }));
+      return response.records
+        .filter((s) => !s.fields.deleted)
+        .map((s) => ({ ...s.fields, id: s.id, editable: true, deletable: true }));
     },
     updateAssignment: async (id, data) => {
       let putData = {
@@ -138,6 +140,36 @@ const useAirtable = () => {
       };
 
       const response = await put(`${baseUrl}/Projects`, putData, headers);
+      return response;
+    },
+    deleteProject: async (id) => {
+      let deleteData = {
+        records: [
+          {
+            id: id,
+            fields: {
+              deleted: true,
+            },
+          },
+        ],
+      };
+
+      const response = await patch(`${baseUrl}/Projects`, deleteData, headers);
+      return response;
+    },
+    deleteScenario: async (id) => {
+      let deleteData = {
+        records: [
+          {
+            id: id,
+            fields: {
+              deleted: true,
+            },
+          },
+        ],
+      };
+
+      const response = await patch(`${baseUrl}/Scenarios`, deleteData, headers);
       return response;
     },
   };

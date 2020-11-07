@@ -19,6 +19,7 @@ const ScenarioParser = (scenarios, assignments, people, projects) => {
       projects: projectsInScenario.map((project) => {
         const projectAssignments = scenarioAssignments.filter((a) => a.projectId === project.id);
 
+        // TODO: should pick the earliert start and latest end
         const projectStart = project.startDate || new Date(Math.min(...projectAssignments.map((p) => p.startDate)));
         const projectEnd = project.endDate || new Date(Math.max(...projectAssignments.map((p) => p.endDate)));
 

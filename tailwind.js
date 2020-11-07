@@ -25,6 +25,7 @@ module.exports = {
       breakthroughBlue: "#0B2D48",
       inspiringIndigo: "#031B2D",
       growingGreen: "#859b8b", //"#869B8D",
+      ripenedRed: "#932C00",
       tandemGray: "#dde7e0",
       tandemMdGray: "#d4d2d1",
 
