@@ -8,7 +8,7 @@ import { useAirtable } from "hooks";
 import { sortByName, displayName, displayRoles } from "lib";
 import { PersonForm } from "./PersonForm";
 
-export function AddPerson({ scenarioId, projectId }) {
+export function AddPerson({ scenarioId, projectId, closeModal }) {
   const { allAssignments, fetchAssignments } = React.useContext(AssignmentsContext);
   const { allPeople, fetchPeople } = React.useContext(PeopleContext);
 
@@ -45,8 +45,13 @@ export function AddPerson({ scenarioId, projectId }) {
     fetchAssignments();
   };
 
+  const handleCancel = () => {
+    setAddNew(false);
+    closeModal();
+  };
+
   if (addNew) {
-    return <PersonForm title="Add new person" onSubmit={handleAddNew} onCancel={() => setAddNew(false)} />;
+    return <PersonForm title="Add new person" onSubmit={handleAddNew} onCancel={handleCancel} />;
   } else {
     return (
       <>

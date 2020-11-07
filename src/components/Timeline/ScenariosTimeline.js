@@ -93,8 +93,8 @@ export const ScenariosTimeline = ({ events, people }) => {
     const item = items.find((i) => i.id === itemId);
     const assignment = item.assignment;
 
-    let newStartDate = dayjs(item.startDate);
-    let newEndDate = dayjs(item.endDate);
+    let newStartDate = dayjs(item.start_time);
+    let newEndDate = dayjs(item.end_time);
 
     if (edge === "left") {
       newStartDate = dayjs(time);

@@ -7,7 +7,7 @@ import { useAirtable } from "hooks";
 import { ButtonWithIcon } from "components";
 import { ScenarioForm } from "./ScenarioForm";
 
-export function EditScenario({ scenario, deletable }) {
+export function EditScenario({ scenario, deletable, closeModal }) {
   const { fetchScenarios } = React.useContext(ScenariosContext);
 
   const { updateScenario, deleteScenario } = useAirtable();
@@ -24,7 +24,12 @@ export function EditScenario({ scenario, deletable }) {
 
   return (
     <>
-      <ScenarioForm title={`Edit ${scenario.title}`} onSubmit={handleSubmit} scenario={scenario} />
+      <ScenarioForm
+        title={`Edit ${scenario.title}`}
+        onSubmit={handleSubmit}
+        onCancel={closeModal}
+        scenario={scenario}
+      />
       {deletable && (
         <div className="w-full flex justify-end mt-8">
           <ButtonWithIcon onClick={handleDelete} className="noBtn text-ripenedRed w-auto">

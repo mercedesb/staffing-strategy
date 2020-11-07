@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
-import { Button, RadioGroup, TextInput } from "components";
+import { FormButtonContainer, RadioGroup, TextInput } from "components";
 
 export function PersonForm({ title, person, onSubmit, onCancel }) {
-  debugger;
   const [firstName, setFirstName] = useState(person && person.firstName ? person.firstName : "");
   const [lastName, setLastName] = useState(person && person.lastName ? person.lastName : "");
   const [department, setDepartment] = useState(person && person.roles ? person.roles : "");
@@ -35,14 +34,7 @@ export function PersonForm({ title, person, onSubmit, onCancel }) {
           value={department}
         />
 
-        <div className="pt-8">
-          <Button primary type="submit">
-            Save
-          </Button>
-          <Button secondary onClick={onCancel} className="ml-4">
-            Cancel
-          </Button>
-        </div>
+        <FormButtonContainer onCancel={onCancel} />
       </form>
     </>
   );

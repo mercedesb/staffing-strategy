@@ -5,7 +5,7 @@ import { useAirtable } from "hooks";
 
 import { ScenarioForm } from "./ScenarioForm";
 
-export function AddScenario() {
+export function AddScenario({ closeModal }) {
   const { fetchScenarios } = React.useContext(ScenariosContext);
 
   const { createScenario } = useAirtable();
@@ -15,5 +15,5 @@ export function AddScenario() {
     fetchScenarios();
   };
 
-  return <ScenarioForm title="Add new scenario" onSubmit={handleSubmit} />;
+  return <ScenarioForm title="Add new scenario" onSubmit={handleSubmit} onCancel={closeModal} />;
 }

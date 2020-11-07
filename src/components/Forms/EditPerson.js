@@ -8,7 +8,7 @@ import { ButtonWithIcon } from "components";
 import { displayName } from "lib";
 import { PersonForm } from "./PersonForm";
 
-export function EditPerson({ person, deletable }) {
+export function EditPerson({ person, deletable, closeModal }) {
   const { fetchPeople } = React.useContext(PeopleContext);
 
   const { updatePerson, deletePerson } = useAirtable();
@@ -25,7 +25,7 @@ export function EditPerson({ person, deletable }) {
 
   return (
     <>
-      <PersonForm title={`Edit ${displayName(person)}`} person={person} onSubmit={handleSubmit} />
+      <PersonForm title={`Edit ${displayName(person)}`} person={person} onSubmit={handleSubmit} onCancel={closeModal} />
       {deletable && (
         <div className="w-full flex justify-end mt-8">
           <ButtonWithIcon onClick={handleDelete} className="noBtn text-ripenedRed w-auto">

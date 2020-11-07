@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
 
-import { Button, TextInput } from "components";
+import { FormButtonContainer, TextInput } from "components";
 
 export function ProjectForm({ title, project, onSubmit, onCancel }) {
   const defaultNewProjectSeats = { engineeringSeats: 2, designSeats: 2, engagementSeats: 1 };
@@ -54,14 +54,7 @@ export function ProjectForm({ title, project, onSubmit, onCancel }) {
           label="Engagement Seats"
         />
 
-        <div className="pt-8">
-          <Button primary type="submit">
-            Save
-          </Button>
-          <Button secondary onClick={onCancel} className="ml-4">
-            Cancel
-          </Button>
-        </div>
+        <FormButtonContainer onCancel={onCancel} />
       </form>
     </>
   );

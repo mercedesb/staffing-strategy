@@ -7,7 +7,7 @@ import { useAirtable } from "hooks";
 import { ButtonWithIcon } from "components";
 import { ProjectForm } from "./ProjectForm";
 
-export function EditProject({ project, deletable }) {
+export function EditProject({ project, deletable, closeModal }) {
   const { fetchProjects } = React.useContext(ProjectsContext);
 
   const { updateProject, deleteProject } = useAirtable();
@@ -24,7 +24,7 @@ export function EditProject({ project, deletable }) {
 
   return (
     <>
-      <ProjectForm title={`Edit ${project.name}`} project={project} onSubmit={handleSubmit} />
+      <ProjectForm title={`Edit ${project.name}`} project={project} onSubmit={handleSubmit} onCancel={closeModal} />
       {deletable && (
         <div className="w-full flex justify-end mt-8">
           <ButtonWithIcon onClick={handleDelete} className="noBtn text-ripenedRed w-auto">

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { Button, TextInput } from "components";
+import { FormButtonContainer, TextInput } from "components";
 
-export function ScenarioForm({ onSubmit, title, scenario }) {
+export function ScenarioForm({ onSubmit, title, scenario, onCancel }) {
   const [name, setName] = useState(scenario && scenario.title ? scenario.title : "");
 
   const handleSubmit = (e) => {
@@ -16,12 +16,7 @@ export function ScenarioForm({ onSubmit, title, scenario }) {
       <h2 className="pb-8">{title}</h2>
       <form onSubmit={handleSubmit}>
         <TextInput type="text" onChange={(e) => setName(e.target.value)} value={name} label="Name" />
-
-        <div className="pt-8">
-          <Button primary type="submit">
-            Save
-          </Button>
-        </div>
+        <FormButtonContainer onCancel={onCancel} />
       </form>
     </>
   );

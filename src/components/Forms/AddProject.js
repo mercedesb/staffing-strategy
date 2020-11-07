@@ -7,7 +7,7 @@ import { useAirtable } from "hooks";
 import { Button } from "components";
 import { ProjectForm } from "./ProjectForm";
 
-export function AddProject({ scenarioId }) {
+export function AddProject({ scenarioId, closeModal }) {
   const { upcomingProjects, fetchProjects } = React.useContext(ProjectsContext);
 
   const { createProject, updateProject } = useAirtable();
@@ -30,8 +30,13 @@ export function AddProject({ scenarioId }) {
     fetchProjects();
   };
 
+  const handleCancel = () => {
+    setAddNew(false);
+    closeModal();
+  };
+
   if (addNew) {
-    return <ProjectForm title="Add new project" onSubmit={handleAddNew} onCancel={() => setAddNew(false)} />;
+    return <ProjectForm title="Add new project" onSubmit={handleAddNew} onCancel={handleCancel} />;
   } else {
     return (
       <>

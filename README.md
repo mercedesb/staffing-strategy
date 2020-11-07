@@ -15,6 +15,8 @@ This is a small React project to make it easy to visualize possible upcoming sta
 - [ ] tests, obvi
 - [ ] fix colors of items after selection
 - [ ] Move all of the airtable and forecast stuff into a Node server
+- [ ] handle non-contiguous staffing/bench time
+- [ ] Put pending hires (with projected start dates) in?
   
 ## Getting Started with Create React App
 

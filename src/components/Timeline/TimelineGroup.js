@@ -15,27 +15,29 @@ const { theme } = tailwindConfig;
 const { colors } = theme;
 
 export function TimelineGroup({ group, openGroups, toggleGroup }) {
-  const renderAddForm = () => {
+  const renderAddForm = (closeModal) => {
     switch (group.type) {
       case "scenario":
-        return <AddScenario />;
+        return <AddScenario closeModal={closeModal} />;
       case "project":
-        return <AddProject scenarioId={group.id.split("-")[1]} />;
+        return <AddProject scenarioId={group.id.split("-")[1]} closeModal={closeModal} />;
       case "person":
-        return <AddPerson scenarioId={group.id.split("-")[1]} projectId={group.id.split("-")[2]} />;
+        return (
+          <AddPerson scenarioId={group.id.split("-")[1]} projectId={group.id.split("-")[2]} closeModal={closeModal} />
+        );
       default:
         return null;
     }
   };
 
-  const renderEditForm = () => {
+  const renderEditForm = (closeModal) => {
     switch (group.type) {
       case "scenario":
-        return <EditScenario scenario={{ ...group.scenario }} deletable={group.deletable} />;
+        return <EditScenario scenario={{ ...group.scenario }} deletable={group.deletable} closeModal={closeModal} />;
       case "project":
-        return <EditProject project={{ ...group.project }} deletable={group.deletable} />;
+        return <EditProject project={{ ...group.project }} deletable={group.deletable} closeModal={closeModal} />;
       case "person":
-        return <EditPerson person={{ ...group.person }} deletable={group.deletable} />;
+        return <EditPerson person={{ ...group.person }} deletable={group.deletable} closeModal={closeModal} />;
       default:
         return null;
     }
@@ -51,7 +53,7 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
         }
         modalLabel={`Add ${group.title}`}
       >
-        {renderAddForm()}
+        {(closeModal) => renderAddForm(closeModal)}
       </Modal>
     );
   };
@@ -70,7 +72,9 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
         <div className="w-auto">
           {group.editable && (
             <Modal linkText={<IconPencil color={colors.growingGreen} />} modalLabel={`Edit ${group.title}`}>
-              {renderEditForm()}
+              {(closeModal) => {
+                return renderEditForm(closeModal);
+              }}
             </Modal>
           )}
         </div>
@@ -88,7 +92,7 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
               linkText={<IconPencil color={colors.growingGreen} stroke="1px" />}
               modalLabel={`Edit ${group.title}`}
             >
-              {renderEditForm()}
+              {(closeModal) => renderEditForm(closeModal)}
             </Modal>
           )}
         </div>

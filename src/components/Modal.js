@@ -5,6 +5,10 @@ import { IconX } from "tabler-icons";
 export function Modal({ linkText, modalLabel, children }) {
   const dialog = useDialogState();
 
+  const closeModal = () => {
+    dialog.hide();
+  };
+
   return (
     <>
       <DialogDisclosure {...dialog} className="noBtn">
@@ -17,11 +21,11 @@ export function Modal({ linkText, modalLabel, children }) {
       >
         <Dialog {...dialog} aria-label={modalLabel} className="bg-white p-8 relative" style={{ minWidth: "50%" }}>
           <div className="flex justify-end absolute top-0 right-0">
-            <button className="noBtn w-auto m-2" onClick={() => dialog.hide()}>
+            <button className="noBtn w-auto m-2" onClick={closeModal}>
               <IconX />
             </button>
           </div>
-          {children}
+          {dialog.visible && children(closeModal)}
         </Dialog>
       </DialogBackdrop>
     </>

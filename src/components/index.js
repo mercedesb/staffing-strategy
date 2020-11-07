@@ -1,6 +1,7 @@
 export { Button } from "./Button";
 export { ButtonWithIcon } from "./ButtonWithIcon";
 export { DealList } from "./DealList";
+export { FormButtonContainer } from "./FormButtonContainer";
 export { Modal } from "./Modal";
 export { PeopleList } from "./PeopleList";
 export { ProjectList } from "./ProjectList";
