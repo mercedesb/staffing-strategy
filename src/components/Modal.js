@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useDialogState, Dialog, DialogBackdrop, DialogDisclosure } from "reakit/Dialog";
 import { IconX } from "tabler-icons";
 
 export function Modal({ linkText, modalLabel, children }) {
   const dialog = useDialogState();
+  const initialFocusRef = useRef();
+
+  useEffect(() => {
+    if (dialog.visible) {
+      initialFocusRef.current.focus();
+    }
+  }, [dialog.visible]);
 
   const closeModal = () => {
     dialog.hide();
@@ -25,7 +32,7 @@ export function Modal({ linkText, modalLabel, children }) {
               <IconX />
             </button>
           </div>
-          {dialog.visible && children(closeModal)}
+          {dialog.visible && children(closeModal, initialFocusRef)}
         </Dialog>
       </DialogBackdrop>
     </>
