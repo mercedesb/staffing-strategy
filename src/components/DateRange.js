@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-export function DateRange({ start, end, onStartChange, onEndChange }) {
+export function DateRange({ start, end, onStartChange, onEndChange, required }) {
   const [startDate, setStartDate] = useState(start || dayjs().toDate());
   const [endDate, setEndDate] = useState(end || dayjs().add(1, "month").toDate());
 
@@ -39,6 +39,7 @@ export function DateRange({ start, end, onStartChange, onEndChange }) {
               selectsStart
               startDate={startDate}
               endDate={endDate}
+              required={required}
               className="mr-2 border-tandemMdGray border-b border-t-0 border-l-0 border-r-0 mb-2 leading-4 p-2"
               style={{ minHeight: "2.5rem" }}
             />
@@ -54,6 +55,7 @@ export function DateRange({ start, end, onStartChange, onEndChange }) {
               startDate={startDate}
               endDate={endDate}
               minDate={startDate}
+              required={required}
               className="ml-2 border-tandemMdGray border-b border-t-0 border-l-0 border-r-0 mb-2 leading-4 p-2"
               style={{ minHeight: "2.5rem" }}
             />

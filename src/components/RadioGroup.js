@@ -1,6 +1,6 @@
 import { useRadioState, Radio, RadioGroup as ReakitRadioGroup } from "reakit/Radio";
 
-export function RadioGroup({ items, label, onChange, value }) {
+export function RadioGroup({ items, label, onChange, value, required }) {
   const radio = useRadioState();
   return (
     <div className="pb-4">
@@ -14,6 +14,7 @@ export function RadioGroup({ items, label, onChange, value }) {
               className="mr-2"
               style={{ height: "2.5rem" }}
               onChange={onChange}
+              required={required}
             />{" "}
             {item.label}
           </label>

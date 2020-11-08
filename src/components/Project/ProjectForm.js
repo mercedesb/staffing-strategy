@@ -41,30 +41,35 @@ export function ProjectForm({ title, project, onSubmit, onCancel, initialFocusRe
           value={name}
           label="Name"
           inputRef={initialFocusRef}
+          required
         />
         <DateRange
           start={projectStart}
           end={projectEnd}
           onStartChange={(date) => setProjectStart(date)}
           onEndChange={(date) => setProjectEnd(date)}
+          required
         />
         <TextInput
           type="number"
           onChange={(e) => setSeats({ ...seats, engineeringSeats: e.target.value })}
           value={seats.engineeringSeats}
           label="Engineering Seats"
+          required
         />
         <TextInput
           type="number"
           onChange={(e) => setSeats({ ...seats, designSeats: e.target.value })}
           value={seats.designSeats}
           label="Design Seats"
+          required
         />
         <TextInput
           type="number"
           onChange={(e) => setSeats({ ...seats, engagementSeats: e.target.value })}
           value={seats.engagementSeats}
           label="Engagement Seats"
+          required
         />
 
         <FormButtonContainer onCancel={onCancel} />

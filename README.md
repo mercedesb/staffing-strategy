@@ -6,9 +6,11 @@ This is a small React project to make it easy to visualize possible upcoming sta
 - [forecast-promise](https://www.npmjs.com/package/forecast-promise): Forecast doesn't have a supported API so we're using a small (unsupported) Node package which wraps Forecast and provides a slim API for us to use
 - [DayJS](https://day.js.org/): Since Moment is no longer recommended, using an alternative date library
 - [React Calendar Timeline](https://github.com/namespace-ee/react-calendar-timeline) - For all the timeline functionality
+- [React Date Picker](https://github.com/Hacker0x01/react-datepicker) - For choosing project start and end dates
+- [faker.js](https://github.com/marak/Faker.js/) - For mocking data for testing
 
 ## TODOs (prioritized)
-- [ ] Datepicker for editing start/end date of projects
+- [x] Datepicker for editing start/end date of projects
 - [ ] Move all of the airtable and forecast stuff into a Node server
 - [ ] update edit forms to be PATCH
 - [ ] fix colors of items after selection

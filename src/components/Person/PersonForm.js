@@ -27,8 +27,15 @@ export function PersonForm({ title, person, onSubmit, onCancel, initialFocusRef 
           value={firstName}
           label="First Name"
           inputRef={initialFocusRef}
+          required
         />
-        <TextInput type="text" onChange={(e) => setLastName(e.target.value)} value={lastName} label="Last Name" />
+        <TextInput
+          type="text"
+          onChange={(e) => setLastName(e.target.value)}
+          value={lastName}
+          label="Last Name"
+          required
+        />
         <RadioGroup
           label="Department"
           items={[
@@ -37,6 +44,7 @@ export function PersonForm({ title, person, onSubmit, onCancel, initialFocusRef 
             { value: "Growth", label: "Engagement" },
           ]}
           onChange={(e) => setDepartment(e.target.value)}
+          required
           value={department}
         />
 

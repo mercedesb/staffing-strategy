@@ -21,6 +21,7 @@ export function ScenarioForm({ onSubmit, title, scenario, onCancel, initialFocus
           value={name}
           label="Name"
           inputRef={initialFocusRef}
+          required
         />
         <FormButtonContainer onCancel={onCancel} />
       </form>
