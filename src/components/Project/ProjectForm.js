@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import dayjs from "dayjs";
 
-import { FormButtonContainer, TextInput } from "components";
+import { DateRange, FormButtonContainer, TextInput } from "components";
 
 export function ProjectForm({ title, project, onSubmit, onCancel, initialFocusRef }) {
   const defaultNewProjectSeats = { engineeringSeats: 2, designSeats: 2, engagementSeats: 1 };
 
   const [name, setName] = useState(project && project.name ? project.name : "");
+  const [projectStart, setProjectStart] = useState(project && project.startDate ? project.startDate : null);
+  const [projectEnd, setProjectEnd] = useState(project && project.endDate ? project.endDate : null);
   const [seats, setSeats] = useState(
     project
       ? {
@@ -21,8 +22,8 @@ export function ProjectForm({ title, project, onSubmit, onCancel, initialFocusRe
     e.preventDefault();
     let data = {
       name,
-      startDate: dayjs(),
-      endDate: dayjs().add(1, "month"),
+      startDate: projectStart,
+      endDate: projectEnd,
       engineeringSeats: parseInt(seats.engineeringSeats),
       designSeats: parseInt(seats.designSeats),
       engagementSeats: parseInt(seats.engagementSeats),
@@ -40,6 +41,12 @@ export function ProjectForm({ title, project, onSubmit, onCancel, initialFocusRe
           value={name}
           label="Name"
           inputRef={initialFocusRef}
+        />
+        <DateRange
+          start={projectStart}
+          end={projectEnd}
+          onStartChange={(date) => setProjectStart(date)}
+          onEndChange={(date) => setProjectEnd(date)}
         />
         <TextInput
           type="number"

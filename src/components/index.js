@@ -1,5 +1,6 @@
 export { Button } from "./Button";
 export { ButtonWithIcon } from "./ButtonWithIcon";
+export { DateRange } from "./DateRange";
 export { DealList } from "./DealList";
 export { FormButtonContainer } from "./FormButtonContainer";
 export { Modal } from "./Modal";

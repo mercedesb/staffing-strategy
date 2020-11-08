@@ -3,7 +3,7 @@ import { Input } from "reakit/Input";
 
 export function TextInput(props) {
   const { label, inputRef } = props;
-  debugger;
+
   return (
     <div className="pb-4">
       <label className="w-full flex flex-col">
