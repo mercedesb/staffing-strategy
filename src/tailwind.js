@@ -28,6 +28,7 @@ module.exports = {
       ripenedRed: "#932C00",
       tandemGray: "#dde7e0",
       tandemMdGray: "#d4d2d1",
+      tandemDarkGray: "#706B69",
 
       gray: {
         100: "#f7fafc",

@@ -61,7 +61,7 @@ const useAirtable = () => {
     getAssignments: async () => {
       const response = await get(`${baseUrl}/Assignments`, headers);
       return response.records
-        .filter((a) => !!a.fields.projectId && !!a.fields.personId)
+        .filter((a) => !!a.fields.projectId && !!a.fields.personId && !a.fields.deleted)
         .map((a) => ({
           ...a.fields,
           id: a.id.toString(),
@@ -172,6 +172,21 @@ const useAirtable = () => {
       };
 
       const response = await put(`${baseUrl}/Scenarios`, putData, headers);
+      return response;
+    },
+    deleteAssignment: async (id) => {
+      let deleteData = {
+        records: [
+          {
+            id: id,
+            fields: {
+              deleted: true,
+            },
+          },
+        ],
+      };
+
+      const response = await patch(`${baseUrl}/Assignments`, deleteData, headers);
       return response;
     },
     deletePerson: async (id) => {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { IconPlus, IconClick } from "tabler-icons";
-import dayjs from "dayjs";
 
 import { ButtonWithIcon } from "components";
 import { AssignmentsContext, PeopleContext } from "contexts";
@@ -23,22 +22,23 @@ export function AddPerson({ scenarioId, projectId, closeModal, initialFocusRef }
   }, [addNew, initialFocusRef]);
 
   const handleAddNew = async (data) => {
-    let createdPerson = await createPerson(data);
+    let createdPerson = await createPerson(data.person);
     fetchPeople();
-    createAssignmentForPerson(createdPerson.id);
+    createAssignmentForPerson(createdPerson.id, data.assignment);
   };
 
-  const handleAddExisting = async (personToAddToProject) => {
-    createAssignmentForPerson(personToAddToProject.id);
+  const handleAddExisting = async (data) => {
+    const { person, assignment } = data;
+    createAssignmentForPerson(person.id, assignment);
   };
 
-  const createAssignmentForPerson = async (personId) => {
+  const createAssignmentForPerson = async (personId, assignment) => {
     let data = {
       personId,
       scenarioId: [scenarioId],
       projectId: projectId,
-      startDate: dayjs(),
-      endDate: dayjs().add(1, "month"),
+      startDate: assignment.startDate,
+      endDate: assignment.endDate,
     };
 
     await createAssignment(data);

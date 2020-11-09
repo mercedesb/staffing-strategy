@@ -67,3 +67,7 @@ a.no-underline {
   height: 40px !important;
   line-height: 40px !important;
 }
+
+input:disabled {
+  color: theme("colors.tandemDarkGray");
+}

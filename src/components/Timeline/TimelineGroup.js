@@ -113,10 +113,7 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
         {group.title}
         <div className="w-auto">
           {group.editable && (
-            <Modal
-              linkText={<IconPencil color={colors.growingGreen} stroke="1px" />}
-              modalLabel={`Edit ${group.title}`}
-            >
+            <Modal linkText={<IconPencil color={colors.growingGreen} />} modalLabel={`Edit ${group.title}`}>
               {(closeModal, initialFocusRef) => renderEditForm(closeModal, initialFocusRef)}
             </Modal>
           )}

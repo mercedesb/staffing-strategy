@@ -144,8 +144,8 @@ const TimelineGrouper = (scenarios, people, timelineStart, timelineEnd) => {
                 assignment: person.assignment,
                 moveable: project.editable,
                 resizeable: project.editable,
-                editable: person.editable,
-                deletable: person.deletable,
+                editable: person.editable || person.assignment.editable,
+                deletable: person.assignment.deletable,
               }
             )
           );

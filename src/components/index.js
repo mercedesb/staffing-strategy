@@ -1,5 +1,6 @@
 export { Button } from "./Button";
 export { ButtonWithIcon } from "./ButtonWithIcon";
+export { CheckboxInput } from "./CheckboxInput";
 export { DateRange } from "./DateRange";
 export { DealList } from "./DealList";
 export { FormButtonContainer } from "./FormButtonContainer";

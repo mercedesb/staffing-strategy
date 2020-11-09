@@ -74,6 +74,16 @@ export function sortByName(a, b) {
   return displayName(a) > displayName(b) ? 1 : -1;
 }
 
+export function inputValueRoles(roles) {
+  if (!roles) {
+    return "";
+  } else if (typeof roles === "string") {
+    return roles;
+  } else {
+    return roles.filter((r) => DISPLAY_ROLES.includes(r));
+  }
+}
+
 export function displayRoles(roles) {
   if (!roles) {
     return "";
