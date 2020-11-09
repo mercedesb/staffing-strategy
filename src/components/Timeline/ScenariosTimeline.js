@@ -41,8 +41,8 @@ export const ScenariosTimeline = ({ events, people }) => {
       itemProps: {
         className: g.treeLevel === 0 || g.treeLevel === 1 ? `staffing-item-lg` : `staffing-item`,
         style: {
-          borderColor: g.backgroundColor || "#000",
-          backgroundColor: g.backgroundColor,
+          border: g.backgroundColor || "#000",
+          background: g.backgroundColor,
           color: g.fontColor,
           fontSize: "1rem",
         },

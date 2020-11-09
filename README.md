@@ -10,10 +10,8 @@ This is a small React project to make it easy to visualize possible upcoming sta
 - [faker.js](https://github.com/marak/Faker.js/) - For mocking data for testing
 
 ## TODOs (prioritized)
-- [x] Datepicker for editing start/end date of projects
 - [ ] Move all of the airtable and forecast stuff into a Node server
 - [ ] update edit forms to be PATCH
-- [ ] fix colors of items after selection
 - [ ] tests, obvi
 - [ ] handle non-contiguous staffing/bench time
 - [ ] Put pending hires (with projected start dates) in?
