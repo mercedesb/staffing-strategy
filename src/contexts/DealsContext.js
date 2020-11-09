@@ -15,12 +15,17 @@ export function DealsProvider({ children }) {
 
   useEffect(() => {
     (async function () {
-      let dealsResponse = get(DEALS_STORAGE_KEY) || deals;
+      let dealsResponse = deals;
+      if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+        dealsResponse = get(DEALS_STORAGE_KEY) || deals;
+      }
 
       if (!deals || deals.length === 0) {
         dealsResponse = await getDeals();
         setDeals(dealsResponse);
-        set(DEALS_STORAGE_KEY, dealsResponse);
+        if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+          set(DEALS_STORAGE_KEY, dealsResponse);
+        }
       }
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps

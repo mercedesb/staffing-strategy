@@ -29,25 +29,42 @@ export function PeopleProvider({ children }) {
   const fetchCurrentData = useCallback(async () => {
     let currentPeopleResponse = await getCurrentPeople();
     setCurrentPeople(currentPeopleResponse);
-    set(CURRENT_PEOPLE_STORAGE_KEY, currentPeopleResponse);
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      set(CURRENT_PEOPLE_STORAGE_KEY, currentPeopleResponse);
+    }
 
     let billablePeopleResponse = currentPeopleResponse.filter(
       (p) => !p.archived && p.weekly_capacity > 0 && p.roles.includes("Billable")
     );
     setBillablePeople(billablePeopleResponse);
-    set(BILLABLE_PEOPLE_STORAGE_KEY, billablePeopleResponse);
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      set(BILLABLE_PEOPLE_STORAGE_KEY, billablePeopleResponse);
+    }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchUpcomingData = useCallback(async () => {
     let upcomingPeopleResponse = await getUpcomingPeople();
     setUpcomingPeople(upcomingPeopleResponse);
-    set(UPCOMING_PEOPLE_STORAGE_KEY, upcomingPeopleResponse);
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      set(UPCOMING_PEOPLE_STORAGE_KEY, upcomingPeopleResponse);
+    }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    let billablePeopleResponse = get(BILLABLE_PEOPLE_STORAGE_KEY) || billablePeople;
-    let currentPeopleResponse = get(CURRENT_PEOPLE_STORAGE_KEY) || currentPeople;
-    let upcomingPeopleResponse = get(UPCOMING_PEOPLE_STORAGE_KEY) || upcomingPeople;
+    let billablePeopleResponse = billablePeople;
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      billablePeopleResponse = get(BILLABLE_PEOPLE_STORAGE_KEY) || billablePeople;
+    }
+
+    let currentPeopleResponse = currentPeople;
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      currentPeopleResponse = get(CURRENT_PEOPLE_STORAGE_KEY) || currentPeople;
+    }
+
+    let upcomingPeopleResponse = upcomingPeople;
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      upcomingPeopleResponse = get(UPCOMING_PEOPLE_STORAGE_KEY) || upcomingPeople;
+    }
 
     if (!currentPeopleResponse || currentPeopleResponse.length === 0) {
       fetchCurrentData();

@@ -25,18 +25,31 @@ export function ProjectsProvider({ children }) {
   const fetchCurrentData = useCallback(async () => {
     let currentProjectsResponse = await getCurrentProjects();
     setCurrentProjects(currentProjectsResponse);
-    set(CURRENT_PROJECTS_STORAGE_KEY, currentProjectsResponse);
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      set(CURRENT_PROJECTS_STORAGE_KEY, currentProjectsResponse);
+    }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchUpcomingData = useCallback(async () => {
     let upcomingProjectsResponse = await getUpcomingProjects();
     setUpcomingProjects(upcomingProjectsResponse);
-    set(UPCOMING_PROJECTS_STORAGE_KEY, upcomingProjectsResponse);
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      set(UPCOMING_PROJECTS_STORAGE_KEY, upcomingProjectsResponse);
+    }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    let currentProjectsResponse = get(CURRENT_PROJECTS_STORAGE_KEY) || currentProjects;
-    let upcomingProjectsResponse = (get(UPCOMING_PROJECTS_STORAGE_KEY) || upcomingProjects).map((a) => {
+    let currentProjectsResponse = currentProjects;
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      currentProjectsResponse = get(CURRENT_PROJECTS_STORAGE_KEY) || currentProjects;
+    }
+
+    let upcomingProjectsResponse = upcomingProjects;
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      upcomingProjectsResponse = get(UPCOMING_PROJECTS_STORAGE_KEY) || upcomingProjects;
+    }
+
+    upcomingProjectsResponse = upcomingProjectsResponse.map((a) => {
       let startDate = typeof a.startDate === "string" ? new Date(a.startDate) : a.startDate;
       let endDate = typeof a.endDate === "string" ? new Date(a.endDate) : a.endDate;
 

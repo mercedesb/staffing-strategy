@@ -10,9 +10,13 @@ This is a small React project to make it easy to visualize possible upcoming sta
 - [faker.js](https://github.com/marak/Faker.js/) - For mocking data for testing
 
 ## TODOs (prioritized)
+- [ ] Bug: Need to edit assignments for people from Forecast
+- [x] Enhancement: Add env var to control if we're using local storage
+- [ ] Enhancement: indicate if someone is in a lead seat
 - [ ] Move all of the airtable and forecast stuff into a Node server
-- [ ] update edit forms to be PATCH
+  - [ ] Caching?
 - [ ] tests, obvi
+- [ ] update edit forms to be PATCH
 - [ ] handle non-contiguous staffing/bench time
 - [ ] Put pending hires (with projected start dates) in?
   

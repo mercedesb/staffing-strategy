@@ -11,14 +11,21 @@ export default function Opportunities() {
   const { get, set } = useLocalStorage();
   const { getStages } = usePipedrive();
 
-  const [stages, setStages] = useState(get(STAGES_STORAGE_KEY) || []);
+  const [stages, setStages] = useState([]);
 
   useEffect(() => {
     (async function () {
-      if (!stages || stages.length === 0) {
-        const stagesResponse = await getStages();
+      let stagesResponse = stages;
+      if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+        stagesResponse = get(STAGES_STORAGE_KEY) || stages;
+      }
+
+      if (!stagesResponse || stagesResponse.length === 0) {
+        stagesResponse = await getStages();
         setStages(stagesResponse.data);
-        set(STAGES_STORAGE_KEY, stagesResponse.data);
+        if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+          set(STAGES_STORAGE_KEY, stagesResponse.data);
+        }
       }
     })();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps

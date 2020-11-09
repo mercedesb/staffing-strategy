@@ -22,12 +22,18 @@ export function ScenariosProvider({ children }) {
 
   const fetchData = useCallback(async () => {
     let upcomingScenariosResponse = await getScenarios();
-    set(SCENARIOS_STORAGE_KEY, upcomingScenariosResponse);
     setUpcomingScenarios(upcomingScenariosResponse);
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      set(SCENARIOS_STORAGE_KEY, upcomingScenariosResponse);
+    }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    let upcomingScenariosResponse = get(SCENARIOS_STORAGE_KEY) || upcomingScenarios;
+    let upcomingScenariosResponse = upcomingScenarios;
+    if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
+      upcomingScenariosResponse = get(SCENARIOS_STORAGE_KEY) || upcomingScenarios;
+    }
+
     if (!upcomingScenariosResponse || upcomingScenariosResponse.length === 0) {
       fetchData();
     } else {
