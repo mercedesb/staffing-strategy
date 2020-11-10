@@ -12,7 +12,7 @@ cd server && yarn install
 
 This is a monorepo with a React app in the root and a Node Express server in the `server` directory.
 
-To start the API and client separately for development (to get hot reloads for the React app), you'll want to star them separately in their own terminal sessions.
+To start the API and client separately for development (to get hot reloads for the React app), you'll want to start them separately in their own terminal sessions.
 
 Starting the server for development
 ```
@@ -38,50 +38,32 @@ yarn start
 Note: this will hot reload the server if you make changes but will not hot reload the React client since it builds the React client and serves the static files.
 
 ## Notable dependencies
-- [forecast-promise](https://www.npmjs.com/package/forecast-promise): Forecast doesn't have a supported API so we're using a small (unsupported) Node package which wraps Forecast and provides a slim API for us to use
+
 - [DayJS](https://day.js.org/): Since Moment is no longer recommended, using an alternative date library
+
+### Client dependencies
 - [React Calendar Timeline](https://github.com/namespace-ee/react-calendar-timeline) - For all the timeline functionality
 - [React Date Picker](https://github.com/Hacker0x01/react-datepicker) - For choosing project start and end dates
+- [React Select]() - For easily stylable dropdowns
+- [TailwindCSS]() - For utility first CSS
+- [postcss-cli]() and [@fullhuman/postcss-purgecss]() - For creating small production CSS files (only packages Tailwind styles actually used)
+- [reakit]() - For accessible, composable components
+- [tabler-icons]() - For consistent iconography
 - [faker.js](https://github.com/marak/Faker.js/) - For mocking data for testing
 
+### Server dependencies
+- [forecast-promise](https://www.npmjs.com/package/forecast-promise) - Forecast doesn't have a supported API so we're using a small (unsupported) Node package which wraps Forecast and provides a slim API for us to use
+- [axios]() - For making http requests from the Node server
+- 
+
+
 ## TODOs (prioritized)
-- [ ] Move all of the airtable and forecast stuff into a Node server
-  - [ ] Caching?
-  - [ ] error handling
 - [ ] Google OAuth
+- [ ] error handling
+- [ ] Caching on the node server?
 - [ ] tests, obvi
+- [ ] forecast token
 - [ ] update edit forms to be PATCH
 - [ ] handle non-contiguous staffing/bench time
 - [ ] Put pending hires (with projected start dates) in?
 - [ ] Enhancement: indicate if someone is in a lead seat (add to assignment "table")
-  
-## Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-### Available Scripts
-
-In the project directory, you can run:
-
-#### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-#### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-#### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.

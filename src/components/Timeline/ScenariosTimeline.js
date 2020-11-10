@@ -57,8 +57,10 @@ export const ScenariosTimeline = ({ events, people }) => {
     const splitId = id.split("-");
     const scenarioId = splitId[0];
 
-    // collapsing if it's currently open
+    // is collapsing if it's currently open
     const collapsing = openGroups[id];
+
+    // collapse children if collapsing parent
     if (collapsing) {
       Object.keys(newOpenGroupsState).forEach((key) => {
         if (group.type === "scenario" && key.includes(scenarioId) && openGroups[key]) {
@@ -110,36 +112,34 @@ export const ScenariosTimeline = ({ events, people }) => {
   const groupsToDisplay = allGroups.filter((g) => g.treeLevel === 0 || openGroups[g.parent]);
 
   return (
-    <div className="CalendarContainer">
-      <Timeline
-        groups={groupsToDisplay}
-        items={items}
-        defaultTimeStart={start}
-        defaultTimeEnd={end}
-        stackItems
-        sidebarWidth={225}
-        showCursorLine
-        canMove
-        canResize="both"
-        canChangeGroup={false}
-        useResizeHandle={true}
-        onItemMove={handleItemMove}
-        onItemResize={handleItemResize}
-        itemRenderer={(context) => {
-          return (
-            <TimelineItem
-              item={context.item}
-              itemContext={context.itemContext}
-              getItemProps={context.getItemProps}
-              getResizeProps={context.getResizeProps}
-            />
-          );
-        }}
-        groupRenderer={(context) => (
-          <TimelineGroup group={context.group} openGroups={openGroups} toggleGroup={toggleGroup} />
-        )}
-        resizeDetector={containerResizeDetector}
-      />
-    </div>
+    <Timeline
+      groups={groupsToDisplay}
+      items={items}
+      defaultTimeStart={start}
+      defaultTimeEnd={end}
+      stackItems
+      sidebarWidth={225}
+      showCursorLine
+      canMove
+      canResize="both"
+      canChangeGroup={false}
+      useResizeHandle={true}
+      onItemMove={handleItemMove}
+      onItemResize={handleItemResize}
+      itemRenderer={(context) => {
+        return (
+          <TimelineItem
+            item={context.item}
+            itemContext={context.itemContext}
+            getItemProps={context.getItemProps}
+            getResizeProps={context.getResizeProps}
+          />
+        );
+      }}
+      groupRenderer={(context) => (
+        <TimelineGroup group={context.group} openGroups={openGroups} toggleGroup={toggleGroup} />
+      )}
+      resizeDetector={containerResizeDetector}
+    />
   );
 };
