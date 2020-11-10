@@ -1,6 +1,6 @@
 import React from "react";
 
-import { DateRange, CheckboxInput } from "components";
+import { DateRange } from "components";
 
 export function AssignmentSubForm({ assignmentStart, assignmentEnd, onAssignmentStartChange, onAssignmentEndChange }) {
   return (

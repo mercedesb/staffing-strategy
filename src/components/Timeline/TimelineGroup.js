@@ -7,10 +7,6 @@ import { AddPerson, EditPerson } from "components/Person";
 import { AddProject, EditProject } from "components/Project";
 import { AddScenario, EditScenario } from "components/Scenario";
 
-import tailwindConfig from "../../tailwind";
-const { theme } = tailwindConfig;
-const { colors } = theme;
-
 export function TimelineGroup({ group, openGroups, toggleGroup }) {
   const renderAddForm = (closeModal, initialFocusRef) => {
     switch (group.type) {
@@ -73,7 +69,7 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
       <Modal
         linkText={
           <>
-            <IconPlus color={colors.breakthroughBlue} /> {group.title}
+            <IconPlus className="text-breakthroughBlue" /> {group.title}
           </>
         }
         modalLabel={`Add ${group.title}`}
@@ -88,15 +84,15 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
       <div className="flex items-center justify-between">
         <ButtonWithIcon onClick={() => toggleGroup(group.id, group)} className="noBtn">
           {openGroups[group.id] ? (
-            <IconChevronUp color={colors.breakthroughBlue} />
+            <IconChevronUp className="text-breakthroughBlue" />
           ) : (
-            <IconChevronDown color={colors.breakthroughBlue} />
+            <IconChevronDown className="text-breakthroughBlue" />
           )}{" "}
           {group.title}
         </ButtonWithIcon>
         <div className="w-auto">
           {group.editable && (
-            <Modal linkText={<IconPencil color={colors.growingGreen} />} modalLabel={`Edit ${group.title}`}>
+            <Modal linkText={<IconPencil className="text-growingGreen" />} modalLabel={`Edit ${group.title}`}>
               {(closeModal, initialFocusRef) => {
                 return renderEditForm(closeModal, initialFocusRef);
               }}
@@ -113,7 +109,7 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
         {group.title}
         <div className="w-auto">
           {group.editable && (
-            <Modal linkText={<IconPencil color={colors.growingGreen} />} modalLabel={`Edit ${group.title}`}>
+            <Modal linkText={<IconPencil className="text-growingGreen" />} modalLabel={`Edit ${group.title}`}>
               {(closeModal, initialFocusRef) => renderEditForm(closeModal, initialFocusRef)}
             </Modal>
           )}
