@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 
 import { DealsContext } from "contexts";
 import { DealList } from "components";
-import { usePipedrive, useLocalStorage } from "hooks";
+import { useServer, useLocalStorage } from "hooks";
 
 const STAGES_STORAGE_KEY = "stages";
 
 export default function Opportunities() {
   const { deals } = React.useContext(DealsContext);
   const { get, set } = useLocalStorage();
-  const { getStages } = usePipedrive();
+  const { getStages } = useServer();
 
   const [stages, setStages] = useState([]);
 

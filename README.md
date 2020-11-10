@@ -12,6 +12,8 @@ This is a small React project to make it easy to visualize possible upcoming sta
 ## TODOs (prioritized)
 - [ ] Move all of the airtable and forecast stuff into a Node server
   - [ ] Caching?
+  - [ ] error handling
+- [ ] Google OAuth
 - [ ] tests, obvi
 - [ ] update edit forms to be PATCH
 - [ ] handle non-contiguous staffing/bench time

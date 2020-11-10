@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
-import { useLocalStorage, usePipedrive } from "hooks";
+import { useLocalStorage, useServer } from "hooks";
 
 const DEALS_STORAGE_KEY = "deals";
 
@@ -9,7 +9,7 @@ export const DealsContext = createContext({
 
 export function DealsProvider({ children }) {
   const { get, set } = useLocalStorage();
-  const { getDeals } = usePipedrive();
+  const { getDeals } = useServer();
 
   const [deals, setDeals] = useState([]);
 

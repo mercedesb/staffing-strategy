@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, createContext } from "react";
-import { useAirtable, useForecast, useLocalStorage } from "hooks";
+import { useServer, useLocalStorage } from "hooks";
 
 const CURRENT_PEOPLE_STORAGE_KEY = "currentPeople";
 const BILLABLE_PEOPLE_STORAGE_KEY = "billablePeople";
@@ -19,8 +19,7 @@ export const PeopleContext = createContext({
 
 export function PeopleProvider({ children }) {
   const { get, set } = useLocalStorage();
-  const { getPeople: getCurrentPeople } = useForecast();
-  const { getPeople: getUpcomingPeople } = useAirtable();
+  const { getCurrentPeople, getUpcomingPeople } = useServer();
 
   const [currentPeople, setCurrentPeople] = useState([]);
   const [billablePeople, setBillablePeople] = useState([]);

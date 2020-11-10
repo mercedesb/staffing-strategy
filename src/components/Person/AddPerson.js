@@ -3,7 +3,7 @@ import { IconPlus, IconClick } from "tabler-icons";
 
 import { ButtonWithIcon } from "components";
 import { AssignmentsContext, PeopleContext } from "contexts";
-import { useAirtable } from "hooks";
+import { useServer } from "hooks";
 import { PersonForm } from "./PersonForm";
 import { ChoosePerson } from "./ChoosePerson";
 
@@ -11,7 +11,7 @@ export function AddPerson({ scenarioId, projectId, closeModal, initialFocusRef }
   const { allAssignments, fetchAssignments } = React.useContext(AssignmentsContext);
   const { fetchPeople } = React.useContext(PeopleContext);
 
-  const { createAssignment, createPerson } = useAirtable();
+  const { createAssignment, createPerson } = useServer();
 
   const projectAssignments = allAssignments.filter((a) => a.projectId === projectId);
 

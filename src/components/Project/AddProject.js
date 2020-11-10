@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IconPlus, IconClick } from "tabler-icons";
 
 import { ProjectsContext } from "contexts";
-import { useAirtable } from "hooks";
+import { useServer } from "hooks";
 
 import { ButtonWithIcon } from "components";
 import { ChooseProject } from "./ChooseProject";
@@ -11,7 +11,7 @@ import { ProjectForm } from "./ProjectForm";
 export function AddProject({ scenarioId, closeModal, initialFocusRef }) {
   const { upcomingProjects, fetchProjects } = React.useContext(ProjectsContext);
 
-  const { createProject, updateProject } = useAirtable();
+  const { createProject, updateProject } = useServer();
 
   const nonScenarioProjects = upcomingProjects.filter((p) => !p.scenarios.includes(scenarioId));
 

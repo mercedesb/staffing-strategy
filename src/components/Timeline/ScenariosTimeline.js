@@ -7,7 +7,7 @@ import "react-calendar-timeline/lib/Timeline.css";
 import "./ScenariosTimeline.css";
 
 import { AssignmentsContext } from "contexts";
-import { useAirtable } from "hooks";
+import { useServer } from "hooks";
 import { TimelineGrouper } from "lib";
 import { TimelineGroup } from "./TimelineGroup";
 import { TimelineItem } from "./TimelineItem";
@@ -17,7 +17,7 @@ const end = dayjs().startOf("day").add(6, "months").toDate();
 
 export const ScenariosTimeline = ({ events, people }) => {
   const { fetchAssignments } = React.useContext(AssignmentsContext);
-  const { updateAssignment } = useAirtable();
+  const { updateAssignment } = useServer();
 
   const [allGroups, setAllGroups] = useState([]);
   const [openGroups, setOpenGroups] = useState({});

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useCallback, useMemo } from "react";
-import { useAirtable, useLocalStorage } from "hooks";
+import { useServer, useLocalStorage } from "hooks";
 
 const SCENARIOS_STORAGE_KEY = "scenarios";
 
@@ -15,7 +15,7 @@ export const ScenariosContext = createContext({
 
 export function ScenariosProvider({ children }) {
   const { get, set } = useLocalStorage();
-  const { getScenarios } = useAirtable();
+  const { getScenarios } = useServer();
 
   const currentScenarios = useMemo(() => [{ id: "current", name: "Current", current: true }], []);
   const [upcomingScenarios, setUpcomingScenarios] = useState([]);

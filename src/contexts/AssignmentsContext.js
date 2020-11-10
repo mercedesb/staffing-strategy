@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useCallback } from "react";
-import { useAirtable, useForecast, useLocalStorage } from "hooks";
+import { useServer, useLocalStorage } from "hooks";
 
 const CURRENT_ASSIGNMENTS_STORAGE_KEY = "currentAssignments";
 const UPCOMING_ASSIGNMENTS_STORAGE_KEY = "upcomingAssignments";
@@ -16,8 +16,7 @@ export const AssignmentsContext = createContext({
 
 export function AssignmentsProvider({ children }) {
   const { get, set } = useLocalStorage();
-  const { getAssignments: getCurrentAssignments } = useForecast();
-  const { getAssignments: getUpcomingAssignments } = useAirtable();
+  const { getCurrentAssignments, getUpcomingAssignments } = useServer();
 
   const [currentAssignments, setCurrentAssignments] = useState([]);
   const [upcomingAssignments, setUpcomingAssignments] = useState([]);

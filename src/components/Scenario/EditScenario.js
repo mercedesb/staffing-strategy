@@ -2,7 +2,7 @@ import React from "react";
 import { IconTrash } from "tabler-icons";
 
 import { ScenariosContext } from "contexts";
-import { useAirtable } from "hooks";
+import { useServer } from "hooks";
 
 import { ButtonWithIcon } from "components";
 import { ScenarioForm } from "./ScenarioForm";
@@ -10,7 +10,7 @@ import { ScenarioForm } from "./ScenarioForm";
 export function EditScenario({ scenario, deletable, closeModal, initialFocusRef }) {
   const { fetchScenarios } = React.useContext(ScenariosContext);
 
-  const { updateScenario, deleteScenario } = useAirtable();
+  const { updateScenario, deleteScenario } = useServer();
 
   const handleSubmit = async (data) => {
     await updateScenario(scenario.id, data);

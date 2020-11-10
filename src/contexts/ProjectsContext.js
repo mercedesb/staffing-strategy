@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useCallback } from "react";
-import { useAirtable, useForecast, useLocalStorage } from "hooks";
+import { useServer, useLocalStorage } from "hooks";
 
 const CURRENT_PROJECTS_STORAGE_KEY = "currentProjects";
 const UPCOMING_PROJECTS_STORAGE_KEY = "upcomingProjects";
@@ -16,8 +16,7 @@ export const ProjectsContext = createContext({
 
 export function ProjectsProvider({ children }) {
   const { get, set } = useLocalStorage();
-  const { getProjects: getCurrentProjects } = useForecast();
-  const { getProjects: getUpcomingProjects } = useAirtable();
+  const { getCurrentProjects, getUpcomingProjects } = useServer();
 
   const [currentProjects, setCurrentProjects] = useState([]);
   const [upcomingProjects, setUpcomingProjects] = useState([]);

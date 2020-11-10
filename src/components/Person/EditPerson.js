@@ -2,7 +2,7 @@ import React from "react";
 import { IconTrash } from "tabler-icons";
 
 import { AssignmentsContext, PeopleContext } from "contexts";
-import { useAirtable } from "hooks";
+import { useServer } from "hooks";
 
 import { ButtonWithIcon } from "components";
 import { displayName } from "lib";
@@ -12,7 +12,7 @@ export function EditPerson({ person, deletable, closeModal, initialFocusRef }) {
   const { fetchAssignments } = React.useContext(AssignmentsContext);
   const { fetchPeople } = React.useContext(PeopleContext);
 
-  const { updateAssignment, updatePerson, deleteAssignment } = useAirtable();
+  const { updateAssignment, updatePerson, deleteAssignment } = useServer();
 
   const handleSubmit = async (data) => {
     if (person.editable) {
