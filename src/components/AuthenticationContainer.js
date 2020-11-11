@@ -4,9 +4,9 @@ import { Redirect } from "react-router-dom";
 import { TokenContext } from "contexts";
 
 export function AuthenticationContainer({ children }) {
-  const { jwt } = React.useContext(TokenContext);
+  const { authed } = React.useContext(TokenContext);
 
-  if (!!jwt) {
+  if (!!authed) {
     return (
       <div className="py-4 px-8 my-0 mx-auto" style={{ maxWidth: "1200px" }}>
         {children}

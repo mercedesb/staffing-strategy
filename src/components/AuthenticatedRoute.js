@@ -5,9 +5,9 @@ import { NavLayout } from "components";
 import { TokenContext } from "contexts";
 
 export function AuthenticatedRoute({ component: Component, ...routeProps }) {
-  const { jwt } = React.useContext(TokenContext);
+  const { authed } = React.useContext(TokenContext);
 
-  if (!!jwt) {
+  if (!!authed) {
     return (
       <NavLayout>
         <Route

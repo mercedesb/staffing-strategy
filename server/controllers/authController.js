@@ -66,16 +66,16 @@ exports.refresh = async (req, res) => {
 
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
     if (err) {
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
 
     const databaseUser = await getUserByEmail(user.email);
     if (!databaseUser) {
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
 
     if (databaseUser.refreshToken !== token) {
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
 
     // expire in 15 min
@@ -102,7 +102,7 @@ exports.logout = async (req, res) => {
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
 
     updateUser(user.id, { refreshToken: null });

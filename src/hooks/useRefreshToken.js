@@ -19,28 +19,26 @@ const refresh = async (token) => {
 };
 
 const useRefreshToken = () => {
-  const { setJwt, refreshTimeout, setRefreshTimeout } = useContext(TokenContext);
+  const { setJwt, setExpiresAt, refreshTimeout, setRefreshTimeout } = useContext(TokenContext);
+
+  const handleRefresh = (expiresAt, refreshAccessTokenFn) => {
+    let refreshAt = expiresAt - 5000; // 5 seconds before expiration
+    let refreshTiming = refreshAt - Date.now();
+    setExpiresAt(expiresAt);
+
+    let refreshVar = setTimeout(refreshAccessTokenFn, refreshTiming);
+    setRefreshTimeout(refreshVar);
+  };
 
   return {
     setRefreshInterval: (token, expiresAt) => {
-      // Timing to renew access token
-      let refreshAt = expiresAt - 5000; // 5 seconds before expiration
-      let refreshTiming = refreshAt - Date.now();
-
       const refreshAccessToken = async () => {
-        const { expiresAt, accessToken } = await refresh(token);
-        let refreshAt = expiresAt - 5000; // 5 seconds before expiration
-        let refreshTiming = refreshAt - Date.now();
+        const { accessToken, expiresAt } = await refresh(token);
+        handleRefresh(expiresAt, refreshAccessToken);
         setJwt(accessToken);
-
-        // Setup the other timer after the first one
-        let refreshVar = setTimeout(refreshAccessToken, refreshTiming);
-        setRefreshTimeout(refreshVar);
       };
 
-      // Setup first refresh timer
-      let refreshVar = setTimeout(refreshAccessToken, refreshTiming);
-      setRefreshTimeout(refreshVar);
+      handleRefresh(expiresAt, refreshAccessToken);
     },
     clearRefreshInterval: () => {
       clearTimeout(refreshTimeout);

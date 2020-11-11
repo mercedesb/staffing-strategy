@@ -7,7 +7,7 @@ import { Logo } from "components";
 import { useRefreshToken } from "hooks";
 
 export default function Login() {
-  const { jwt, setJwt } = React.useContext(TokenContext);
+  const { authed, setJwt } = React.useContext(TokenContext);
   const { setRefreshInterval } = useRefreshToken();
 
   const login = async (code) => {
@@ -40,7 +40,7 @@ export default function Login() {
     }
   };
 
-  if (!!jwt) {
+  if (!!authed) {
     return <Redirect to={{ pathname: "/" }} />;
   } else {
     return (
