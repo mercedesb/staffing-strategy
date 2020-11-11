@@ -78,7 +78,7 @@ export function inputValueRoles(roles) {
   if (!roles) {
     return "";
   } else if (typeof roles === "string") {
-    return roles;
+    return [roles];
   } else {
     return roles.filter((r) => DISPLAY_ROLES.includes(r));
   }
