@@ -2,10 +2,11 @@ import React from "react";
 import List from "./List";
 
 export function DealList({ deals, stages }) {
+  debugger;
   const dealsWithStages = deals.map((d) => ({
     ...d,
     stage: {
-      ...stages.find((s) => s.id === d.stage_id),
+      ...stages.find((s) => s.id === d.stage_id.toString()),
     },
   }));
 

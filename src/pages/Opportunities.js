@@ -22,9 +22,9 @@ export default function Opportunities() {
 
       if (!stagesResponse || stagesResponse.length === 0) {
         stagesResponse = await getStages();
-        setStages(stagesResponse.data);
+        setStages(stagesResponse);
         if (process.env.REACT_APP_CACHE_IN_LOCAL_STORAGE) {
-          set(STAGES_STORAGE_KEY, stagesResponse.data);
+          set(STAGES_STORAGE_KEY, stagesResponse);
         }
       }
     })();

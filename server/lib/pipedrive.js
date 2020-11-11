@@ -16,7 +16,13 @@ const pipedrive = () => {
         }));
     },
     getStages: async () => {
-      return get(`https://companydomain.pipedrive.com/api/v1/stages?api_token=${process.env.PIPE_DRIVE_API_TOKEN}`);
+      const stages = await get(
+        `https://companydomain.pipedrive.com/api/v1/stages?api_token=${process.env.PIPE_DRIVE_API_TOKEN}`
+      );
+      return stages.data.data.map((s) => ({
+        ...s,
+        id: s.id.toString(),
+      }));
     },
   };
 };
