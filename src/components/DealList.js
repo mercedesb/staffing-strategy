@@ -2,7 +2,6 @@ import React from "react";
 import List from "./List";
 
 export function DealList({ deals, stages }) {
-  debugger;
   const dealsWithStages = deals.map((d) => ({
     ...d,
     stage: {
