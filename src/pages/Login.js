@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 
 import { TokenContext } from "contexts";
+import { Logo } from "components";
 import { useRefreshToken } from "hooks";
 
 export default function Login() {
@@ -43,15 +44,21 @@ export default function Login() {
     return <Redirect to={{ pathname: "/" }} />;
   } else {
     return (
-      <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
-        buttonText="Login with google"
-        responseType="code"
-        redirectUri={process.env.REACT_APP_GOOGLE_OAUTH_REDIRECT_URI}
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={"single_host_origin"}
-      />
+      <div className="h-screen w-full bg-penParchment flex items-center pl-16 loginPage">
+        <div>
+          <Logo />
+          <h2 className="pt-16 pb-4 text-gracefulGreen text-4xl">Staffing</h2>
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
+            buttonText="Login with Google"
+            responseType="code"
+            redirectUri={process.env.REACT_APP_GOOGLE_OAUTH_REDIRECT_URI}
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+          />
+        </div>
+      </div>
     );
   }
 }

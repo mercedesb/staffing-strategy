@@ -1,12 +1,10 @@
 @tailwind base;
 
 body {
-  padding: 1rem 2rem;
   font-family: "Overpass", sans-serif;
   font-size: 16px;
-  max-width: 1200px;
   height: 100%;
-  margin: 0 auto;
+  overflow-x: hidden;
 }
 
 h1,
@@ -87,4 +85,30 @@ input:disabled {
   background: theme("colors.yearningYellow");
   transform: translateY(-50%);
   z-index: -1;
+}
+
+.loginPage:before {
+  content: "";
+  width: 323px;
+  height: 323px;
+  background-image: url("data:image/svg+xml,%3Csvg width='7px' height='7px' viewBox='0 0 8 8' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='4' cy='4' r='1.' fill='%23ecae9e' %3E%3C/circle%3E%3C/svg%3E");
+  background-position: center center;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  right: 170px;
+  z-index: 5;
+}
+
+.loginPage:after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 60px;
+  right: -71px;
+  background: theme("colors.talentedTan");
+  border-radius: 50%;
+  width: 403px;
+  height: 403px;
 }

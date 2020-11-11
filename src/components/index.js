@@ -6,6 +6,7 @@ export { CheckboxInput } from "./CheckboxInput";
 export { DateRange } from "./DateRange";
 export { DealList } from "./DealList";
 export { FormButtonContainer } from "./FormButtonContainer";
+export { Logo } from "./Logo";
 export { Modal } from "./Modal";
 export { NavLayout } from "./NavLayout";
 export { PeopleList } from "./PeopleList";
