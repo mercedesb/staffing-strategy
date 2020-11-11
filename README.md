@@ -121,7 +121,6 @@ git push heroku main
 - [Debugging Node with Chrome](https://medium.com/the-node-js-collection/debugging-node-js-with-google-chrome-4965b5f910f4)
 
 ## TODOs (prioritized)
-- [ ] Deploy the app!
 - [ ] Add tests, obvi
 - [ ] Configure CI
 - [ ] JWT Security enhancement
