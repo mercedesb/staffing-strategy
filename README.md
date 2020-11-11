@@ -2,7 +2,27 @@
 # Staffing strategy
 This is a small React project to make it easy to visualize possible upcoming staffing scenarios and plan for multiple possible futures at once.
 
+It does not have a database (maybe a future enhancement?) and uses Airtable for quick and dirty data storage. This means you'll need to make sure that your Airtable set up has the same tables and coluumns that the code expects.
+
+- [Project setup](#project-setup)
+  - [Environment variables](#environment-variables)
+    - [Secrets](#secrets)
+    - [Getting your Forecast variables](#getting-your-forecast-variables)
+    - [Getting your Airtable variables](#getting-your-airtable-variables)
+    - [Getting your Google OAuth variables](#getting-your-google-oauth-variables)
+    - [Getting your Pipedrive variables](#getting-your-pipedrive-variables)
+  - [Running the app for development](#running-the-app-for-development)
+- [Notable dependencies](#notable-dependencies)
+  - [Client dependencies](#client-dependencies)
+  - [Server dependencies](#server-dependencies)
+- [Helpful examples or links that pointed me in the right direction](#helpful-examples-or-links-that-pointed-me-in-the-right-direction)
+  - [Auth flow](#auth-flow)
+  - [Debugging Node](#debugging-node)
+- [TODOs (prioritized)](#todos-prioritized)
+
 ## Project setup
+This is a monorepo with a React app in the root and a Node Express server in the `server` directory.
+
 ```
 yarn install
 cd server && yarn install
@@ -11,9 +31,31 @@ cd server && yarn install
 ### Environment variables
 There are 2 `.env` files in the repo, one at the root and one in the `server` directory. Please check the corresponding `.env.sample` to make sure you have all values defined. Examples can be found in 1Password (TODO!).
 
-## Contributing
+#### Secrets
+The secret keys kept in your .env variables can be any string you want. The longer you make them, the more secure they are.
 
-This is a monorepo with a React app in the root and a Node Express server in the `server` directory.
+#### Getting your Forecast variables
+- Your Account ID: https://forecastapp.com/YOUR-ACCOUNT-ID-IS-HERE/projects
+- An [Access Token](http://help.getharvest.com/api-v2/authentication-api/authentication/authentication/): create one [here](https://id.getharvest.com/developers)
+
+To test your Forecast variables, you can run the following `cUrl` request
+```
+curl -i \
+  -H 'Forecast-Account-Id: ACCOUNT-ID'\
+  -H 'Authorization: Bearer ACCESS-TOKEN'\
+  -H 'User-Agent: https://www.npmjs.com/package/forecast-promise' \
+  "https://api.forecastapp.com/whoami"
+```
+
+#### Getting your Airtable variables
+- [Create an API key](https://airtable.com/account)
+- When viewing API documentation for your Base, the id is in the URL: https://airtable.com/YOUR-BASE-ID-IS-HERE/api/docs#curl/introduction
+
+#### Getting your Google OAuth variables
+- [Find your Client ID and Secrect](https://console.developers.google.com/apis/credentials/oauthclient/366318533824-3dg77no7d4r2ctb5ekslhcrl9n3hmn8n.apps.googleusercontent.com?project=tandem-staffing-strategy&supportedpurview=project)
+
+#### Getting your Pipedrive variables
+- [Find your API key](https://madeintandem.pipedrive.com/settings/api)
 
 ### Running the app for development
 
@@ -60,25 +102,24 @@ Note: Make sure that you have set the `REACT_APP_SERVER_API_URL` in the client `
 ## Helpful examples or links that pointed me in the right direction
 
 ### Auth flow
-- Full flow tutorial: https://stackabuse.com/authentication-and-authorization-with-jwts-in-express-js/
-- Google OAuth Example: https://github.com/Shahzayb/mern-google-login
-- JWT Expiration: https://stackoverflow.com/questions/39926104/what-format-is-the-exp-expiration-time-claim-in-a-jwt#:~:text=RFC%207519%20states%20that%20the,(not%20milliseconds)%20since%20Epoch%3A&text=See%20RFC%203339%20%5BRFC3339%5D%20for,general%20and%20UTC%20in%20particular.
-- Silent token refresh: https://github.com/Sivanesh-S/react-google-authentication/blob/master/src/utils/refreshToken.js
+- [Full flow tutorial](https://stackabuse.com/authentication-and-authorization-with-jwts-in-express-js/)
+- [Code Example](https://github.com/Shahzayb/mern-google-login)
+- [Silent token refresh example](https://github.com/Sivanesh-S/react-google-authentication/blob/master/src/utils/refreshToken.js)
+- [JWT Expiration is in **seconds** not milliseconds](https://stackoverflow.com/questions/39926104/what-format-is-the-exp-expiration-time-claim-in-a-jwt#:~:text=RFC%207519%20states%20that%20the,(not%20milliseconds)%20since%20Epoch%3A&text=See%20RFC%203339%20%5BRFC3339%5D%20for,general%20and%20UTC%20in%20particular.)
 
 ### Debugging Node
-- https://medium.com/the-node-js-collection/debugging-node-js-with-google-chrome-4965b5f910f4
-
+- [Debugging Node with Chrome](https://medium.com/the-node-js-collection/debugging-node-js-with-google-chrome-4965b5f910f4)
 
 ## TODOs (prioritized)
-- [ ] forecast token
 - [ ] Deploy the app!
-- [ ] tests, obvi
-- [ ] skip auth in development (env var)
-- [ ] Caching on the node server?
+- [ ] Add tests, obvi
 - [ ] JWT Security enhancement
   - [ ] HttpOnly cookie for refreshToken
-- [ ] update edit forms to be PATCH
+- [ ] Caching on the node server?
+- [ ] Enhancement: skip auth in development (env var)
+- [ ] Enhancement: update "update" actions to be Airtable PATCH instead of PUT 
 - [ ] Enhancement: handle non-contiguous staffing/bench time
 - [ ] Enhancement: Put pending hires (with projected start dates) in?
 - [ ] Enhancement: indicate if someone is in a lead seat (add to assignment "table")
 - [ ] Enhancement: admin functionality to invite users
+
