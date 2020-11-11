@@ -8,8 +8,8 @@ const { getProfileInfo } = google();
 const { getUserByEmail, updateUser } = airtable();
 
 const baseAuthResponse = (user) => {
-  // expire in 15 min
-  const expiration = dayjs().add(15, "minutes");
+  const expiryInMinutes = parseInt(process.env.ACCESS_TOKEN_EXPIRY_IN_MINUTES) || 15;
+  const expiration = dayjs().add(expiryInMinutes, "minutes");
 
   // generate an access token
   const accessToken = jwt.sign(
