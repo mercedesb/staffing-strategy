@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-export function DateRange({ start, end, onStartChange, onEndChange, required }) {
+export function DateRange({ label, startLabel, endLabel, start, end, onStartChange, onEndChange, required }) {
   const [startDate, setStartDate] = useState(start || dayjs().toDate());
   const [endDate, setEndDate] = useState(end || dayjs().add(1, "month").toDate());
 
@@ -26,12 +26,12 @@ export function DateRange({ start, end, onStartChange, onEndChange, required }) 
   return (
     <div className="pb-4">
       <fieldset>
-        <legend>Project start and end</legend>
+        <legend>{label}</legend>
 
         <div className="flex">
           <div>
             <VisuallyHidden>
-              <label>Project start date</label>
+              <label>{startLabel || "Start date"}</label>
             </VisuallyHidden>
             <DatePicker
               selected={startDate}
@@ -46,7 +46,7 @@ export function DateRange({ start, end, onStartChange, onEndChange, required }) 
           </div>
           <div>
             <VisuallyHidden>
-              <label>Project end date</label>
+              <label>{endLabel || "End date"}</label>
             </VisuallyHidden>
             <DatePicker
               selected={endDate}

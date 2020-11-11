@@ -44,6 +44,9 @@ export function ProjectForm({ title, project, onSubmit, onCancel, initialFocusRe
           required
         />
         <DateRange
+          label="Project start and end"
+          startLabel="Project start date"
+          endLabel="Project end date"
           start={projectStart}
           end={projectEnd}
           onStartChange={(date) => setProjectStart(date)}

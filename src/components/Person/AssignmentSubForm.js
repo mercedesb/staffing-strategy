@@ -6,6 +6,9 @@ export function AssignmentSubForm({ assignmentStart, assignmentEnd, onAssignment
   return (
     <>
       <DateRange
+        label="Staffing start and end"
+        startLabel="Staffing start date"
+        endLabel="Staffing end date"
         start={assignmentStart}
         end={assignmentEnd}
         onStartChange={onAssignmentStartChange}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IconPlus, IconClick } from "tabler-icons";
 
 import { ButtonWithIcon } from "components";
-import { AssignmentsContext, PeopleContext } from "contexts";
+import { AssignmentsContext, PeopleContext, ProjectsContext } from "contexts";
 import { useServer } from "hooks";
 import { PersonForm } from "./PersonForm";
 import { ChoosePerson } from "./ChoosePerson";
@@ -10,9 +10,11 @@ import { ChoosePerson } from "./ChoosePerson";
 export function AddPerson({ scenarioId, projectId, closeModal, initialFocusRef }) {
   const { allAssignments, fetchAssignments } = React.useContext(AssignmentsContext);
   const { fetchPeople } = React.useContext(PeopleContext);
+  const { allProjects } = React.useContext(ProjectsContext);
 
   const { createAssignment, createPerson } = useServer();
 
+  const project = allProjects.find((p) => p.id === projectId);
   const projectAssignments = allAssignments.filter((a) => a.projectId === projectId);
 
   const [addNew, setAddNew] = useState(projectAssignments.length === 0);
@@ -62,6 +64,8 @@ export function AddPerson({ scenarioId, projectId, closeModal, initialFocusRef }
       ) : (
         <ChoosePerson
           assignments={projectAssignments}
+          defaultStartDate={project ? project.startDate : null}
+          defaultEndDate={project ? project.endDate : null}
           onSubmit={handleAddExisting}
           onCancel={handleCancel}
           initialFocusRef={initialFocusRef}

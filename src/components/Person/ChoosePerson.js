@@ -8,17 +8,17 @@ import { sortByName, displayName, displayRoles } from "lib";
 
 import { AssignmentSubForm } from "./AssignmentSubForm";
 
-export function ChoosePerson({ assignments, onSubmit, onCancel, initialFocusRef }) {
+export function ChoosePerson({ assignments, defaultStartDate, defaultEndDate, onSubmit, onCancel, initialFocusRef }) {
   const { allPeople } = React.useContext(PeopleContext);
 
   const projectPeople = assignments.map((p) => p.personId);
 
   const [person, setPerson] = useState({});
   const [assignmentStart, setAssignmentStart] = useState(
-    person && person.assignment ? person.assignment.startDate : new Date()
+    (person && person.assignment && person.assignment.startDate) || defaultStartDate || new Date()
   );
   const [assignmentEnd, setAssignmentEnd] = useState(
-    person && person.assignment ? person.assignment.endDate : dayjs().add(1, "month").toDate()
+    (person && person.assignment && person.assignment.endDate) || defaultEndDate || dayjs().add(1, "month").toDate()
   );
 
   const handleSubmit = (e) => {
