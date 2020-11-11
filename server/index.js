@@ -49,7 +49,7 @@ app.get("/api/stages/current", authenticateJWT, async (_req, res) => {
 
 // catch 404
 app.use(function (req, res, next) {
-  res.status(404).send();
+  res.redirect("/");
 });
 
 // global error handler
