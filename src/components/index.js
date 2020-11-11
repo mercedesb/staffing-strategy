@@ -1,3 +1,5 @@
+export { AuthenticatedRoute } from "./AuthenticatedRoute";
+export { AuthenticationContainer } from "./AuthenticationContainer";
 export { Button } from "./Button";
 export { ButtonWithIcon } from "./ButtonWithIcon";
 export { CheckboxInput } from "./CheckboxInput";
@@ -5,6 +7,7 @@ export { DateRange } from "./DateRange";
 export { DealList } from "./DealList";
 export { FormButtonContainer } from "./FormButtonContainer";
 export { Modal } from "./Modal";
+export { NavLayout } from "./NavLayout";
 export { PeopleList } from "./PeopleList";
 export { ProjectList } from "./ProjectList";
 export { RadioGroup } from "./RadioGroup";

@@ -1,56 +1,42 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { AppContext } from "contexts";
-import { Home, Opportunities, People, Projects } from "pages";
+import { AppContext, TokenProvider } from "contexts";
+import { AuthenticationContainer, AuthenticatedRoute } from "components";
+import { Home, Login, Logout, Opportunities, People, Projects } from "pages";
 
 function App() {
   return (
-    <div>
+    <TokenProvider>
       <Router>
-        <nav>
-          <ul className="flex justify-end">
-            <li className="flex mx-4">
-              <Link to="/" className="no-underline">
-                Home
-              </Link>
-            </li>
-            <li className="flex mx-4">
-              <Link to="/people" className="no-underline">
-                People
-              </Link>
-            </li>
-            <li className="flex mx-4">
-              <Link to="/projects" className="no-underline">
-                Projects
-              </Link>
-            </li>
-            <li className="flex mx-4">
-              <Link to="/opportunities" className="no-underline">
-                Opportunities
-              </Link>
-            </li>
-          </ul>
-        </nav>
-
-        <AppContext>
-          <Switch>
-            <Route path="/people">
-              <People />
-            </Route>
-            <Route path="/projects">
-              <Projects />
-            </Route>
-            <Route path="/opportunities">
-              <Opportunities />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </AppContext>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/logout">
+            <Logout />
+          </Route>
+        </Switch>
+        <AuthenticationContainer>
+          <AppContext>
+            <Switch>
+              <AuthenticatedRoute path="/people">
+                <People />
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/projects">
+                <Projects />
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/opportunities">
+                <Opportunities />
+              </AuthenticatedRoute>
+              <AuthenticatedRoute exact={true} path="/">
+                <Home />
+              </AuthenticatedRoute>
+            </Switch>
+          </AppContext>
+        </AuthenticationContainer>
       </Router>
-    </div>
+    </TokenProvider>
   );
 }
 

@@ -233,6 +233,27 @@ const airtable = () => {
       const response = await patch(`${baseUrl}/Scenarios`, deleteData, headers);
       return response.data.records;
     },
+    getUserByEmail: async (email) => {
+      const filterFormula = `FIND("${email}", email)`;
+
+      const response = await get(`${baseUrl}/Users?filterByFormula=${encodeURIComponent(filterFormula)}`, headers);
+      return response.data.records.map((u) => ({ ...u.fields, id: u.id }))[0];
+    },
+    updateUser: async (id, data) => {
+      let patchData = {
+        records: [
+          {
+            id: id,
+            fields: {
+              refreshToken: data.refreshToken,
+            },
+          },
+        ],
+      };
+
+      const response = await patch(`${baseUrl}/Users`, patchData, headers);
+      return response.data.records.map((u) => ({ ...u.fields, id: u.id }))[0];
+    },
   };
 };
 

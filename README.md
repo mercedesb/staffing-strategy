@@ -56,14 +56,21 @@ Note: this will hot reload the server if you make changes but will not hot reloa
 - [axios]() - For making http requests from the Node server
 - 
 
-
+## Helpful examples
+- Google OAuth: https://github.com/Shahzayb/mern-google-login
 ## TODOs (prioritized)
 - [ ] Google OAuth
+- [ ] JWT
+  - [ ] HttpOnly cookie for refreshToken
+- [ ] skip auth in development (env var)
 - [ ] error handling
 - [ ] Caching on the node server?
+- [ ] set up concurrently for development
+- [ ] reorganize code on server so that the controllers make sense
 - [ ] tests, obvi
 - [ ] forecast token
 - [ ] update edit forms to be PATCH
 - [ ] handle non-contiguous staffing/bench time
 - [ ] Put pending hires (with projected start dates) in?
 - [ ] Enhancement: indicate if someone is in a lead seat (add to assignment "table")
+- [ ] Enhancement: admin functionality to invite users
