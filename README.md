@@ -8,34 +8,33 @@ yarn install
 cd server && yarn install
 ```
 
+### Environment variables
+There are 2 `.env` files in the repo, one at the root and one in the `server` directory. Please check the corresponding `.env.sample` to make sure you have all values defined. Examples can be found in 1Password (TODO!).
+
 ## Contributing
 
 This is a monorepo with a React app in the root and a Node Express server in the `server` directory.
 
-To start the API and client separately for development (to get hot reloads for the React app), you'll want to start them separately in their own terminal sessions.
+### Running the app for development
 
-### Starting the server for development
-```
-cd server && yarn start
-```
-
-### Starting the client for development (from the root directory)
-```
-yarn start-client
-```
-
-Make sure that you have set the `REACT_APP_SERVER_API_URL` to point to your development server.
-
-
-## Running the app
-
-To run the app (not in development mode).
-
+This project uses `concurrently` to start the server and client at the same time. If either process fails, both will be terminated.
 ```
 yarn start
 ```
 
-Note: this will hot reload the server if you make changes but will not hot reload the React client since it builds the React client and serves the static files.
+To start the server and the client separately (for finer control and troubleshooting), you can run the following commands in separate terminal windows.
+
+To start the client,
+```
+yarn start-client
+```
+
+To start the server,
+```
+cd server && yarn start
+```
+
+Note: Make sure that you have set the `REACT_APP_SERVER_API_URL` in the client `.env` to point to your development server.
 
 ## Notable dependencies
 
@@ -74,17 +73,17 @@ Note: this will hot reload the server if you make changes but will not hot reloa
 
 
 ## TODOs (prioritized)
+- [ ] reorganize code on server so that the controllers make sense
+- [ ] error handling on node server
+- [ ] forecast token
+- [ ] Deploy the app!
+- [ ] tests, obvi
+- [ ] skip auth in development (env var)
+- [ ] Caching on the node server?
 - [ ] JWT Security enhancement
   - [ ] HttpOnly cookie for refreshToken
-- [ ] skip auth in development (env var)
-- [ ] error handling
-- [ ] Caching on the node server?
-- [ ] set up concurrently for development
-- [ ] reorganize code on server so that the controllers make sense
-- [ ] tests, obvi
-- [ ] forecast token
 - [ ] update edit forms to be PATCH
-- [ ] handle non-contiguous staffing/bench time
-- [ ] Put pending hires (with projected start dates) in?
+- [ ] Enhancement: handle non-contiguous staffing/bench time
+- [ ] Enhancement: Put pending hires (with projected start dates) in?
 - [ ] Enhancement: indicate if someone is in a lead seat (add to assignment "table")
 - [ ] Enhancement: admin functionality to invite users
