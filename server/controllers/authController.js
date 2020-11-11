@@ -7,6 +7,31 @@ const airtable = require("../lib/airtable");
 const { getProfileInfo } = google();
 const { getUserByEmail, updateUser } = airtable();
 
+const baseAuthResponse = (user) => {
+  // expire in 15 min
+  const expiration = dayjs().add(15, "minutes");
+
+  // generate an access token
+  const accessToken = jwt.sign(
+    {
+      // registered claim `exp` is **seconds** since Epoch
+      exp: expiration.unix(),
+      id: user.id,
+      email: user.email,
+      // firstName: profile.given_name,
+      // profilePic: profile.picture,
+      // name: profile.name,
+      // lastName: profile.family_name,
+    },
+    process.env.ACCESS_TOKEN_SECRET
+  );
+
+  return {
+    accessToken,
+    expiresAt: expiration.valueOf(),
+  };
+};
+
 exports.login = async (req, res) => {
   try {
     const code = req.body.code;
@@ -14,23 +39,7 @@ exports.login = async (req, res) => {
     const user = await getUserByEmail(profile.email);
 
     if (!!user) {
-      // expire in 15 min
-      const expiration = dayjs().add(15, "minutes");
-
-      // generate an access token
-      const accessToken = jwt.sign(
-        {
-          // registered claim `exp` is **seconds** since Epoch
-          exp: expiration.unix(),
-          id: user.id,
-          email: user.email,
-          // firstName: profile.given_name,
-          // profilePic: profile.picture,
-          // name: profile.name,
-          // lastName: profile.family_name,
-        },
-        process.env.ACCESS_TOKEN_SECRET
-      );
+      const { accessToken, expiresAt } = baseAuthResponse(user);
       const refreshToken = jwt.sign(
         {
           id: user.id,
@@ -44,7 +53,7 @@ exports.login = async (req, res) => {
       res.json({
         accessToken,
         refreshToken,
-        expiresAt: expiration.valueOf(),
+        expiresAt,
       });
     } else {
       throw Error(`${profile.email} is not authorized`);
@@ -78,21 +87,11 @@ exports.refresh = async (req, res) => {
       return res.sendStatus(401);
     }
 
-    // expire in 15 min
-    const expiration = dayjs().add(15, "minutes");
-
-    const accessToken = jwt.sign(
-      {
-        exp: expiration.unix(),
-        id: user.id,
-        email: user.email,
-      },
-      process.env.ACCESS_TOKEN_SECRET
-    );
+    const { accessToken, expiresAt } = baseAuthResponse(user);
 
     res.json({
       accessToken,
-      expiresAt: expiration.valueOf(),
+      expiresAt,
     });
   });
 };
