@@ -12,6 +12,7 @@ It does not have a database (maybe a future enhancement?) and uses Airtable for 
     - [Getting your Google OAuth variables](#getting-your-google-oauth-variables)
     - [Getting your Pipedrive variables](#getting-your-pipedrive-variables)
   - [Running the app for development](#running-the-app-for-development)
+- [Deployment](#deployment)
 - [Notable dependencies](#notable-dependencies)
   - [Client dependencies](#client-dependencies)
   - [Server dependencies](#server-dependencies)
@@ -23,7 +24,7 @@ It does not have a database (maybe a future enhancement?) and uses Airtable for 
 ## Project setup
 This is a monorepo with a React app in the root and a Node Express server in the `server` directory.
 
-We are using a single `package.json` to manage package dependencies for both applications. 
+We are using a single `package.json` to manage package dependencies for both applications. React dependences are in `devDependencies` since the React app is built and served by the Express app. Regular `dependencies` are for buildtime and the Node server.
 
 ```
 yarn install
@@ -79,6 +80,14 @@ yarn start-server
 
 Note: Make sure that you have set the `REACT_APP_SERVER_API_URL` in the client `.env` to point to your development server.
 
+## Deployment
+
+Currently being deployed to the `tandem-staffing` Heroku application manually.
+
+```
+git push heroku main
+```
+
 ## Notable dependencies
 
 - [DayJS](https://day.js.org/): Since Moment is no longer recommended, using an alternative date library in both the client and server
@@ -114,6 +123,7 @@ Note: Make sure that you have set the `REACT_APP_SERVER_API_URL` in the client `
 ## TODOs (prioritized)
 - [ ] Deploy the app!
 - [ ] Add tests, obvi
+- [ ] Configure CI
 - [ ] JWT Security enhancement
   - [ ] HttpOnly cookie for refreshToken
 - [ ] Caching on the node server?
