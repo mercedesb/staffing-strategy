@@ -23,13 +23,14 @@ It does not have a database (maybe a future enhancement?) and uses Airtable for 
 ## Project setup
 This is a monorepo with a React app in the root and a Node Express server in the `server` directory.
 
+We are using a single `package.json` to manage package dependencies for both applications. React dependences are in `devDependencies` since the React app is built and served by the Express app. Regular `dependencies` are for the Node server.
+
 ```
 yarn install
-cd server && yarn install
 ```
 
 ### Environment variables
-There are 2 `.env` files in the repo, one at the root and one in the `server` directory. Please check the corresponding `.env.sample` to make sure you have all values defined. Examples can be found in 1Password (TODO!).
+Please check the corresponding `.env.sample` to make sure you have all values defined. Examples can be found in 1Password (TODO!). If you need to add env vars for the React app, be sure to prefix with `REACT_APP_`.
 
 #### Secrets
 The secret keys kept in your .env variables can be any string you want. The longer you make them, the more secure they are.
@@ -73,7 +74,7 @@ yarn start-client
 
 To start the server,
 ```
-cd server && yarn start
+yarn start-server
 ```
 
 Note: Make sure that you have set the `REACT_APP_SERVER_API_URL` in the client `.env` to point to your development server.
