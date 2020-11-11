@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { useApi } from "react-use-fetch-api";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -10,8 +11,14 @@ dayjs.extend(customParseFormat);
 const baseUrl = `${process.env.REACT_APP_SERVER_API_URL}/api`;
 
 const useServer = () => {
+  const history = useHistory();
+
+  const onUnauthorized = () => {
+    history.push("/logout");
+  };
+
   const { jwt } = useContext(TokenContext);
-  const { get, post, put, del } = useApi();
+  const { get, post, put, del } = useApi(onUnauthorized);
 
   const headers = {
     "Content-Type": "application/json",
