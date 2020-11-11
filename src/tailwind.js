@@ -26,6 +26,7 @@ module.exports = {
       inspiringIndigo: "#031B2D",
       growingGreen: "#859b8b", //"#869B8D",
       ripenedRed: "#932C00",
+      yearningYellow: "#FFEC3C",
       tandemGray: "#dde7e0",
       tandemMdGray: "#d4d2d1",
       tandemDarkGray: "#706B69",
@@ -161,6 +162,7 @@ module.exports = {
       48: "12rem",
       56: "14rem",
       64: "16rem",
+      "-4": "-1rem",
     },
     backgroundColor: (theme) => theme("colors"),
     backgroundImage: {

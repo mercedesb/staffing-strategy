@@ -18,7 +18,7 @@ It does not have a database (maybe a future enhancement?) and uses Airtable for 
   - [Server dependencies](#server-dependencies)
 - [Helpful examples or links that pointed me in the right direction](#helpful-examples-or-links-that-pointed-me-in-the-right-direction)
   - [Auth flow](#auth-flow)
-  - [Debugging Node](#debugging-node)
+  - [Node](#node)
 - [TODOs (prioritized)](#todos-prioritized)
 
 ## Project setup
@@ -117,8 +117,9 @@ git push heroku main
 - [Silent token refresh example](https://github.com/Sivanesh-S/react-google-authentication/blob/master/src/utils/refreshToken.js)
 - [JWT Expiration is in **seconds** not milliseconds](https://stackoverflow.com/questions/39926104/what-format-is-the-exp-expiration-time-claim-in-a-jwt#:~:text=RFC%207519%20states%20that%20the,(not%20milliseconds)%20since%20Epoch%3A&text=See%20RFC%203339%20%5BRFC3339%5D%20for,general%20and%20UTC%20in%20particular.)
 
-### Debugging Node
+### Node
 - [Debugging Node with Chrome](https://medium.com/the-node-js-collection/debugging-node-js-with-google-chrome-4965b5f910f4)
+- [Packaging and serving React from Express](https://simonplend.com/what-is-a-good-directory-structure-for-a-monorepo-with-a-node-js-back-end-and-react-front-end/)
 
 ## TODOs (prioritized)
 - [ ] Add tests, obvi

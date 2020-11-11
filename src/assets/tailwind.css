@@ -71,3 +71,20 @@ a.no-underline {
 input:disabled {
   color: theme("colors.tandemDarkGray");
 }
+
+.navItem {
+  position: relative;
+}
+
+.navItem:hover:after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 10px;
+  left: theme("spacing.-4");
+  right: theme("spacing.-4");
+  top: 50%;
+  background: theme("colors.yearningYellow");
+  transform: translateY(-50%);
+  z-index: -1;
+}
