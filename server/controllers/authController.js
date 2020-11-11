@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const dayjs = require("dayjs");
 
 const google = require("../lib/google");
-const airtable = require("../airtable");
+const airtable = require("../lib/airtable");
 
 const { getProfileInfo } = google();
 const { getUserByEmail, updateUser } = airtable();

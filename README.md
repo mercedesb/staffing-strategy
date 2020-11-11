@@ -68,13 +68,8 @@ Note: Make sure that you have set the `REACT_APP_SERVER_API_URL` in the client `
 ### Debugging Node
 - https://medium.com/the-node-js-collection/debugging-node-js-with-google-chrome-4965b5f910f4
 
-### REST Api in Express
-- https://stackabuse.com/building-a-rest-api-with-node-and-express/
-
 
 ## TODOs (prioritized)
-- [ ] reorganize code on server so that the controllers make sense
-- [ ] error handling on node server
 - [ ] forecast token
 - [ ] Deploy the app!
 - [ ] tests, obvi

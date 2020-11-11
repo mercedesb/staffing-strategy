@@ -10,7 +10,7 @@ export default function Login() {
   const { setRefreshInterval } = useRefreshToken();
 
   const login = async (code) => {
-    return fetch(`${process.env.REACT_APP_SERVER_API_URL}/api/auth/google`, {
+    return fetch(`${process.env.REACT_APP_SERVER_API_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

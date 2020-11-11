@@ -27,7 +27,7 @@ const airtable = () => {
       };
 
       const response = await post(`${baseUrl}/Assignments`, postData, headers);
-      return response.data.records;
+      return response.data;
     },
     createPerson: async (data) => {
       let postData = {
@@ -35,7 +35,7 @@ const airtable = () => {
       };
 
       const response = await post(`${baseUrl}/People`, postData, headers);
-      return response.data.records;
+      return response.data;
     },
     createProject: async (data) => {
       let postData = {
@@ -47,7 +47,7 @@ const airtable = () => {
       };
 
       const response = await post(`${baseUrl}/Projects`, postData, headers);
-      return response.data.records;
+      return response.data;
     },
     createScenario: async (data) => {
       let postData = {
@@ -55,7 +55,7 @@ const airtable = () => {
       };
 
       const response = await post(`${baseUrl}/Scenarios`, postData, headers);
-      return response.data.records;
+      return response.data;
     },
     getAssignments: async () => {
       const response = await get(`${baseUrl}/Assignments`, headers);
