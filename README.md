@@ -23,7 +23,7 @@ It does not have a database (maybe a future enhancement?) and uses Airtable for 
 ## Project setup
 This is a monorepo with a React app in the root and a Node Express server in the `server` directory.
 
-We are using a single `package.json` to manage package dependencies for both applications. React dependences are in `devDependencies` since the React app is built and served by the Express app. Regular `dependencies` are for the Node server.
+We are using a single `package.json` to manage package dependencies for both applications. 
 
 ```
 yarn install
