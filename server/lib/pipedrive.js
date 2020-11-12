@@ -1,5 +1,4 @@
-const restClient = require("./restClient");
-const { get } = restClient();
+const { get } = require("./restClient");
 
 const pipedrive = () => {
   return {
