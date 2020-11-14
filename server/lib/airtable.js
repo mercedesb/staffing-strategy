@@ -1,4 +1,4 @@
-const restClient = require("./restClient");
+const { get, post, put, patch } = require("./restClient");
 const dayjs = require("dayjs");
 const customParseFormat = require("dayjs/plugin/customParseFormat");
 
@@ -13,7 +13,6 @@ const headers = {
 };
 
 const baseUrl = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}`;
-const { get, post, put, patch } = restClient();
 
 const airtable = () => {
   return {
