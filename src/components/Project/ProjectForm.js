@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import dayjs from "dayjs";
 
 import { DateRange, FormButtonContainer, TextInput } from "components";
 
@@ -6,8 +7,10 @@ export function ProjectForm({ title, project, onSubmit, onCancel, initialFocusRe
   const defaultNewProjectSeats = { engineeringSeats: 2, designSeats: 2, engagementSeats: 1 };
 
   const [name, setName] = useState(project && project.name ? project.name : "");
-  const [projectStart, setProjectStart] = useState(project && project.startDate ? project.startDate : null);
-  const [projectEnd, setProjectEnd] = useState(project && project.endDate ? project.endDate : null);
+  const [projectStart, setProjectStart] = useState(project && project.startDate ? project.startDate : dayjs().toDate());
+  const [projectEnd, setProjectEnd] = useState(
+    project && project.endDate ? project.endDate : dayjs().add(1, "month").toDate()
+  );
   const [seats, setSeats] = useState(
     project
       ? {
