@@ -44,6 +44,7 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
       case "project":
         return (
           <EditProject
+            scenarioId={group.id.split("-")[1]}
             project={{ ...group.project }}
             deletable={group.deletable}
             closeModal={closeModal}

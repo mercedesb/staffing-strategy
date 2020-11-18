@@ -7,7 +7,7 @@ import { useServer } from "hooks";
 import { ButtonWithIcon } from "components";
 import { ProjectForm } from "./ProjectForm";
 
-export function EditProject({ project, deletable, closeModal, initialFocusRef }) {
+export function EditProject({ project, scenarioId, deletable, closeModal, initialFocusRef }) {
   const { fetchProjects } = React.useContext(ProjectsContext);
 
   const { updateProject, deleteProject } = useServer();
@@ -18,7 +18,11 @@ export function EditProject({ project, deletable, closeModal, initialFocusRef })
   };
 
   const handleDelete = async () => {
-    await deleteProject(project.id);
+    if (project.scenarios.length > 1) {
+      await updateProject(project.id, { ...project, scenarios: project.scenarios.filter((s) => s !== scenarioId) });
+    } else {
+      await deleteProject(project.id);
+    }
     fetchProjects();
   };
 
@@ -31,13 +35,13 @@ export function EditProject({ project, deletable, closeModal, initialFocusRef })
         onCancel={closeModal}
         initialFocusRef={initialFocusRef}
       />
-      {deletable && (
-        <div className="w-full flex justify-end mt-8">
-          <ButtonWithIcon onClick={handleDelete} className="noBtn text-ripenedRed w-auto">
-            <IconTrash /> Delete project
-          </ButtonWithIcon>
-        </div>
-      )}
+
+      <div className="w-full flex justify-end mt-8">
+        <ButtonWithIcon onClick={handleDelete} className="noBtn text-ripenedRed w-auto">
+          <IconTrash />
+          {deletable ? "Delete project" : "Remove project from scenario"}
+        </ButtonWithIcon>
+      </div>
     </>
   );
 }
