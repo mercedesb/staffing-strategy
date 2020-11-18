@@ -76,9 +76,9 @@ const getProjectEnd = (endDate, assignments) => {
 
 const fillDepartmentNeed = (project, staffedPeople, projectDepartmentSeats, role) => {
   let staffedDepartmentCount = staffedPeople.filter((p) => isRole(p, role)).length;
-  let departmentNeed = projectDepartmentSeats || staffedDepartmentCount;
+  let departmentNeed = projectDepartmentSeats - staffedDepartmentCount;
 
-  if (departmentNeed > staffedDepartmentCount) {
+  if (departmentNeed > 0) {
     for (let i = 0; i < departmentNeed; i++) {
       staffedPeople.push({
         id: `Staffing Need ${i + 1}-${role}-${project.id}`,

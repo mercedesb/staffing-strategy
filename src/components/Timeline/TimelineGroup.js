@@ -44,6 +44,7 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
       case "project":
         return (
           <EditProject
+            scenarioId={group.id.split("-")[1]}
             project={{ ...group.project }}
             deletable={group.deletable}
             closeModal={closeModal}
@@ -88,7 +89,17 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
           ) : (
             <IconChevronDown className="text-breakthroughBlue" />
           )}{" "}
-          {group.title}
+          <span
+            className="text-left"
+            style={{
+              width: "150px",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {group.title}
+          </span>
         </ButtonWithIcon>
         <div className="w-auto">
           {group.editable && (
@@ -119,8 +130,8 @@ export function TimelineGroup({ group, openGroups, toggleGroup }) {
   };
 
   let className = "w-full ";
-  if (group.treeLevel === 1) className += "ml-4";
-  else if (group.treeLevel === 2) className += "ml-8";
+  if (group.treeLevel === 1) className += "pl-4";
+  else if (group.treeLevel === 2) className += "pl-8";
 
   if (group.root) {
     return <div className={className}>{renderExpandableGroup()}</div>;

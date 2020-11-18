@@ -15,9 +15,9 @@ export function AddPerson({ scenarioId, projectId, closeModal, initialFocusRef }
   const { createAssignment, createPerson } = useServer();
 
   const project = allProjects.find((p) => p.id === projectId);
-  const projectAssignments = allAssignments.filter((a) => a.projectId === projectId);
+  const projectAssignments = allAssignments.filter((a) => a.projectId === projectId && a.scenarioId === scenarioId);
 
-  const [addNew, setAddNew] = useState(projectAssignments.length === 0);
+  const [addNew, setAddNew] = useState(false);
 
   useEffect(() => {
     initialFocusRef.current.focus();

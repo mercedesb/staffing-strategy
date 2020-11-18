@@ -4,6 +4,9 @@
   background-color: #f0f0f0 !important;
   border: 1px solid #bbb !important;
   border-bottom: none !important;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .rct-calendar-header {
