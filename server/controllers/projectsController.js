@@ -29,8 +29,12 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  const { deleteProject } = airtable();
+  const { deleteProject, getAssignments, deleteAssignment } = airtable();
   const id = req.params.id;
   const response = await deleteProject(id);
+  const assignments = await getAssignments();
+  const projectAssignments = assignments.filter((a) => a.projectId === id);
+  projectAssignments.forEach(async (pa) => await deleteAssignment(pa.id));
+
   res.json(response);
 };
