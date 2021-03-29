@@ -1,6 +1,8 @@
 const Forecast = require("forecast-promise");
 const dayjs = require("dayjs");
 
+const FORECAST_MAX_TIME_REQUEST_IN_DAYS = 180;
+
 const forecastApi = new Forecast({
   accountId: process.env.FORECAST_ACCOUNT_ID,
   token: process.env.FORECAST_TOKEN,
@@ -10,8 +12,10 @@ const forecast = () => ({
   getAssignments: async () => {
     const options = {
       startDate: new Date(),
+      endDate: dayjs().add(FORECAST_MAX_TIME_REQUEST_IN_DAYS, "day").toDate(),
     };
     const assignments = await forecastApi.assignments(options);
+
     return assignments
       .filter((a) => !!a.id && !!a.project_id && !!a.person_id)
       .map((a) => ({
