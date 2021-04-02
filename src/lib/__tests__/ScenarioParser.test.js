@@ -178,7 +178,7 @@ describe("ScenarioParser", () => {
       const expected = [
         {
           id: `Staffing Need 1-${ENGINEER_ROLE}-project-1`,
-          firstName: "Staffing Need",
+          firstName: `Staffing Need - ${ENGINEER_ROLE}`,
           roles: [ENGINEER_ROLE],
           assignment: {
             startDate: new Date(2020, 3, 1),
@@ -188,7 +188,7 @@ describe("ScenarioParser", () => {
         {
           id: `Staffing Need 2-${ENGINEER_ROLE}-project-1`,
           roles: [ENGINEER_ROLE],
-          firstName: "Staffing Need",
+          firstName: `Staffing Need - ${ENGINEER_ROLE}`,
           assignment: {
             startDate: new Date(2020, 3, 1),
             endDate: new Date(2020, 9, 1),
