@@ -131,6 +131,6 @@ git push heroku main
 - [ ] Enhancement: update "update" actions to be Airtable PATCH instead of PUT 
 - [ ] Enhancement: handle non-contiguous staffing/bench time
 - [ ] Enhancement: Put pending hires (with projected start dates) in?
-- [ ] Enhancement: indicate if someone is in a lead seat (add to assignment "table")
+- [ ] Enhancement: indicate if someone is in a lead seat
 - [ ] Enhancement: admin functionality to invite users
 

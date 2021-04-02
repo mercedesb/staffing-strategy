@@ -24,7 +24,7 @@ export function Modal({ linkText, modalLabel, children }) {
       <DialogBackdrop
         {...dialog}
         className="bg-black flex items-center justify-center fixed bottom-0 left-0 w-screen h-screen bg-opacity-50"
-        style={{ zIndex: 100 }}
+        style={{ zIndex: 1000 }}
       >
         <Dialog {...dialog} aria-label={modalLabel} className="bg-white p-8 relative" style={{ minWidth: "50%" }}>
           <div className="flex justify-end absolute top-0 right-0">
