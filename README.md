@@ -31,7 +31,7 @@ yarn install
 ```
 
 ### Environment variables
-Please check the corresponding `.env.sample` to make sure you have all values defined. Examples can be found in 1Password (TODO!). If you need to add env vars for the React app, be sure to prefix with `REACT_APP_`.
+Please check the corresponding `.env.sample` to make sure you have all values defined. Examples can be found in 1Password Tandem General vault. If you need to add env vars for the React app, be sure to prefix with `REACT_APP_`.
 
 #### Secrets
 The secret keys kept in your .env variables can be any string you want. The longer you make them, the more secure they are.
@@ -131,6 +131,6 @@ git push heroku main
 - [ ] Enhancement: update "update" actions to be Airtable PATCH instead of PUT 
 - [ ] Enhancement: handle non-contiguous staffing/bench time
 - [ ] Enhancement: Put pending hires (with projected start dates) in?
-- [ ] Enhancement: indicate if someone is in a lead seat (add to assignment "table")
+- [ ] Enhancement: indicate if someone is in a lead seat
 - [ ] Enhancement: admin functionality to invite users
 
