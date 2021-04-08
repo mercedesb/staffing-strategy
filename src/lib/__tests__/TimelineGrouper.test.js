@@ -127,8 +127,8 @@ describe("TimelineGrouper", () => {
         parent: null,
         backgroundColor: expect.any(String),
         fontColor: expect.any(String),
-        startDate: new Date(2020, 0, 1),
-        endDate: new Date(2021, 3, 30),
+        startDate: new Date("2020-01-01T06:00:00.000Z"),
+        endDate: new Date("2021-04-30T05:00:00.000Z"),
         treeLevel: 0,
       })
     );
@@ -171,8 +171,8 @@ describe("TimelineGrouper", () => {
         parent: complexScenarioFixture.id,
         backgroundColor: expect.any(String),
         fontColor: expect.any(String),
-        startDate: new Date(2020, 0, 1),
-        endDate: new Date(2021, 0, 1),
+        startDate: new Date("2020-01-01T06:00:00.000Z"),
+        endDate: new Date("2021-01-01T06:00:00.000Z"),
         treeLevel: 1,
       })
     );
