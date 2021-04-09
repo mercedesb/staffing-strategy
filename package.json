@@ -15,6 +15,7 @@
     "express": "^4.17.1",
     "forecast-promise": "^1.2.1",
     "google-auth-library": "^6.1.3",
+    "husky": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "lint-staged": "^10.5.4"
   },
@@ -65,8 +66,17 @@
     "eject": "react-scripts eject",
     "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css"
   },
+  "husky": {
+    "hooks": {
+        "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
-    "src/**/*.{js,jsx}": ["eslint", "pretty-quick — staged", "git add"]
+    "src/**/*.{js,jsx}": [
+      "eslint",
+      "pretty-quick — staged",
+      "git add"
+    ]
   },
   "browserslist": {
     "production": [
