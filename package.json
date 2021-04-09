@@ -15,9 +15,7 @@
     "express": "^4.17.1",
     "forecast-promise": "^1.2.1",
     "google-auth-library": "^6.1.3",
-    "husky": "^6.0.0",
-    "jsonwebtoken": "^8.5.1",
-    "lint-staged": "^10.5.4"
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
@@ -35,7 +33,9 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-react": "^7.23.2",
     "faker": "^5.1.0",
+    "husky": "^6.0.0",
     "interactjs": "^1.10.0",
+    "lint-staged": "^10.5.4",
     "moment": "^2.29.1",
     "nodemon": "^2.0.6",
     "postcss-cli": "^8.2.0",
@@ -64,19 +64,17 @@
     "test-client": "react-scripts test",
     "test-server": "jest server/",
     "eject": "react-scripts eject",
-    "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css"
-  },
-  "husky": {
-    "hooks": {
-        "pre-commit": "lint-staged"
-    }
+    "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
+    "prepare": "husky install"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx}": [
-      "eslint",
+    "**/*.js": [
+      "eslint --fix",
       "pretty-quick — staged",
       "git add"
-    ]
+    ],
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   },
   "browserslist": {
     "production": [
