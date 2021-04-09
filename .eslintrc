@@ -23,5 +23,11 @@
     "no-return-assign": ["off"],
     "import/prefer-default-export": "off",
     "react/jsx-boolean-value": "off",
+    "react/jsx-props-no-spreading": ["error", {
+      "custom": "ignore"
+    }],
+    "react/require-default-props": ["warn", {
+      "ignoreFunctionalComponents": true
+    }]
   }
 }
