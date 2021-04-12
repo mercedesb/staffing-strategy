@@ -28,6 +28,7 @@
     }],
     "react/require-default-props": ["warn", {
       "ignoreFunctionalComponents": true
-    }]
+    }],
+    "no-console": ["error", { "allow": ["error"] }]
   }
 }
