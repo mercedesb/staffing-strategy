@@ -1,25 +1,27 @@
 const pipedrive = require("../pipedrive");
 const restClient = require("../restClient");
 
-jest.mock("../restClient", () => () => ({
-  get: jest.fn().mockResolvedValue({
-    data: {
-      data: [
-        {
-          id: 1,
-          title: "deal 1",
-        },
-        {
-          id: null,
-          title: "deal 2",
-        },
-      ],
-    },
-  }),
-}));
+jest.mock("../restClient");
 
 describe("pipedrive", () => {
   describe("getDeals", () => {
+    beforeEach(() => {
+      restClient.get.mockResolvedValue({
+        data: {
+          data: [
+            {
+              id: 1,
+              title: "deal 1",
+            },
+            {
+              id: null,
+              title: "deal 2",
+            },
+          ],
+        },
+      });
+    });
+
     it("returns an array of deals", async () => {
       const { getDeals } = pipedrive();
       const actual = await getDeals();
@@ -58,6 +60,21 @@ describe("pipedrive", () => {
   });
 
   describe("getStages", () => {
+    beforeEach(() => {
+      restClient.get.mockResolvedValue({
+        data: {
+          data: [
+            {
+              id: 1,
+            },
+            {
+              id: 2,
+            },
+          ],
+        },
+      });
+    });
+
     it("returns an array of stages", async () => {
       const { getStages } = pipedrive();
       const actual = await getStages();

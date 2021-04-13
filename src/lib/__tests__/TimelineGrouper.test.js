@@ -91,9 +91,33 @@ describe("TimelineGrouper", () => {
     expect(actual).toBeInstanceOf(Array);
   });
 
-  it("returns the first item as the scenario's group", () => {
-    const actual = TimelineGrouper(scenarios, people, timelineStart, timelineEnd)[0];
+  it("returns the first item as an addable new scenario", () => {
+    const items = TimelineGrouper(scenarios, people, timelineStart, timelineEnd);
+    const actual = items[0];
     expect(actual).toBeInstanceOf(Object);
+
+    expect(actual).toEqual(
+      expect.objectContaining({
+        id: "NewScenario",
+        title: "New Scenario",
+        height: 50,
+        root: false,
+        parent: null,
+        backgroundColor: expect.any(String),
+        fontColor: expect.any(String),
+        startDate: null,
+        endDate: null,
+        treeLevel: 0,
+        addable: true,
+      })
+    );
+  });
+
+  it("returns the second item as the scenario's group", () => {
+    const items = TimelineGrouper(scenarios, people, timelineStart, timelineEnd);
+    const actual = items[1];
+    expect(actual).toBeInstanceOf(Object);
+
     expect(actual).toEqual(
       expect.objectContaining({
         id: complexScenarioFixture.id,
@@ -103,15 +127,37 @@ describe("TimelineGrouper", () => {
         parent: null,
         backgroundColor: expect.any(String),
         fontColor: expect.any(String),
-        startDate: new Date(2020, 4, 4),
-        endDate: new Date(2021, 3, 30),
+        startDate: new Date("2020-01-01T06:00:00.000Z"),
+        endDate: new Date("2021-04-30T05:00:00.000Z"),
         treeLevel: 0,
       })
     );
   });
 
-  it("returns the second item as the first project's group", () => {
-    const actual = TimelineGrouper(scenarios, people, timelineStart, timelineEnd)[1];
+  it("returns the third item as an addable new project", () => {
+    const items = TimelineGrouper(scenarios, people, timelineStart, timelineEnd);
+    const actual = items[2];
+    expect(actual).toBeInstanceOf(Object);
+
+    expect(actual).toEqual(
+      expect.objectContaining({
+        id: `NewProject-${complexScenarioFixture.id}`,
+        title: "New Project",
+        height: 50,
+        root: false,
+        parent: complexScenarioFixture.id,
+        backgroundColor: expect.any(String),
+        fontColor: expect.any(String),
+        startDate: null,
+        endDate: null,
+        treeLevel: 1,
+        addable: true,
+      })
+    );
+  });
+
+  it("returns the fourth item as the first project's group", () => {
+    const actual = TimelineGrouper(scenarios, people, timelineStart, timelineEnd)[3];
     expect(actual).toBeInstanceOf(Object);
 
     const project = complexScenarioFixture.projects[0];
@@ -125,15 +171,37 @@ describe("TimelineGrouper", () => {
         parent: complexScenarioFixture.id,
         backgroundColor: expect.any(String),
         fontColor: expect.any(String),
-        startDate: new Date(2020, 0, 1),
-        endDate: new Date(2021, 0, 1),
+        startDate: new Date("2020-01-01T06:00:00.000Z"),
+        endDate: new Date("2021-01-01T06:00:00.000Z"),
         treeLevel: 1,
       })
     );
   });
 
-  it("returns the third item as the first project's first person's group", () => {
-    const actual = TimelineGrouper(scenarios, people, timelineStart, timelineEnd)[2];
+  it("returns the fifth item as an addable new person", () => {
+    const items = TimelineGrouper(scenarios, people, timelineStart, timelineEnd);
+    const actual = items[4];
+    expect(actual).toBeInstanceOf(Object);
+
+    const project = complexScenarioFixture.projects[0];
+
+    expect(actual).toEqual(
+      expect.objectContaining({
+        id: `NewPerson-${complexScenarioFixture.id}-${project.id}`,
+        title: "New Person",
+        height: 50,
+        root: false,
+        parent: `${complexScenarioFixture.id}-${project.id}`,
+        startDate: null,
+        endDate: null,
+        treeLevel: 2,
+        addable: true,
+      })
+    );
+  });
+
+  it("returns the sixth item as the first project's first person's group", () => {
+    const actual = TimelineGrouper(scenarios, people, timelineStart, timelineEnd)[5];
     expect(actual).toBeInstanceOf(Object);
 
     const project = complexScenarioFixture.projects[0];
@@ -226,7 +294,7 @@ describe("TimelineGrouper", () => {
           parent: complexScenarioFixture.id,
           backgroundColor: expect.any(String),
           fontColor: expect.any(String),
-          startDate: new Date("2020-01-01T06:00:00.000Z"),
+          startDate: new Date(2020, 9, 30),
           endDate: timelineEnd,
           treeLevel: 1,
         })

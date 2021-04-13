@@ -21,6 +21,14 @@
     "react/jsx-filename-extension": ["off"],
     "react/prop-types": ["warn"],
     "no-return-assign": ["off"],
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/jsx-boolean-value": "off",
+    "react/jsx-props-no-spreading": ["error", {
+      "custom": "ignore"
+    }],
+    "react/require-default-props": ["warn", {
+      "ignoreFunctionalComponents": true
+    }],
+    "no-console": ["error", { "allow": ["error"] }]
   }
 }
