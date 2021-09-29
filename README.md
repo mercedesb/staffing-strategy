@@ -122,16 +122,4 @@ git push heroku main
 - [Debugging Node with Chrome](https://medium.com/the-node-js-collection/debugging-node-js-with-google-chrome-4965b5f910f4)
 - [Packaging and serving React from Express](https://simonplend.com/what-is-a-good-directory-structure-for-a-monorepo-with-a-node-js-back-end-and-react-front-end/)
 
-## TODOs (prioritized)
-- [ ] Add tests, obvi
-- [ ] Configure CI
-- [ ] JWT Security enhancement
-  - [ ] HttpOnly cookie for refreshToken
-- [ ] Caching on the node server?
-- [ ] Enhancement: skip auth in development (env var)
-- [ ] Enhancement: update "update" actions to be Airtable PATCH instead of PUT 
-- [ ] Enhancement: handle non-contiguous staffing/bench time
-- [ ] Enhancement: Put pending hires (with projected start dates) in?
-- [ ] Enhancement: indicate if someone is in a lead seat
-- [ ] Enhancement: admin functionality to invite users
 
