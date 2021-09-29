@@ -27,6 +27,7 @@ This is a monorepo with a React app in the root and a Node Express server in the
 We are using a single `package.json` to manage package dependencies for both applications. React dependences are in `devDependencies` since the React app is built and served by the Express app. Regular `dependencies` are for buildtime and the Node server.
 
 ```
+nvm use
 yarn install
 ```
 
@@ -37,7 +38,7 @@ Please check the corresponding `.env.sample` to make sure you have all values de
 The secret keys kept in your .env variables can be any string you want. The longer you make them, the more secure they are.
 
 #### Getting your Forecast variables
-- Your Account ID: https://forecastapp.com/YOUR-ACCOUNT-ID-IS-HERE/projects
+- Your Account ID: https://forecastapp.com/YOUR-ACCOUNT-ID-IS-HERE/schedule/projects
 - An [Access Token](http://help.getharvest.com/api-v2/authentication-api/authentication/authentication/): create one [here](https://id.getharvest.com/developers)
 
 To test your Forecast variables, you can run the following `cUrl` request
