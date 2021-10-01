@@ -7,6 +7,7 @@ const path = require("path");
 const corsConfig = require("./corsConfig");
 const pipedrive = require("./lib/pipedrive");
 const auth = require("./lib/auth");
+const asyncHandler = require('express-async-handler')
 
 // Routes
 const authRouter = require("./routes/authRouter");
@@ -34,18 +35,18 @@ app.use("/api/projects", projectsRouter);
 app.use("/api/scenarios", scenariosRouter);
 
 /* DEALS */
-app.get("/api/deals/current", authenticateJWT, async (_req, res) => {
+app.get("/api/deals/current", authenticateJWT, asyncHandler(async (_req, res) => {
   const { getDeals } = pipedrive();
   const response = await getDeals();
   res.json(response);
-});
+}));
 
 /* STAGES */
-app.get("/api/stages/current", authenticateJWT, async (_req, res) => {
+app.get("/api/stages/current", authenticateJWT, asyncHandler(async (_req, res) => {
   const { getStages } = pipedrive();
   const response = await getStages();
   res.json(response);
-});
+}));
 
 // catch 404
 app.use(function (req, res, next) {
@@ -54,6 +55,7 @@ app.use(function (req, res, next) {
 
 // global error handler
 app.use(function (err, req, res, next) {
+  console.log(err)
   res.status(500).send();
 });
 
