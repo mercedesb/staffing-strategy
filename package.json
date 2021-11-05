@@ -32,6 +32,7 @@
     "moment": "^2.29.1",
     "nodemon": "^2.0.6",
     "postcss-cli": "^8.2.0",
+    "prettier": "^2.4.1",
     "react": "^17.0.1",
     "react-calendar-timeline": "^0.27.0",
     "react-datepicker": "^3.3.0",
@@ -42,6 +43,7 @@
     "react-select": "^3.1.0",
     "react-use-fetch-api": "^2.1.0",
     "reakit": "^1.2.5",
+    "supertest": "^6.1.6",
     "tabler-icons": "^1.35.0",
     "tailwindcss": "^1.9.6",
     "web-vitals": "^0.2.4"
@@ -53,7 +55,7 @@
     "build": "yarn run watch:css && react-scripts build",
     "test": "yarn test-server && yarn test-client",
     "test-client": "react-scripts test",
-    "test-server": "jest server/",
+    "test-server": "source .env.test && jest server/",
     "eject": "react-scripts eject",
     "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css"
   },

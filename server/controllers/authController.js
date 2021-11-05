@@ -32,6 +32,10 @@ const baseAuthResponse = (user) => {
   };
 };
 
+exports.clientCredentials = async (req, res) => {
+  res.json({ clientId: process.env.GOOGLE_OAUTH_CLIENT_ID, redirectURL: process.env.GOOGLE_OUAUTH_REDIRECT_URL });
+};
+
 exports.login = async (req, res) => {
   try {
     const code = req.body.code;
