@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { TokenContext } from "contexts";
 
 const refresh = async (token) => {
-  return fetch(`${process.env.REACT_APP_SERVER_API_URL}/api/auth/refresh`, {
+  return fetch(`/api/auth/refresh`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

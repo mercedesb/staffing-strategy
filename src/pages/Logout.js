@@ -10,7 +10,7 @@ export default function Logout() {
 
   useEffect(() => {
     const logout = async () => {
-      return fetch(`${process.env.REACT_APP_SERVER_API_URL}/api/auth/logout`, {
+      return fetch(`/api/auth/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

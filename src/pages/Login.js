@@ -13,7 +13,7 @@ export default function Login() {
 
   useEffect(() => {
     const fetchClientCredentials = async () => {
-      const response = await fetch(`${process.env.REACT_APP_SERVER_API_URL}/api/auth/clientCredentials`, {
+      const response = await fetch(`/api/auth/clientCredentials`, {
         method: "GET",
       });
 
@@ -25,7 +25,7 @@ export default function Login() {
   }, []);
 
   const login = async (code) => {
-    return fetch(`${process.env.REACT_APP_SERVER_API_URL}/api/auth/login`, {
+    return fetch(`/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

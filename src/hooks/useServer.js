@@ -8,7 +8,7 @@ import { TokenContext } from "contexts";
 
 dayjs.extend(customParseFormat);
 
-const baseUrl = `${process.env.REACT_APP_SERVER_API_URL}/api`;
+const baseUrl = `/api`;
 
 const useServer = () => {
   const history = useHistory();
